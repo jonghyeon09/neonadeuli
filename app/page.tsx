@@ -1,6 +1,11 @@
-import Main from '@/components/Main';
+import Main from '@/components/common/Main';
+import Map from '@/components/map/Map';
 import Image from 'next/image';
 
 export default function Home() {
-  return <Main></Main>;
+  return (
+    <Main>
+      <Map />
+    </Main>
+  );
 }
