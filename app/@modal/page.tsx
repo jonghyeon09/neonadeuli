@@ -13,10 +13,6 @@ export default function HomeModal() {
     setStep(2);
   };
 
-  useEffect(() => {
-    console.log(isArrive);
-  });
-
   return (
     <>
       {isArrive && (
@@ -33,7 +29,7 @@ export default function HomeModal() {
                 <Button
                   text="아니요"
                   className="bg-[#f0f0f0]"
-                  onClick={toggleModal}
+                  onClick={() => toggleModal('isArrive')}
                 />
                 <Button
                   text="네"
@@ -53,7 +49,7 @@ export default function HomeModal() {
               <Button
                 text="확인"
                 className="bg-[#292929] text-white"
-                onClick={toggleModal}
+                onClick={() => toggleModal('isArrive')}
               />
             </ModalView>
           )}

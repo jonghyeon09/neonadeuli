@@ -6,7 +6,8 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: '너나들이',
-  description: '',
+  description:
+    '대화형 AI 챗봇과 다양한 콘텐츠로 한국의 국가 유산과 역사를 재미있게 탐구하는 문화 콘텐츠 서비스',
 };
 
 export default function RootLayout({
