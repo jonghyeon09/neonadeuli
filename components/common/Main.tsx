@@ -4,10 +4,10 @@ type Props = {
 
 export default function Main({ children }: Props) {
   return (
-    <main className="w-full h-screen">
-      <div className="bg-slate-100 max-w-screen-sm min-h-screen mx-auto">
+    <div className="relative w-full h-screen">
+      <main className="bg-slate-100 max-w-screen-sm min-h-screen mx-auto">
         {children}
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }

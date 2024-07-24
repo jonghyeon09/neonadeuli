@@ -8,6 +8,7 @@ import { INITIAL_CENTER, useMapStore } from '@/store';
 import { useEffect, useState } from 'react';
 import { Coordinates } from '@/types/map';
 import Header from '@/components/common/Header';
+import Modal from '@/components/modal/Modal';
 
 export default function Home() {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
