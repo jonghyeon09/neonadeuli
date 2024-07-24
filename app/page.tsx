@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { INITIAL_CENTER, useMapStore } from '@/store';
 import { useEffect, useState } from 'react';
 import { Coordinates } from '@/types/map';
+import Header from '@/components/common/Header';
 
 export default function Home() {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
@@ -18,9 +19,12 @@ export default function Home() {
   }, []);
 
   return (
-    <Main>
-      <Map onLoad={initializeMap} />
-      <Marker map={map} coordinates={coordinates} />
-    </Main>
+    <>
+      <Main>
+        <Header />
+        <Map onLoad={initializeMap} />
+        <Marker map={map} coordinates={coordinates} />
+      </Main>
+    </>
   );
 }
