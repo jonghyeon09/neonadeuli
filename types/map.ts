@@ -5,9 +5,9 @@ export type Coordinates = [Lat, Lng];
 export type NaverMap = naver.maps.Map;
 
 export type Marker = {
-  map: NaverMap;
-  coordinates: Coordinates;
-  icon: ImageIcon;
+  map: NaverMap | null;
+  coordinates: Coordinates | null;
+  icon?: ImageIcon;
   onClick?: () => void;
 };
 

@@ -1,8 +1,9 @@
 'use client';
 
+import { INITIAL_CENTER, INITIAL_ZOOM } from '@/store';
 import { Coordinates, NaverMap } from '@/types/map';
 import Script from 'next/script';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type Props = {
   mapId?: string;
@@ -11,9 +12,6 @@ type Props = {
   onLoad?: (map: NaverMap) => void;
 };
 
-const INITIAL_CENTER: Coordinates = [37.576, 126.976811];
-const INITIAL_ZOOM = 18;
-
 export default function Map({
   mapId = 'map',
   initialCenter = INITIAL_CENTER,
@@ -21,6 +19,7 @@ export default function Map({
   onLoad,
 }: Props) {
   const mapRef = useRef<NaverMap | null>(null);
+  const [marker, setMarker] = useState(null);
 
   const initializeMap = () => {
     const mapOptions = {
@@ -56,7 +55,7 @@ export default function Map({
         src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NCP_CLIENT_ID}`}
         onReady={initializeMap}
       />
-      <div id={mapId} style={{ width: '100%', height: '300px' }} />
+      <div id={mapId} style={{ width: '100%', height: '40vh' }} />
     </>
   );
 }
