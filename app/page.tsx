@@ -10,15 +10,18 @@ import Header from '@/components/common/Header';
 import Sidebar from '@/components/sidebar';
 import Recommendation from '@/components/recommendation';
 import Slide from '@/components/common/Slide';
+import { usePalace } from '@/hooks/usePalace';
 
 export default function Home() {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
   const { map, initializeMap } = useMapStore();
   const { toggleModal } = useModalStore();
+  const { palace } = usePalace();
 
   useEffect(() => {
     setCoordinates(INITIAL_CENTER);
-  }, []);
+    console.log(palace);
+  }, [palace]);
 
   return (
     <>
