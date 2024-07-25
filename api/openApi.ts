@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { parseStringPromise } from 'xml2js';
 
 const api = axios.create({
   baseURL: 'https://www.khs.go.kr',
@@ -19,5 +20,8 @@ type Data = {
 
 export const getPalace = async ({ params }: Data) => {
   const response = await api.get('/cha/SearchKindOpenapiList.do', { params });
-  return response.data;
+  const xmlData = response.data;
+  const jsonData = await parseStringPromise(xmlData);
+
+  return jsonData.result;
 };

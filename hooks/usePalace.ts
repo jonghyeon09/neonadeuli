@@ -6,15 +6,13 @@ export const usePalace = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getPalace({
+      const res1 = await getPalace({
         params: {
           ccbaKdcd: 13,
           ccbaMnm1: '경복궁',
         },
       });
-      console.log(res);
-
-      setPalace(res);
+      console.log(res1);
     };
 
     fetchData();
