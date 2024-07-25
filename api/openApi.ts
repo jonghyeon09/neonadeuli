@@ -19,9 +19,12 @@ type Data = {
 };
 
 export const getPalace = async ({ params }: Data) => {
-  const response = await api.get('/cha/SearchKindOpenapiList.do', { params });
+  const response = await api.get('/cha/SearchKindOpenapiList.do', {
+    params,
+  });
   const xmlData = response.data;
   const jsonData = await parseStringPromise(xmlData);
+  const data: HeritageList = jsonData.result;
 
-  return jsonData.result;
+  return data;
 };
