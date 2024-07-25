@@ -1,5 +1,4 @@
 'use client';
-
 import Main from '@/components/common/Main';
 import Map from '@/components/map/Map';
 import Marker from '@/components/map/Marker';
@@ -9,8 +8,10 @@ import { Coordinates } from '@/types/map';
 import Header from '@/components/common/Header';
 import Sidebar from '@/components/sidebar';
 import Recommendation from '@/components/recommendation';
-import Slide from '@/components/common/Slide';
 import { usePalace } from '@/hooks/usePalace';
+import SlideItem from '@/components/common/SlideItem';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 export default function Home() {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
@@ -20,7 +21,6 @@ export default function Home() {
 
   useEffect(() => {
     setCoordinates(INITIAL_CENTER);
-    console.log(palace);
   }, [palace]);
 
   return (
@@ -31,7 +31,28 @@ export default function Home() {
         <Marker map={map} coordinates={coordinates} />
         <Sidebar onClose={() => toggleModal('isSidebar')}></Sidebar>
         <Recommendation title="서울의 아름다운 궁궐 5선">
-          <Slide></Slide>
+          <Swiper
+            slidesPerView={2}
+            spaceBetween={0}
+            breakpoints={{
+              640: {
+                slidesPerView: 3,
+                spaceBetween: 8,
+              },
+            }}
+            onSlideChange={() => console.log('slide change')}
+          >
+            {palace.map((el) => (
+              <SwiperSlide key={el.ccbaAsno[0]}>
+                <SlideItem
+                  key={el.ccbaAsno[0]}
+                  text={el.ccbaMnm1[0]}
+                  src={el.imageUrl}
+                  onClick={() => null}
+                ></SlideItem>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </Recommendation>
       </Main>
     </>

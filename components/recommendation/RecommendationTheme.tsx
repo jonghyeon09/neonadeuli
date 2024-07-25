@@ -11,7 +11,7 @@ export default function RecommendationTheme({
 }: Props) {
   return (
     <>
-      <div className="w-full h-[192px] px-5 mt-8 bg-yellow-100">
+      <div className="relative w-full h-[192px] px-5 mt-8">
         <div className="flex justify-between mb-4">
           <span className="text-xl font-medium">{title}</span>
           <button className="text-sm text-[#707070]" onClick={onClick}>

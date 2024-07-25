@@ -6,7 +6,7 @@ type Props = {
 
 export default function Header({ onMenu }: Props) {
   return (
-    <header className="relative h-[56px] w-full flex justify-center items-center px-5 bg-pink-50">
+    <header className="relative h-[56px] w-full flex justify-center items-center px-5">
       <p className="text-center">너나들이</p>
       <button className="absolute right-5" onClick={onMenu}>
         <MenuIcon />

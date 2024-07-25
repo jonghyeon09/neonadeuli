@@ -18,7 +18,7 @@ export default function Sidebar({ onClose }: Props) {
         <div className="w-full h-screen absolute top-0 left-0 z-[100]">
           <div className="bg-black/50 max-w-screen-sm h-screen mx-auto">
             <nav
-              className={`w-[250px] h-screen bg-yellow-50 absolute top-0 right-0 px-5 pt-[84px] transition-transform ${
+              className={`w-[250px] h-screen bg-white absolute top-0 right-0 px-5 pt-[84px] transition-transform ${
                 isSidebar ? 'translate-x-0' : 'translate-x-full'
               }`}
             >

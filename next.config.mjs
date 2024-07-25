@@ -1,5 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: false,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'www.cha.go.kr',
+        port: '',
+        pathname: '/unisearch/images/history_site/**',
+      },
+    ],
+  },
   async rewrites() {
     return [
       {
