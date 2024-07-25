@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 import { Coordinates } from '@/types/map';
 import Header from '@/components/common/Header';
 import Sidebar from '@/components/sidebar';
+import Recommendation from '@/components/recommendation';
+import Slide from '@/components/common/Slide';
 
 export default function Home() {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
@@ -25,6 +27,9 @@ export default function Home() {
         <Map onLoad={initializeMap} />
         <Marker map={map} coordinates={coordinates} />
         <Sidebar onClose={() => toggleModal('isSidebar')}></Sidebar>
+        <Recommendation title="서울의 아름다운 궁궐 5선">
+          <Slide></Slide>
+        </Recommendation>
       </Main>
     </>
   );
