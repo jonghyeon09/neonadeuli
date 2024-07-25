@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import Main from '@/components/common/Main';
 
 // const inter = Inter({ subsets: ['latin'] });
 
@@ -20,8 +21,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        {children}
-        {modal}
+        <Main>
+          {children}
+          {modal}
+        </Main>
       </body>
     </html>
   );
