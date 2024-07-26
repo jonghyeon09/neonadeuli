@@ -4,8 +4,8 @@ type Props = {
 
 export default function Main({ children }: Props) {
   return (
-    <div className=" w-full h-screen">
-      <main className="relative bg-slate-100 max-w-screen-sm min-h-screen mx-auto">
+    <div className="w-full h-screen bg-gray-300">
+      <main className="relative max-w-screen-sm min-h-screen mx-auto bg-white">
         {children}
       </main>
     </div>

@@ -7,7 +7,7 @@ export default function DetailHeader({ title }: { title: string }) {
       <Link href={'/'} className="absolute left-5">
         <BackArrowIcon></BackArrowIcon>
       </Link>
-      <p className="text-xl font-semibold">{title}</p>
+      <p className="font-semibold">{title}</p>
     </div>
   );
 }
