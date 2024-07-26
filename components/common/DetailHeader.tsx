@@ -3,7 +3,7 @@ import BackArrowIcon from '../icons/BackArrowIcon';
 
 export default function DetailHeader({ title }: { title: string }) {
   return (
-    <div className="bg-white flex justify-center items-center w-full h-[56px] relative px-5">
+    <div className="bg-white flex justify-center items-center w-full h-[--h-header] max-w-screen-sm fixed px-5 z-10">
       <Link href={'/'} className="absolute left-5">
         <BackArrowIcon></BackArrowIcon>
       </Link>

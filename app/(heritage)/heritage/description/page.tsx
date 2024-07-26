@@ -1,5 +1,4 @@
 'use client';
-import DetailHeader from '@/components/common/DetailHeader';
 import DownArrowIcon from '@/components/icons/DownArrowIcon';
 import { useEffect, useMemo, useState } from 'react';
 import { getDetail } from '@/api/openApi';
@@ -53,7 +52,6 @@ export default function Description() {
 
   return (
     <>
-      <DetailHeader title="" />
       {heritage ? (
         <div className="flex flex-col justify-center gap-1 bg-[#ddd]/20">
           <div className="w-full h-[300px] relative flex justify-center items-center">

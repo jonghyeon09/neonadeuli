@@ -7,7 +7,7 @@ interface MapState {
 }
 
 export const INITIAL_CENTER: Coordinates = [37.576, 126.97685];
-export const INITIAL_ZOOM = 19;
+export const INITIAL_ZOOM = 18;
 
 export const useMapStore = create<MapState>()((set) => ({
   map: null,

@@ -12,6 +12,8 @@ import SlideItem from '@/components/common/SlideItem';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { useRouter } from 'next/navigation';
+import ChatButton from '@/components/chat/ChatButton';
+import Link from 'next/link';
 
 export default function Home() {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
@@ -63,6 +65,11 @@ export default function Home() {
           ))}
         </Swiper>
       </Recommendation>
+      <div className="absolute right-5 bottom-[164px] z-50">
+        <Link href={'/chat-history'}>
+          <ChatButton />
+        </Link>
+      </div>
     </>
   );
 }

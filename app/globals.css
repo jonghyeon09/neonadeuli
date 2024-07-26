@@ -6,6 +6,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --h-header: 56px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -26,13 +27,6 @@
   }
 }
 
-.swiper {
+/* .swiper {
   @apply max-h-[152px] !important;
-}
-/* .swiper-slide {
-  @apply w-[150px] !important;
-} */
-
-/* .swiper-wrapper {
-  display: -webkit-inline-box !important;
 } */
