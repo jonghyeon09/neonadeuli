@@ -27,15 +27,17 @@ export default function HomeModal() {
               </p>
               <div className="flex justify-between w-full gap-[19px]">
                 <Button
-                  text="아니요"
                   className="bg-[#f0f0f0]"
                   onClick={() => toggleModal('isArrive')}
-                />
+                >
+                  아니요
+                </Button>
                 <Button
-                  text="네"
                   className="bg-[#292929] text-white"
                   onClick={handleStep}
-                />
+                >
+                  네
+                </Button>
               </div>
             </ModalView>
           )}
@@ -47,10 +49,11 @@ export default function HomeModal() {
                 <br /> 날 찾으시구려
               </p>
               <Button
-                text="확인"
                 className="bg-[#292929] text-white"
                 onClick={() => toggleModal('isArrive')}
-              />
+              >
+                확인
+              </Button>
             </ModalView>
           )}
         </Modal>
