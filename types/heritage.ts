@@ -24,3 +24,31 @@ interface HeritageList {
   pageUnit: number[];
   pageIndex: number[];
 }
+
+interface HeritageDetailItem {
+  ccmaName: string[];
+  gcodeName: string[];
+  bcodeName: string[];
+  mcodeName: string[];
+  scodeName: string[];
+  ccbaQuan: string[];
+  ccbaAsdt: string[];
+  ccbaLcad: string[];
+  ccceName: string[];
+  ccbaPoss: string[];
+  ccbaAdmin: string[];
+  imageUrl: string[];
+  content: string[];
+  ccbaMnm1: string[];
+  ccbaMnm2: string[];
+}
+
+interface HeritageDetail {
+  item: HeritageDetailItem[];
+  ccbaAsno: string[];
+  ccbaCpno: string[];
+  ccbaCtcd: string[];
+  ccbaKdcd: string[];
+  latitude: string[];
+  longitude: string[];
+}

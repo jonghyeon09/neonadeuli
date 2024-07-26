@@ -20,6 +20,12 @@ export default function Home() {
   const { palace } = usePalace();
   const router = useRouter();
 
+  const handlePalaceClick = (palace: HeritageItem) => {
+    router.push(
+      `/heritage/description?ccbaKdcd=${palace.ccbaKdcd[0]}&ccbaAsno=${palace.ccbaAsno[0]}&ccbaCtcd=${palace.ccbaCtcd[0]}`
+    );
+  };
+
   useEffect(() => {
     setCoordinates(INITIAL_CENTER);
   }, [palace]);
@@ -51,7 +57,7 @@ export default function Home() {
                 key={el.ccbaAsno[0]}
                 text={el.ccbaMnm1[0]}
                 src={el.imageUrl}
-                onClick={() => null}
+                onClick={() => handlePalaceClick(el)}
               ></SlideItem>
             </SwiperSlide>
           ))}
