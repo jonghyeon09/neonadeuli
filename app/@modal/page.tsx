@@ -3,14 +3,20 @@ import Button from '@/components/common/Button';
 import Modal from '@/components/modal';
 import ModalView from '@/components/modal/ModalView';
 import { useModalStore } from '@/store';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function HomeModal() {
   const [step, setStep] = useState(1);
   const { isArrive, toggleModal } = useModalStore();
+  const router = useRouter();
 
   const handleStep = () => {
     setStep(2);
+  };
+  const handleTour = () => {
+    toggleModal('isArrive');
+    router.push('/chat/1');
   };
 
   return (
@@ -26,15 +32,12 @@ export default function HomeModal() {
                 <br /> 경복궁에 대한 안내가 필요하시오?
               </p>
               <div className="flex justify-between w-full gap-[19px]">
-                <Button
-                  className="bg-[#f0f0f0]"
-                  onClick={() => toggleModal('isArrive')}
-                >
+                <Button className="bg-[#f0f0f0]" onClick={handleStep}>
                   아니요
                 </Button>
                 <Button
                   className="bg-[#292929] text-white"
-                  onClick={handleStep}
+                  onClick={handleTour}
                 >
                   네
                 </Button>
