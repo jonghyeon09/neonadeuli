@@ -11,7 +11,7 @@ interface Action {
   setToken: (token: string) => void;
 }
 
-export const useMapStore = create<State & Action>()(
+export const useUserStore = create<State & Action>()(
   persist(
     (set) => ({
       nickname: '',
