@@ -68,15 +68,16 @@ export default function LineMap({
   return (
     <div className="bg-white max-w-screen-sm w-full drop-shadow-md rounded-lg fixed top-[58px] p-5 flex justify-center">
       <div className="w-[335px] flex flex-col gap-2 items-center">
-        <div className="relative bg-slate-50 px-[10px] flex flex-col gap-4 items-center select-none">
+        <div
+          className={`relative px-[10px] flex flex-col gap-4 items-center select-none ${
+            isOpen ? '' : 'h-[64px] overflow-hidden'
+          }`}
+        >
           <div className="z-10 absolute right-1 top-[5px] w-[33px] h-[84px] border-4 border-[#616161] rounded-tr-[33px] rounded-br-[33px] border-l-0"></div>
           <div className="z-10 absolute left-1 top-[85px] w-[33px] h-[84px] border-4 border-[#616161] rounded-tl-[33px] rounded-bl-[33px] border-r-0"></div>
 
           {course.map((row, rowIndex) => (
-            <div
-              className="relative w-[316px] bg-yellow-50 flex gap-1"
-              key={rowIndex}
-            >
+            <div className="relative w-[316px] flex gap-1" key={rowIndex}>
               <div className="w-[265px] h-1 bg-[#616161] rounded-sm absolute left-[25px] right-[14.67%] top-[7.83%]"></div>
 
               {row.map((col, colIndex) => (
