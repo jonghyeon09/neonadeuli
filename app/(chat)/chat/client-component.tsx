@@ -24,7 +24,7 @@ export default function ClientComponent() {
         onPrev={handleNext}
         onOpen={handleOpenClick}
         isOpen={isOpen}
-      ></LineMap>
+      />
       <ChatSection></ChatSection>
     </>
   );

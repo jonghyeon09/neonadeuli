@@ -1,3 +1,4 @@
+import Logo from '../icons/Logo';
 import MenuIcon from '../icons/MenuIcon';
 
 type Props = {
@@ -7,7 +8,9 @@ type Props = {
 export default function Header({ onMenu }: Props) {
   return (
     <header className="bg-white relative h-[56px] w-full flex justify-center items-center px-5">
-      <p className="text-center">너나들이</p>
+      <p className="text-center">
+        <Logo />
+      </p>
       <button className="absolute right-5" onClick={onMenu}>
         <MenuIcon />
       </button>
