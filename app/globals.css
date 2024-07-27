@@ -27,9 +27,11 @@
   }
 }
 
-/* .swiper {
-  @apply max-h-[152px] !important;
-} */
+input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
 
 .title-1 {
   @apply text-[32px] font-semibold leading-[40px];
