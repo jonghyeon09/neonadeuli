@@ -1,15 +1,14 @@
 export default function CurrentLocationIcon() {
   return (
-    <div className="animate-ping">
+    <div className="bg-[#fde4bc] rounded-full w-4 h-4 flex items-center justify-center animate-pulse">
       <svg
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
+        width="12"
+        height="12"
+        viewBox="0 0 12 12"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <circle cx="8" cy="8" r="8" fill="#FFAFAF" />
-        <circle cx="8" cy="8" r="6" fill="#FF3B3B" />
+        <circle cx="6" cy="6" r="6" fill="#FBB039" />
       </svg>
     </div>
   );

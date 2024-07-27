@@ -8,6 +8,7 @@ export const useCourse = () => {
   const [prev, setPrev] = useState(false);
   const [next, setNext] = useState(true);
   const [locationId, setLocationId] = useState(1);
+  const [lastId, setLastId] = useState(0);
 
   useEffect(() => {
     let counter = 0;
@@ -28,6 +29,12 @@ export const useCourse = () => {
     list[1].reverse();
 
     setCourse(list);
+
+    const lastRow = list.length - 1; //2
+    const lastCol = list[lastRow].length - 1; //4
+    const lastId = list[lastRow][lastCol].id;
+
+    setLastId(lastId);
   }, []);
 
   const visitLocation = (rowIndex: number, colIndex: number) => {
@@ -41,9 +48,6 @@ export const useCourse = () => {
 
   const handleNext = () => {
     const nextId = locationId + 1;
-    const lastRow = course.length - 1; //2
-    const lastCol = course[lastRow].length - 1; //4
-    const lastId = course[lastRow][lastCol].id;
 
     course.forEach((row, rowIndex) => {
       row.forEach((col, colIndex) => {
@@ -62,6 +66,8 @@ export const useCourse = () => {
   return {
     course,
     locationName,
+    locationId,
+    lastId,
     prev,
     next,
     handleNext,

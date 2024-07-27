@@ -30,3 +30,28 @@
 /* .swiper {
   @apply max-h-[152px] !important;
 } */
+
+.title-1 {
+  @apply text-[32px] font-semibold leading-[40px];
+}
+.title-2 {
+  @apply text-[24px] font-semibold leading-[32px];
+}
+.heading {
+  @apply text-[20px] font-semibold leading-[28px];
+}
+.headline {
+  @apply text-[16px] font-medium leading-[24px];
+}
+.body-1 {
+  @apply text-[16px] font-medium leading-[22px];
+}
+.body-2 {
+  @apply text-[14px] font-normal leading-[20px];
+}
+.body-3 {
+  @apply text-[13px] font-normal leading-[20px];
+}
+.body-4 {
+  @apply text-[12px] font-normal leading-[16px];
+}
