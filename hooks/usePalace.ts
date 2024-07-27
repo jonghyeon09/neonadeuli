@@ -1,4 +1,4 @@
-import { getImage, getPalace } from '@/api/openApi';
+import { getImage, getPalace } from '@/app/api/openApi';
 import { useEffect, useState } from 'react';
 
 export const usePalace = () => {

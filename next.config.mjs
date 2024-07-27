@@ -17,6 +17,10 @@ const nextConfig = {
         source: '/cha/:path*',
         destination: `${process.env.OPEN_API}/:path*`,
       },
+      {
+        source: '/api/:path*',
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
+      },
     ];
   },
 };

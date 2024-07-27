@@ -1,7 +1,7 @@
 'use client';
 import DownArrowIcon from '@/components/icons/DownArrowIcon';
 import { useEffect, useMemo, useState } from 'react';
-import { getDetail } from '@/api/openApi';
+import { getDetail } from '@/app/api/openApi';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
