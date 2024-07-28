@@ -5,7 +5,6 @@ import { setCookie } from './actions';
 
 export default async function Home() {
   const cookie = cookies();
-  const token = cookie.get('token');
 
   // if (!token) {
   //   const { nickname, access_token } = await login();
