@@ -7,6 +7,7 @@ const instance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
 instance.interceptors.request.use(
@@ -29,6 +30,18 @@ export const login = async () => {
     token_type: string;
     expires_in: number;
   }>('/api/v1/users/login');
+
+  return res.data;
+};
+
+export const sesstions = async () => {
+  const res = await instance.post<{
+    id: number;
+    user_id: number;
+    heritage_id: number;
+    start_time: Date;
+    created_at: Date;
+  }>('/api/v1/chat/sessions');
 
   return res.data;
 };

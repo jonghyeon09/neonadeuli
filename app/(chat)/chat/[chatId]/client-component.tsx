@@ -1,7 +1,7 @@
 'use client';
 import ChatSection from '@/components/chat/ChatSection';
 import LineMap from '@/components/chat/LineMap';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCourse } from '@/hooks/useCourse';
 import UserMessage from '@/components/chat/UserMessage';
 import ChatbotMessage from '@/components/chat/ChatbotMessage';
@@ -11,6 +11,7 @@ import PlusIcon from '@/components/icons/PlusIcon';
 import SendInput from '@/components/chat/SendInput';
 import useInput from '@/hooks/useInput';
 import HandIcon from '@/components/icons/HandIcon';
+import { sesstions } from '@/app/api';
 
 export default function ClientComponent() {
   const [isOpen, setOpen] = useState(true);
@@ -34,6 +35,15 @@ export default function ClientComponent() {
     console.log(value);
     reset();
   };
+
+  useEffect(() => {
+    const chatId = async () => {
+      const chatId = await sesstions();
+
+      console.log(chatId);
+    };
+    chatId();
+  }, []);
 
   return (
     <>

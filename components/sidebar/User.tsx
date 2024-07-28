@@ -6,7 +6,7 @@ export default function User() {
       <div className="mr-[10px]">
         <AvartaIcon></AvartaIcon>
       </div>
-      <p>닉네임</p>
+      <p>{localStorage.getItem('nickname')}</p>
     </div>
   );
 }

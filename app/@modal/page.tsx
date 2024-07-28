@@ -4,7 +4,7 @@ import Modal from '@/components/modal';
 import ModalView from '@/components/modal/ModalView';
 import { useModalStore } from '@/store';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function HomeModal() {
   const [step, setStep] = useState(1);
@@ -14,7 +14,7 @@ export default function HomeModal() {
   const handleStep = () => {
     setStep(2);
   };
-  const handleTour = () => {
+  const handleTour = async () => {
     toggleModal('isArrive');
     router.push('/chat/1');
   };

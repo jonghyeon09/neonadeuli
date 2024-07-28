@@ -9,6 +9,7 @@ const colors: ResolvableTo<RecursiveKeyValuePair> = {
     black: '#000000',
   },
   primary: {
+    0: '#FBB039',
     100: '#FEF2DE',
     200: '#FDE4BC',
     300: '#FCD79B',
