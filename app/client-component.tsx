@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 import ChatButton from '@/components/chat/ChatButton';
 import Link from 'next/link';
 import { useUserStore } from '@/store/useUserStore';
-import { login } from './api';
+import api from './api';
 
 export default function Home() {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
@@ -23,7 +23,7 @@ export default function Home() {
   const { toggleModal } = useModalStore();
   const { palace } = usePalace();
   const router = useRouter();
-  const { setNickname, setToken } = useUserStore();
+  const { user, reset, setUser } = useUserStore();
 
   const handlePalaceClick = (palace: HeritageItem) => {
     router.push(
@@ -32,20 +32,14 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const nickname = localStorage.getItem('nickname') || '';
-
-    if (token) {
-      setToken(token);
-      setNickname(nickname);
+    if (user) {
       return;
     }
 
     const getUser = async () => {
-      const { access_token, nickname } = await login();
+      const user = await api.login();
 
-      localStorage.setItem('token', access_token);
-      localStorage.setItem('nickname', nickname);
+      setUser(user);
     };
 
     getUser();

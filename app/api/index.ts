@@ -1,3 +1,4 @@
+import type { Login, Sessions } from '@/types/api';
 import axios from 'axios';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -23,25 +24,22 @@ instance.interceptors.request.use(
   }
 );
 
-export const login = async () => {
-  const res = await instance.post<{
-    nickname: string;
-    access_token: string;
-    token_type: string;
-    expires_in: number;
-  }>('/api/v1/users/login');
+const login = async () => {
+  const res = await instance.post<Login>('/api/v1/users/login');
+  console.log(res.data);
 
   return res.data;
 };
 
-export const sesstions = async () => {
-  const res = await instance.post<{
-    id: number;
-    user_id: number;
-    heritage_id: number;
-    start_time: Date;
-    created_at: Date;
-  }>('/api/v1/chat/sessions');
+const sesstions = async (data: { user_id: number; heritage_id: 1 }) => {
+  const res = await instance.post<Sessions>('/api/v1/chat/sessions', data);
 
   return res.data;
 };
+
+const api = {
+  login,
+  sesstions,
+};
+
+export default api;
