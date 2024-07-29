@@ -1,5 +1,9 @@
+'use client';
 import Splash from '@/components/common/Splash';
+import { useModalStore } from '@/store';
 
 export default function Page() {
-  return <Splash />;
+  const { isSplash } = useModalStore();
+
+  return <>{isSplash && <Splash />}</>;
 }

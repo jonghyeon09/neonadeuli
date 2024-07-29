@@ -63,22 +63,22 @@ export default function ClientComponent() {
     };
   }, []);
 
-  useEffect(() => {
-    const user: Message = {
-      id: 1,
-      session_id: 1,
-      content: '광화문 도착',
-      timestamp: new Date(),
-      role: 'user',
-    };
-    const bot: Message = {
-      id: 2,
-      session_id: 1,
-      content: '광화문 도착',
-      timestamp: new Date(),
-      role: 'user',
-    };
-  }, []);
+  // useEffect(() => {
+  //   const user: Message = {
+  //     id: 1,
+  //     session_id: 1,
+  //     content: '광화문 도착',
+  //     timestamp: new Date(),
+  //     role: 'user',
+  //   };
+  //   const bot: Message = {
+  //     id: 2,
+  //     session_id: 1,
+  //     content: '광화문 도착',
+  //     timestamp: new Date(),
+  //     role: 'user',
+  //   };
+  // }, []);
 
   return (
     <>
@@ -116,6 +116,7 @@ export default function ClientComponent() {
           questions={questions}
           onClick={handleQuestionClick}
         /> */}
+        {renderElement}
       </ChatSection>
     </>
   );

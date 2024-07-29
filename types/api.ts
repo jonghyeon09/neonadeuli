@@ -6,11 +6,13 @@ export interface Login {
 }
 
 export interface Sessions {
-  id: number;
+  session_id: number;
   user_id: number;
   heritage_id: number;
-  start_time: Date;
-  created_at: Date;
+  heritage_name: string;
+  routes: object[];
+  start_time: string;
+  created_at: string;
 }
 
 export interface Message {
@@ -18,5 +20,5 @@ export interface Message {
   session_id: number;
   role: 'user' | 'bot';
   content: string;
-  timestamp: Date;
+  timestamp: string;
 }

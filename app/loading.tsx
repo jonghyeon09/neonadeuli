@@ -1,3 +1,5 @@
+import Splash from '@/components/common/Splash';
+
 export default function Loading() {
-  return <p>Loading...</p>;
+  return <Splash />;
 }
