@@ -2,9 +2,8 @@ import ClientComponent from './client-component';
 import api from '@/app/api';
 import { cookies } from 'next/headers';
 
-const user_id = cookies().get('user_id')?.value;
-
 const getSesstion = async () => {
+  const user_id = cookies().get('user_id')?.value;
   const res = await api.sesstions({
     heritage_id: 1,
     user_id: Number(user_id),
