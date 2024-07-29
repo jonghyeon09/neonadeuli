@@ -1,4 +1,4 @@
-import type { Login, Sessions } from '@/types/api';
+import type { Login, Session } from '@/types/api';
 import axios from 'axios';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -33,7 +33,7 @@ const login = async () => {
 
 const sesstions = async (data: { user_id: number; heritage_id: 1 }) => {
   try {
-    const res = await instance.post<Sessions>('/api/v1/chat/sessions', data);
+    const res = await instance.post<Session>('/api/v1/chat/sessions', data);
 
     return res.data;
   } catch (error) {

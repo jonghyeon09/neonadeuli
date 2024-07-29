@@ -4,18 +4,18 @@ import { cookies } from 'next/headers';
 
 const user_id = cookies().get('user_id')?.value;
 
-const getSesstionId = async () => {
+const getSesstion = async () => {
   const res = await api.sesstions({
     heritage_id: 1,
     user_id: Number(user_id),
   });
   console.log(res);
 
-  return res?.session_id;
+  return res;
 };
 
 export default async function Page() {
-  const sesstionId = await getSesstionId();
+  const sesstion = await getSesstion();
 
-  return <ClientComponent sesstionId={sesstionId} />;
+  return <ClientComponent session={sesstion} />;
 }

@@ -5,7 +5,7 @@ export interface Login {
   token_type: string;
 }
 
-export interface Sessions {
+export interface Session {
   session_id: number;
   user_id: number;
   heritage_id: number;

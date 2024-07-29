@@ -1,12 +1,24 @@
+'use client';
 import HistoryItem from '@/components/chat/HistoryItem';
 import NewButton from '@/components/chat/NewButton';
+import { useSessions } from '@/store';
 import Link from 'next/link';
 
-export default async function Page() {
+export default function Page() {
+  const { sessions } = useSessions();
   return (
     <>
       <div className="relative pb-[144px] w-full">
-        {/* <HistoryItem name="이름" message="ㅁㅇㄹㄴㅇㅁ" time="1시간 전" /> */}
+        {sessions.map((session) => (
+          <Link href={`/chat/${session.session_id}`} key={session.session_id}>
+            <HistoryItem
+              name={session.heritage_name}
+              message="ㅁㅇㄹㄴㅇㅁ"
+              time="1시간 전"
+            />
+          </Link>
+        ))}
+
         <div className="absolute left-1/2 -translate-x-1/2 bottom-0 my-[80px]">
           <Link href={'/chat'}>
             <NewButton text="새 문의하기"></NewButton>
