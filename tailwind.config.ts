@@ -37,6 +37,10 @@ const colors: ResolvableTo<RecursiveKeyValuePair> = {
     1300: '#2d2d2d',
     1400: '#1e1e1e',
   },
+  secondary: {
+    0: '#f5f0e4',
+    100: '#faf7f1',
+  },
 };
 
 const config: Config = {

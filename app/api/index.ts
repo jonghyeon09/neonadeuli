@@ -32,9 +32,13 @@ const login = async () => {
 };
 
 const sesstions = async (data: { user_id: number; heritage_id: 1 }) => {
-  const res = await instance.post<Sessions>('/api/v1/chat/sessions', data);
+  try {
+    const res = await instance.post<Sessions>('/api/v1/chat/sessions', data);
 
-  return res.data;
+    return res.data;
+  } catch (error) {
+    alert('세션 생성 실패');
+  }
 };
 
 const api = {

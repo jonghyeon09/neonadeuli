@@ -27,6 +27,7 @@ export const useCourse = () => {
       })
     );
     list[1].reverse();
+    list[0][0].visit = true;
 
     setCourse(list);
 

@@ -16,7 +16,9 @@ import type { Message } from '@/types/api';
 
 export default function ClientComponent() {
   const [isOpen, setOpen] = useState(true);
+  const [staticMessage, setStaticMessage] = useState([]);
   const [messages, setMessages] = useState<Message | []>([]);
+  const [renderElement, setRenderElement] = useState<JSX.Element | []>([]);
   const { course, locationName, locationId, lastId, prev, next, handleNext } =
     useCourse();
   const { value, onChange, reset } = useInput('');
@@ -38,19 +40,27 @@ export default function ClientComponent() {
   };
 
   useEffect(() => {
+    const firstMessage = `${locationName} 도착`;
+
+    const timeoutId = setTimeout(() => {
+      // setMessages();
+    }, 1000);
+    console.log(firstMessage);
+  }, []);
+
+  useEffect(() => {
     const chatId = async () => {
       const data = {
         user_id: 1,
         heritage_id: 1,
       };
-      const chatId = await api.sesstions({
-        heritage_id: 1,
-        user_id: 1,
-      });
+      // const chatId = await api.sesstions({
+      //   heritage_id: 1,
+      //   user_id: 1,
+      // });
 
       console.log(chatId);
     };
-    chatId();
   }, []);
 
   useEffect(() => {
@@ -100,12 +110,12 @@ export default function ClientComponent() {
           </SendSection>
         }
       >
-        <UserMessage />
-        <ChatbotMessage />
-        <RecommendationQuestion
+        {/* <UserMessage /> */}
+        {/* <ChatbotMessage /> */}
+        {/* <RecommendationQuestion
           questions={questions}
           onClick={handleQuestionClick}
-        />
+        /> */}
       </ChatSection>
     </>
   );

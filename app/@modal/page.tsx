@@ -16,7 +16,7 @@ export default function HomeModal() {
   };
   const handleTour = async () => {
     toggleModal('isArrive');
-    router.push('/chat/1');
+    router.push('/chat');
   };
 
   return (
