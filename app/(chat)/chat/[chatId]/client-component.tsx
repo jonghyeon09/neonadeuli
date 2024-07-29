@@ -11,10 +11,12 @@ import PlusIcon from '@/components/icons/PlusIcon';
 import SendInput from '@/components/chat/SendInput';
 import useInput from '@/hooks/useInput';
 import HandIcon from '@/components/icons/HandIcon';
-import { sesstions } from '@/app/api';
+import api from '@/app/api';
+import type { Message } from '@/types/api';
 
 export default function ClientComponent() {
   const [isOpen, setOpen] = useState(true);
+  const [messages, setMessages] = useState<Message | []>([]);
   const { course, locationName, locationId, lastId, prev, next, handleNext } =
     useCourse();
   const { value, onChange, reset } = useInput('');
@@ -24,7 +26,6 @@ export default function ClientComponent() {
     '뭔가 자극적인 이야기가 듣고 싶어요',
     '여기에 어떤 사람들이 묵었나요?',
   ];
-
   const handleOpenClick = () => setOpen(!isOpen);
   const handleQuestionClick = (question: string) => {
     console.log(question);
@@ -38,11 +39,35 @@ export default function ClientComponent() {
 
   useEffect(() => {
     const chatId = async () => {
-      const chatId = await sesstions();
+      const data = {
+        user_id: 1,
+        heritage_id: 1,
+      };
+      const chatId = await api.sesstions({
+        heritage_id: 1,
+        user_id: 1,
+      });
 
       console.log(chatId);
     };
     chatId();
+  }, []);
+
+  useEffect(() => {
+    const user: Message = {
+      id: 1,
+      session_id: 1,
+      content: '광화문 도착',
+      timestamp: new Date(),
+      role: 'user',
+    };
+    const bot: Message = {
+      id: 2,
+      session_id: 1,
+      content: '광화문 도착',
+      timestamp: new Date(),
+      role: 'user',
+    };
   }, []);
 
   return (

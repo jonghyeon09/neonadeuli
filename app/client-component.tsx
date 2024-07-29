@@ -16,6 +16,7 @@ import ChatButton from '@/components/chat/ChatButton';
 import Link from 'next/link';
 import { useUserStore } from '@/store/useUserStore';
 import api from './api';
+import cookies from 'js-cookie';
 
 export default function Home() {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
@@ -23,7 +24,7 @@ export default function Home() {
   const { toggleModal } = useModalStore();
   const { palace } = usePalace();
   const router = useRouter();
-  const { user, reset, setUser } = useUserStore();
+  const { user, login, setLogin, reset, setUser } = useUserStore();
 
   const handlePalaceClick = (palace: HeritageItem) => {
     router.push(
@@ -32,17 +33,18 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (user) {
-      return;
-    }
-
     const getUser = async () => {
       const user = await api.login();
 
+      cookies.set('user_id', String(user.id));
       setUser(user);
     };
+    const userId = cookies.get('user_id');
 
-    getUser();
+    if (!userId) {
+      setLogin();
+      getUser();
+    }
   }, []);
 
   useEffect(() => {
