@@ -23,6 +23,7 @@ export const useCourse = () => {
           id: counter,
           name,
           visit: false,
+          coordinate: [0, 0],
         };
       })
     );

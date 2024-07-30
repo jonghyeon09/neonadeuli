@@ -1,4 +1,4 @@
-import type { Login, Session } from '@/types/api';
+import type { BotMessage, Login, SendMessage, Session } from '@/types/api';
 import axios from 'axios';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -41,9 +41,23 @@ const sesstions = async (data: { user_id: number; heritage_id: 1 }) => {
   }
 };
 
+const messages = async (sessionId: number, data: SendMessage) => {
+  try {
+    const res = await instance.post<BotMessage>(
+      `/api/v1/chat/sessions/${sessionId}/messages`,
+      data
+    );
+
+    return res.data;
+  } catch (error) {
+    alert('bot message error');
+  }
+};
+
 const api = {
   login,
   sesstions,
+  messages,
 };
 
 export default api;

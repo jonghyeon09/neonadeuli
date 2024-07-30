@@ -6,7 +6,7 @@ type Props = {
 export default function ChatSection({ children, sendComponent }: Props) {
   return (
     <div className="bg-neutrals-200 relative flex flex-1">
-      <div className="w-full flex flex-col gap-5 px-5 absolute bottom-0  pb-[56px]">
+      <div className="w-full flex flex-col gap-5 px-5 absolute bottom-0 pb-[56px] mb-5">
         <p className="text-center body-3 text-neutrals-1000">
           경복궁에 오신 것을 환영합니다.
           <br />

@@ -10,7 +10,11 @@ export default function Page() {
     <>
       <div className="relative pb-[144px] w-full">
         {sessions.map((session) => (
-          <Link href={`/chat/${session.session_id}`} key={session.session_id}>
+          <Link
+            scroll={false}
+            href={`/chat/${session.session_id}`}
+            key={session.session_id}
+          >
             <HistoryItem
               name={session.heritage_name}
               message="ㅁㅇㄹㄴㅇㅁ"
@@ -20,7 +24,7 @@ export default function Page() {
         ))}
 
         <div className="absolute left-1/2 -translate-x-1/2 bottom-0 my-[80px]">
-          <Link href={'/chat'}>
+          <Link href={'/chat'} scroll={false}>
             <NewButton text="새 문의하기"></NewButton>
           </Link>
         </div>

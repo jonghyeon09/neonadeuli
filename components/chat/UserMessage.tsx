@@ -9,7 +9,7 @@ export default function UserMessage({ text }: Props) {
         00:00 AM
       </p>
       <div className="p-4 rounded-[10px] rounded-tr-none bg-primary-500 max-w-[208px]">
-        <p className="body-3">{text}</p>
+        <p className="body-3 break-words">{text}</p>
       </div>
       <svg
         width="9"

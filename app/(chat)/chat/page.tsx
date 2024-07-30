@@ -8,7 +8,6 @@ const getSesstion = async () => {
     heritage_id: 1,
     user_id: Number(user_id),
   });
-  console.log(res);
 
   return res;
 };

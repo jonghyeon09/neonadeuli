@@ -1,6 +1,28 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 
-export default function ChatbotMessage() {
+type Props = {
+  text: string;
+  isLoading: boolean;
+};
+
+export default function ChatbotMessage({ text, isLoading = true }: Props) {
+  const [loadingText, setLoadingText] = useState('');
+
+  useEffect(() => {
+    let text = '.';
+    const id = setInterval(() => {
+      text += '.';
+      setLoadingText(text);
+    }, 500);
+
+    if (!isLoading) {
+      text = '.';
+      clearInterval(id);
+    }
+
+    return () => clearInterval(id);
+  }, [isLoading]);
+
   return (
     <div className="flex items-end">
       <svg
@@ -16,8 +38,11 @@ export default function ChatbotMessage() {
         />
       </svg>
 
-      <div className="p-4 rounded-[10px] rounded-bl-none bg-white max-w-[208px]">
-        <p className="body-3">광화문에 대해, 어떤 이야기를 듣고 싶은 것이오?</p>
+      <div className="p-4 rounded-[10px] rounded-bl-none bg-white min-w-[208px] max-w-[55%]">
+        <p className="body-3 break-words">
+          {loadingText}
+          {text}
+        </p>
       </div>
       <p className="flex items-end justify-end ml-2 body-4 text-neutrals-700">
         00:00 AM

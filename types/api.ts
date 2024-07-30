@@ -15,10 +15,16 @@ export interface Session {
   created_at: string;
 }
 
-export interface Message {
+export interface BotMessage {
   id: number;
   session_id: number;
-  role: 'user' | 'bot';
+  role: 'assistant';
   content: string;
+  timestamp: string;
+}
+
+export interface SendMessage {
+  content: string;
+  role: 'user';
   timestamp: string;
 }
