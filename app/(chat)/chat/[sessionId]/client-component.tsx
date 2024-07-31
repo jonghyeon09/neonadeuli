@@ -36,10 +36,8 @@ export default function ClientComponent() {
     let memo: Messages = [];
 
     sessionsMessage.forEach((session) => {
-      if (sessionId == session.sessionId) {
-        if (locationId == session.location.id) {
-          memo = session.location.messages;
-        }
+      if (session[sessionId]?.location.id == locationId) {
+        memo.push(...session[sessionId].location.messages);
       }
     });
 
@@ -53,6 +51,10 @@ export default function ClientComponent() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (messages[messages.length - 1].content == '') {
+      return;
+    }
+
     console.log(value);
     reset();
   };
@@ -75,7 +77,6 @@ export default function ClientComponent() {
         );
       return el;
     });
-    console.log(render.length);
 
     if (render.length == 2) {
       const el = (

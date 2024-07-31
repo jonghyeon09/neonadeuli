@@ -7,7 +7,6 @@ import { Coordinates } from '@/types/map';
 import Header from '@/components/common/Header';
 import Sidebar from '@/components/sidebar';
 import Recommendation from '@/components/recommendation';
-import { usePalace } from '@/hooks/usePalace';
 import SlideItem from '@/components/common/SlideItem';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -92,7 +91,7 @@ export default function Home({ palace }: Props) {
             </Swiper>
           </Recommendation>
           <div className="absolute right-5 bottom-[164px] z-50">
-            <Link href={'/chat-history'}>
+            <Link href={'/chat-history'} scroll={false}>
               <ChatButton />
             </Link>
           </div>

@@ -5,17 +5,18 @@ import { persist } from 'zustand/middleware';
 export type Messages = (BotMessage | SendMessage)[];
 
 interface LocationMessages {
-  sessionId: number;
-  location: {
-    id: number;
-    messages: Messages;
-  };
+  [sessionId: number]: {
+    location: {
+      id: number;
+      messages: Messages;
+    };
+  } | null;
 }
 
 type State = {
   isStorage: boolean;
   sessions: Session[] | [];
-  sessionsMessage: LocationMessages[];
+  sessionsMessage: LocationMessages[] | [];
 };
 
 interface Action {
@@ -40,12 +41,13 @@ export const useSessions = create<State & Action>()(
         set((state) => {
           return {
             sessionsMessage: [
-              ...state.sessionsMessage,
+              // ...state.sessionsMessage,
               {
-                sessionId,
-                location: {
-                  id: locationId,
-                  messages: messages,
+                [sessionId]: {
+                  location: {
+                    id: locationId,
+                    messages: messages,
+                  },
                 },
               },
             ],

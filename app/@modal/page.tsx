@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 export default function HomeModal() {
   const [step, setStep] = useState(1);
   const { isArrive, setOpen, toggleModal } = useModalStore();
-  const { isStorage, sessions } = useSessions();
+  const { isStorage, sessions, syncStorage } = useSessions();
   const router = useRouter();
 
   const handleStep = () => {
@@ -21,12 +21,13 @@ export default function HomeModal() {
   };
 
   useEffect(() => {
+    syncStorage();
     if (!isStorage) return;
 
     if (sessions.length == 0) {
       setOpen('isArrive');
     }
-  }, [isStorage, sessions.length, setOpen]);
+  }, [isStorage, sessions.length, setOpen, syncStorage]);
 
   return (
     <>
