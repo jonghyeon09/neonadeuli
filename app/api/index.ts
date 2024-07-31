@@ -4,7 +4,7 @@ import axios from 'axios';
 const API_URL = process.env.NEXT_PUBLIC_DOMAIN;
 
 const instance = axios.create({
-  // baseURL: API_URL,
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -34,9 +34,12 @@ const login = async () => {
 const sesstions = async (data: { user_id: number; heritage_id: 1 }) => {
   try {
     const res = await instance.post<Session>('/api/v1/chat/sessions', data);
+    console.log(res);
 
     return res.data;
   } catch (error) {
+    console.log(error);
+
     console.error('세션 생성 실패');
   }
 };
