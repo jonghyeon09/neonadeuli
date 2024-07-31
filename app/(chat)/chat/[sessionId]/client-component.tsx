@@ -88,11 +88,7 @@ export default function ClientComponent() {
         message.role == 'user' ? (
           <UserMessage text={message.content} key={message.timestamp} />
         ) : (
-          <ChatbotMessage
-            text={message.content}
-            key={message.id}
-            isLoading={message.content.length == 0 ? true : false}
-          />
+          <ChatbotMessage text={message.content} key={message.id} />
         );
       render.push(el);
 

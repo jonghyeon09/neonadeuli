@@ -7,6 +7,8 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
   --h-header: 56px;
+  --h-tour: 145px;
+  --h-send: 56px;
 }
 
 @media (prefers-color-scheme: dark) {

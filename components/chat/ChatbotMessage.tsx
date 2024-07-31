@@ -1,27 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 type Props = {
   text: string;
-  isLoading: boolean;
 };
 
-export default function ChatbotMessage({ text, isLoading = true }: Props) {
-  const [loadingText, setLoadingText] = useState('');
-
-  useEffect(() => {
-    let text = '.';
-    const id = setInterval(() => {
-      text += '.';
-      setLoadingText(text);
-    }, 500);
-
-    if (!isLoading) {
-      text = '.';
-      clearInterval(id);
-    }
-
-    return () => clearInterval(id);
-  }, [isLoading]);
+export default function ChatbotMessage({ text }: Props) {
+  const format = (text: string) => {
+    return text.split('. ').join(`.\n`);
+  };
 
   return (
     <div className="flex items-end">
@@ -39,10 +25,7 @@ export default function ChatbotMessage({ text, isLoading = true }: Props) {
       </svg>
 
       <div className="p-4 rounded-[10px] rounded-bl-none bg-white min-w-[208px] max-w-[55%]">
-        <p className="body-3 break-words">
-          {loadingText}
-          {text}
-        </p>
+        <p className="body-3 break-words whitespace-pre-wrap">{format(text)}</p>
       </div>
       <p className="flex items-end justify-end ml-2 body-4 text-neutrals-700">
         00:00 AM

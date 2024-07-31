@@ -66,7 +66,7 @@ export default function LineMap({
   };
 
   return (
-    <div className="bg-white max-w-screen-sm w-full drop-shadow-md rounded-lg fixed top-[58px] p-5 flex justify-center z-50">
+    <div className="bg-white max-w-screen-sm w-full drop-shadow-md rounded-lg fixed top-[58px] p-5 flex justify-center z-50 min-h-[--h-tour]">
       <div className="w-[335px] flex flex-col gap-2 items-center">
         <div
           className={`relative px-[10px] flex flex-col gap-4 items-center select-none ${
@@ -98,7 +98,7 @@ export default function LineMap({
           ))}
         </div>
 
-        {isOpen && (
+        {/* {isOpen && (
           <div className="w-full flex gap-[79px] justify-between px-5">
             <Button
               className="w-[128px] h-[36px] rounded-lg bg-[#2e2e2e] flex items-center justify-center gap-1"
@@ -133,7 +133,7 @@ export default function LineMap({
               <NextArrowIcon SVGAttributes={!next ? { fill: '#b8b8b8' } : {}} />
             </Button>
           </div>
-        )}
+        )} */}
 
         <div className="w-full min-h-[1px] bg-neutrals-100"></div>
         <SummaryButton
