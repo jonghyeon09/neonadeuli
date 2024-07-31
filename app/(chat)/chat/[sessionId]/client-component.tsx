@@ -15,6 +15,7 @@ import api from '@/app/api';
 import type { BotMessage, SendMessage } from '@/types/api';
 import { useParams } from 'next/navigation';
 import { Messages, useSessions } from '@/store';
+import LodaingMessage from '@/components/chat/LodaingMessage';
 
 const questions = [
   '재밌는 이야기 해주세요',
@@ -24,6 +25,8 @@ const questions = [
 
 export default function ClientComponent() {
   const [isOpen, setOpen] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
   const [renderElement, setRenderElement] = useState<JSX.Element[]>([]);
   const { course, locationName, locationId, lastId, prev, next, handleNext } =
     useCourse();
@@ -48,6 +51,7 @@ export default function ClientComponent() {
   const handleQuestionClick = (question: string) => {
     console.log(question);
     const send = async () => {
+      setIsLoading(true);
       const res = await api.messages(sessionId, {
         content: question,
         role: 'user',
@@ -56,6 +60,7 @@ export default function ClientComponent() {
       if (!res) return;
 
       setSessionMessages(sessionId, locationId, [...messages, res]);
+      setIsLoading(false);
     };
 
     send();
@@ -122,17 +127,18 @@ export default function ClientComponent() {
       role: 'user',
       timestamp: new Date().toISOString(),
     };
-    const firstBot: BotMessage = {
-      id: 0,
-      content: '',
-      role: 'assistant',
-      session_id: 0,
-      timestamp: new Date().toISOString(),
-    };
+    // const firstBot: BotMessage = {
+    //   id: 0,
+    //   content: '',
+    //   role: 'assistant',
+    //   session_id: 0,
+    //   timestamp: new Date().toISOString(),
+    // };
 
-    firstMessage = [sendMessage, firstBot];
+    firstMessage = [sendMessage];
 
     setSessionMessages(sessionId, locationId, firstMessage);
+    setIsLoading(true);
 
     const send = async () => {
       const res = await api.messages(sessionId, sendMessage);
@@ -140,6 +146,7 @@ export default function ClientComponent() {
       if (res) {
         firstMessage[1] = res;
         setSessionMessages(sessionId, locationId, firstMessage);
+        setIsLoading(false);
       }
     };
 
@@ -180,6 +187,7 @@ export default function ClientComponent() {
         }
       >
         {renderElement}
+        {<LodaingMessage isLoading={isLoading} />}
         {/* <UserMessage /> */}
         {/* <ChatbotMessage /> */}
       </ChatSection>
