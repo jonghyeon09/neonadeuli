@@ -47,6 +47,18 @@ export default function ClientComponent() {
   const handleOpenClick = () => setOpen(!isOpen);
   const handleQuestionClick = (question: string) => {
     console.log(question);
+    const send = async () => {
+      const res = await api.messages(sessionId, {
+        content: question,
+        role: 'user',
+        timestamp: new Date().toISOString(),
+      });
+      if (!res) return;
+
+      setSessionMessages(sessionId, locationId, [...messages, res]);
+    };
+
+    send();
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -64,7 +76,9 @@ export default function ClientComponent() {
   }, []);
 
   useEffect(() => {
-    const render = messages.map((message) => {
+    let render: JSX.Element[] = [];
+
+    messages.forEach((message) => {
       const el =
         message.role == 'user' ? (
           <UserMessage text={message.content} key={message.timestamp} />
@@ -75,22 +89,22 @@ export default function ClientComponent() {
             isLoading={message.content.length == 0 ? true : false}
           />
         );
-      return el;
+      render.push(el);
+
+      if (render.length == 2) {
+        const el = (
+          <RecommendationQuestion
+            key={'questions'}
+            questions={questions}
+            onClick={handleQuestionClick}
+          />
+        );
+        render.push(el);
+      }
     });
 
-    if (render.length == 2) {
-      const el = (
-        <RecommendationQuestion
-          key={'questions'}
-          questions={questions}
-          onClick={handleQuestionClick}
-        />
-      );
-      setRenderElement([...render, el]);
-      return;
-    }
-
     setRenderElement(render);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messages]);
 
   useEffect(() => {
