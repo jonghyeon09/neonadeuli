@@ -37,7 +37,7 @@ const sesstions = async (data: { user_id: number; heritage_id: 1 }) => {
 
     return res.data;
   } catch (error) {
-    alert('세션 생성 실패');
+    console.error('세션 생성 실패');
   }
 };
 
