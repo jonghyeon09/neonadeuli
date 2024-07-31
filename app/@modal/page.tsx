@@ -2,13 +2,14 @@
 import Button from '@/components/common/Button';
 import Modal from '@/components/modal';
 import ModalView from '@/components/modal/ModalView';
-import { useModalStore } from '@/store';
+import { useModalStore, useSessions } from '@/store';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function HomeModal() {
   const [step, setStep] = useState(1);
-  const { isArrive, toggleModal } = useModalStore();
+  const { isArrive, setOpen, toggleModal } = useModalStore();
+  const { isStorage, sessions } = useSessions();
   const router = useRouter();
 
   const handleStep = () => {
@@ -18,6 +19,14 @@ export default function HomeModal() {
     toggleModal('isArrive');
     router.push('/chat');
   };
+
+  useEffect(() => {
+    if (!isStorage) return;
+
+    if (sessions.length == 0) {
+      setOpen('isArrive');
+    }
+  }, [isStorage, sessions.length, setOpen]);
 
   return (
     <>

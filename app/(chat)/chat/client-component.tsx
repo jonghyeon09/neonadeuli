@@ -24,7 +24,8 @@ export default function ClientComponent({
       setClose('isSplash');
       router.push(`/chat/${sessionId}`);
     }
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session]);
 
   return null;
 }

@@ -15,7 +15,7 @@ interface Action {
 
 export const useModalStore = create<State & Action>()(
   devtools((set) => ({
-    isArrive: true,
+    isArrive: false,
     isSidebar: false,
     isSplash: true,
     toggleModal: (key) => set((state) => ({ [key]: !state[key] })),
