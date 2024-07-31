@@ -94,6 +94,7 @@ export default function ClientComponent() {
 
   useEffect(() => {
     syncStorage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

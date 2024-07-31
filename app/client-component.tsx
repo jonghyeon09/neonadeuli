@@ -19,11 +19,14 @@ import api from './api';
 import cookies from 'js-cookie';
 import Splash from '@/components/common/Splash';
 
-export default function Home() {
+type Props = {
+  palace: HeritageItem[];
+};
+
+export default function Home({ palace }: Props) {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
   const { map, initializeMap } = useMapStore();
   const { toggleModal } = useModalStore();
-  const { palace } = usePalace();
   const router = useRouter();
   const { user, login, setLogin, reset, setUser } = useUserStore();
 
@@ -46,6 +49,7 @@ export default function Home() {
       setLogin();
       getUser();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
