@@ -4,12 +4,14 @@ import { cookies } from 'next/headers';
 
 const getSesstion = async () => {
   const user_id = cookies().get('user_id')?.value;
-  const res = await api.sesstions({
-    heritage_id: 1,
-    user_id: Number(user_id),
-  });
+  if (user_id) {
+    const res = await api.sesstions({
+      heritage_id: 1,
+      user_id: Number(user_id),
+    });
 
-  return res;
+    return res;
+  }
 };
 
 export default async function Page() {
