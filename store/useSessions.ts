@@ -24,9 +24,10 @@ interface Action {
   setSessionMessages: (
     sessionId: number,
     locationId: number,
-    messages: Messages
+    messages: BotMessage | SendMessage
   ) => void;
   syncStorage: () => void;
+  initSessionMessages: (sessionId: number) => void;
 }
 
 export const useSessions = create<State & Action>()(
@@ -37,8 +38,17 @@ export const useSessions = create<State & Action>()(
       sessionsMessage: [],
       setSession: (session) =>
         set((state) => ({ sessions: [...state.sessions, session] })),
-      setSessionMessages: (sessionId, locationId, messages) =>
+      setSessionMessages: (sessionId, locationId, message) =>
         set((state) => {
+          let copyMessages: Messages = [];
+
+          state.sessionsMessage.forEach((messages) => {
+            const condition = messages[sessionId]?.location?.messages;
+            if (condition) {
+              copyMessages = condition;
+            }
+          });
+
           return {
             sessionsMessage: [
               // ...state.sessionsMessage,
@@ -46,11 +56,20 @@ export const useSessions = create<State & Action>()(
                 [sessionId]: {
                   location: {
                     id: locationId,
-                    messages: messages,
+                    messages: [...copyMessages, message],
                   },
                 },
               },
             ],
+          };
+        }),
+      initSessionMessages: (sessionId) =>
+        set((state) => {
+          state.sessionsMessage.forEach((messages) => {
+            delete messages[sessionId];
+          });
+          return {
+            sessionsMessage: [...state.sessionsMessage],
           };
         }),
       syncStorage: () => set(() => ({ isStorage: true })),

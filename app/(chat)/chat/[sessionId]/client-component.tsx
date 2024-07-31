@@ -16,6 +16,7 @@ import type { BotMessage, SendMessage } from '@/types/api';
 import { useParams } from 'next/navigation';
 import { Messages, useSessions } from '@/store';
 import LodaingMessage from '@/components/chat/LodaingMessage';
+import useScroll from '@/hooks/useScroll';
 
 const questions = [
   '재밌는 이야기 해주세요',
@@ -26,12 +27,17 @@ const questions = [
 export default function ClientComponent() {
   const [isOpen, setOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-
   const [renderElement, setRenderElement] = useState<JSX.Element[]>([]);
   const { course, locationName, locationId, lastId, prev, next, handleNext } =
     useCourse();
-  const { isStorage, sessionsMessage, setSessionMessages, syncStorage } =
-    useSessions();
+  const {
+    isStorage,
+    sessionsMessage,
+    setSessionMessages,
+    initSessionMessages,
+    syncStorage,
+  } = useSessions();
+  const { scrollY, scrollToBottom } = useScroll();
   const { value, onChange, reset } = useInput('');
   const params = useParams<{ sessionId: string }>();
   const sessionId = useMemo(() => Number(params.sessionId), [params.sessionId]);
@@ -49,7 +55,8 @@ export default function ClientComponent() {
 
   const handleOpenClick = () => setOpen(!isOpen);
   const handleQuestionClick = (question: string) => {
-    console.log(question);
+    if (isLoading) return;
+
     const send = async () => {
       setIsLoading(true);
       const res = await api.messages(sessionId, {
@@ -59,20 +66,31 @@ export default function ClientComponent() {
       });
       if (!res) return;
 
-      setSessionMessages(sessionId, locationId, [...messages, res]);
+      setSessionMessages(sessionId, locationId, res);
       setIsLoading(false);
     };
 
     send();
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (messages[messages.length - 1].content == '') {
-      return;
+    if (isLoading) return;
+    console.log(value);
+
+    const send: SendMessage = {
+      content: value,
+      role: 'user',
+      timestamp: new Date().toISOString(),
+    };
+    console.log(send);
+
+    const res = await api.messages(sessionId, send);
+    console.log(res);
+    if (res) {
+      setSessionMessages(sessionId, locationId, res);
     }
 
-    console.log(value);
     reset();
   };
 
@@ -109,11 +127,6 @@ export default function ClientComponent() {
   }, [messages]);
 
   useEffect(() => {
-    syncStorage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     if (!isStorage) return;
     if (messages.length !== 0) return;
 
@@ -133,16 +146,19 @@ export default function ClientComponent() {
 
     firstMessage = [sendMessage];
 
-    setSessionMessages(sessionId, locationId, firstMessage);
+    setSessionMessages(sessionId, locationId, sendMessage);
     setIsLoading(true);
 
     const send = async () => {
-      const res = await api.messages(sessionId, sendMessage);
+      try {
+        const res = await api.messages(sessionId, sendMessage);
 
-      if (res) {
-        firstMessage[1] = res;
-        setSessionMessages(sessionId, locationId, firstMessage);
-        setIsLoading(false);
+        if (res) {
+          setSessionMessages(sessionId, locationId, res);
+          setIsLoading(false);
+        }
+      } catch (error) {
+        initSessionMessages(sessionId);
       }
     };
 
@@ -150,7 +166,18 @@ export default function ClientComponent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isStorage]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    syncStorage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    console.log(renderElement);
+    if (renderElement.length != 0) {
+      scrollToBottom();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [renderElement]);
 
   return (
     <>

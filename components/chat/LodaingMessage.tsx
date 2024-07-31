@@ -39,7 +39,7 @@ export default function LodaingMessage({ isLoading = false }: Props) {
             />
           </svg>
 
-          <div className="p-4 rounded-[10px] rounded-bl-none bg-white min-w-[208px] max-w-[55%]">
+          <div className="p-4 rounded-[10px] rounded-bl-none bg-white max-w-[208px]">
             <p className="body-3 break-words">{loadingText}</p>
           </div>
         </div>
