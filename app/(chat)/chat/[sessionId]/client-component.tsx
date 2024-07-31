@@ -37,7 +37,7 @@ export default function ClientComponent() {
     initSessionMessages,
     syncStorage,
   } = useSessions();
-  const { scrollY, scrollToBottom } = useScroll();
+  const { scrollToBottom } = useScroll();
   const { value, onChange, reset } = useInput('');
   const params = useParams<{ sessionId: string }>();
   const sessionId = useMemo(() => Number(params.sessionId), [params.sessionId]);
@@ -76,7 +76,6 @@ export default function ClientComponent() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isLoading) return;
-    console.log(value);
 
     const send: SendMessage = {
       content: value,
@@ -84,14 +83,16 @@ export default function ClientComponent() {
       timestamp: new Date().toISOString(),
     };
     console.log(send);
+    setSessionMessages(sessionId, locationId, send);
+    reset();
+    setIsLoading(true);
 
     const res = await api.messages(sessionId, send);
     console.log(res);
     if (res) {
       setSessionMessages(sessionId, locationId, res);
+      setIsLoading(false);
     }
-
-    reset();
   };
 
   useEffect(() => {
@@ -172,12 +173,14 @@ export default function ClientComponent() {
   }, []);
 
   useEffect(() => {
-    console.log(renderElement);
     if (renderElement.length != 0) {
       scrollToBottom();
     }
+    if (isLoading) {
+      scrollToBottom();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [renderElement]);
+  }, [renderElement, isLoading]);
 
   return (
     <>
