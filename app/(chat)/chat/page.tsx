@@ -4,6 +4,8 @@ import { cookies } from 'next/headers';
 
 const getSesstion = async () => {
   const user_id = cookies().get('user_id')?.value;
+  console.log(user_id);
+
   if (user_id) {
     const res = await api.sesstions({
       heritage_id: 1,
