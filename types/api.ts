@@ -22,9 +22,3 @@ export interface BotMessage {
   content: string;
   timestamp: string;
 }
-
-export interface SendMessage {
-  content: string;
-  role: 'user';
-  timestamp: string;
-}

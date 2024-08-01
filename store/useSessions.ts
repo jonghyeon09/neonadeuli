@@ -1,8 +1,9 @@
-import type { BotMessage, SendMessage, Session } from '@/types/api';
+import type { BotMessage, Session } from '@/types/api';
+import { ErrorMessage, SendMessage } from '@/types/chat';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export type Messages = (BotMessage | SendMessage)[];
+export type Messages = (BotMessage | SendMessage | ErrorMessage)[];
 
 interface LocationMessages {
   [sessionId: number]: {
@@ -24,7 +25,7 @@ interface Action {
   setSessionMessages: (
     sessionId: number,
     locationId: number,
-    messages: BotMessage | SendMessage
+    messages: BotMessage | SendMessage | ErrorMessage
   ) => void;
   syncStorage: () => void;
   initSessionMessages: (sessionId: number) => void;

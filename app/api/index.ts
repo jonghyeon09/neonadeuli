@@ -1,4 +1,5 @@
-import type { BotMessage, Login, SendMessage, Session } from '@/types/api';
+import type { BotMessage, Login, Session } from '@/types/api';
+import { SendMessage } from '@/types/chat';
 import axios from 'axios';
 
 const API_URL = process.env.NEXT_PUBLIC_DOMAIN;
@@ -38,13 +39,13 @@ const sesstions = async (data: { user_id: number; heritage_id: 1 }) => {
 
     return res.data;
   } catch (error) {
-    console.log(error);
-
     console.error('세션 생성 실패');
   }
 };
 
 const messages = async (sessionId: number, data: SendMessage) => {
+  console.log(data);
+
   try {
     const res = await instance.post<BotMessage>(
       `/api/v1/chat/sessions/${sessionId}/messages`,
@@ -53,7 +54,7 @@ const messages = async (sessionId: number, data: SendMessage) => {
 
     return res.data;
   } catch (error) {
-    alert('bot message error');
+    console.error('chatbot error');
   }
 };
 

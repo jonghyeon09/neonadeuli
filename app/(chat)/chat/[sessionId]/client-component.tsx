@@ -12,17 +12,24 @@ import SendInput from '@/components/chat/SendInput';
 import useInput from '@/hooks/useInput';
 import HandIcon from '@/components/icons/HandIcon';
 import api from '@/app/api';
-import type { BotMessage, SendMessage } from '@/types/api';
+import type { BotMessage } from '@/types/api';
 import { useParams } from 'next/navigation';
 import { Messages, useSessions } from '@/store';
 import LodaingMessage from '@/components/chat/LodaingMessage';
 import useScroll from '@/hooks/useScroll';
+import { ErrorMessage, SendMessage } from '@/types/chat';
 
 const questions = [
   '재밌는 이야기 해주세요',
   '뭔가 자극적인 이야기가 듣고 싶어요',
   '여기에 어떤 사람들이 묵었나요?',
 ];
+
+const errorMessage: ErrorMessage = {
+  content: '문제가 발생하였습니다.',
+  role: 'assistant',
+  timestamp: new Date().toISOString(),
+};
 
 export default function ClientComponent() {
   const [isOpen, setOpen] = useState(true);
@@ -59,14 +66,18 @@ export default function ClientComponent() {
 
     const send = async () => {
       setIsLoading(true);
-      const res = await api.messages(sessionId, {
-        content: question,
-        role: 'user',
-        timestamp: new Date().toISOString(),
-      });
-      if (!res) return;
+      try {
+        const res = await api.messages(sessionId, {
+          content: question,
+          role: 'user',
+          timestamp: new Date().toISOString(),
+        });
+        if (!res) return;
 
-      setSessionMessages(sessionId, locationId, res);
+        setSessionMessages(sessionId, locationId, res);
+      } catch (error) {
+        setSessionMessages(sessionId, locationId, errorMessage);
+      }
       setIsLoading(false);
     };
 
@@ -82,22 +93,20 @@ export default function ClientComponent() {
       role: 'user',
       timestamp: new Date().toISOString(),
     };
-    console.log(send);
     setSessionMessages(sessionId, locationId, send);
     reset();
     setIsLoading(true);
 
-    const res = await api.messages(sessionId, send);
-    console.log(res);
-    if (res) {
-      setSessionMessages(sessionId, locationId, res);
-      setIsLoading(false);
+    try {
+      const res = await api.messages(sessionId, send);
+      if (res) {
+        setSessionMessages(sessionId, locationId, res);
+      }
+    } catch (error) {
+      setSessionMessages(sessionId, locationId, errorMessage);
     }
+    setIsLoading(false);
   };
-
-  useEffect(() => {
-    console.log();
-  }, []);
 
   useEffect(() => {
     let render: JSX.Element[] = [];
@@ -107,7 +116,7 @@ export default function ClientComponent() {
         message.role == 'user' ? (
           <UserMessage text={message.content} key={message.timestamp} />
         ) : (
-          <ChatbotMessage text={message.content} key={message.id} />
+          <ChatbotMessage text={message.content} key={message.timestamp} />
         );
       render.push(el);
 
@@ -214,8 +223,6 @@ export default function ClientComponent() {
       >
         {renderElement}
         {<LodaingMessage isLoading={isLoading} />}
-        {/* <UserMessage /> */}
-        {/* <ChatbotMessage /> */}
       </ChatSection>
     </>
   );
