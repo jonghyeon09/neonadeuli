@@ -13,7 +13,7 @@ import useInput from '@/hooks/useInput';
 import HandIcon from '@/components/icons/HandIcon';
 import api from '@/app/api';
 import type { BotMessage } from '@/types/api';
-import { useParams } from 'next/navigation';
+import { RedirectType, useParams } from 'next/navigation';
 import { Messages, useSessions } from '@/store';
 import LodaingMessage from '@/components/chat/LodaingMessage';
 import useScroll from '@/hooks/useScroll';
@@ -49,13 +49,14 @@ export default function ClientComponent() {
   const params = useParams<{ sessionId: string }>();
   const sessionId = useMemo(() => Number(params.sessionId), [params.sessionId]);
   const messages = useMemo(() => {
-    let memo: Messages = [];
+    let memo: Messages | null = null;
 
-    sessionsMessage.forEach((session) => {
-      if (session[sessionId]?.location.id == locationId) {
-        memo.push(...session[sessionId].location.messages);
+    for (const sessions of sessionsMessage) {
+      if (sessions[sessionId]?.location.id == locationId) {
+        memo = sessions[sessionId].location.messages;
+        break;
       }
-    });
+    }
 
     return memo;
   }, [locationId, sessionId, sessionsMessage]);
@@ -111,7 +112,7 @@ export default function ClientComponent() {
   useEffect(() => {
     let render: JSX.Element[] = [];
 
-    messages.forEach((message) => {
+    messages?.forEach((message) => {
       const el =
         message.role == 'user' ? (
           <UserMessage text={message.content} key={message.timestamp} />
@@ -138,23 +139,13 @@ export default function ClientComponent() {
 
   useEffect(() => {
     if (!isStorage) return;
-    if (messages.length !== 0) return;
+    if (!!messages) return; // 값이 있을 때 true
 
-    let firstMessage: Messages;
     const sendMessage: SendMessage = {
       content: `${locationName} 도착`,
       role: 'user',
       timestamp: new Date().toISOString(),
     };
-    // const firstBot: BotMessage = {
-    //   id: 0,
-    //   content: '',
-    //   role: 'assistant',
-    //   session_id: 0,
-    //   timestamp: new Date().toISOString(),
-    // };
-
-    firstMessage = [sendMessage];
 
     setSessionMessages(sessionId, locationId, sendMessage);
     setIsLoading(true);

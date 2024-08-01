@@ -25,7 +25,7 @@ export default function ChatbotMessage({ text }: Props) {
       </svg>
 
       <div className="p-4 rounded-[10px] rounded-bl-none bg-white min-w-[208px] max-w-[55%]">
-        <p className="body-3 break-words whitespace-pre-wrap">{format(text)}</p>
+        <p className="body-3 break-words whitespace-pre-wrap">{text}</p>
       </div>
       <p className="flex items-end justify-end ml-2 body-4 text-neutrals-700">
         00:00 AM

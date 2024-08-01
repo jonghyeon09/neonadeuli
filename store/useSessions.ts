@@ -42,17 +42,23 @@ export const useSessions = create<State & Action>()(
       setSessionMessages: (sessionId, locationId, message) =>
         set((state) => {
           let copyMessages: Messages = [];
+          let copySessions: LocationMessages[] = [];
 
-          state.sessionsMessage.forEach((messages) => {
+          state.sessionsMessage.forEach((messages, i) => {
             const condition = messages[sessionId]?.location?.messages;
+
             if (condition) {
               copyMessages = condition;
+            }
+
+            if (!messages[sessionId]) {
+              copySessions.push(state.sessionsMessage[i]);
             }
           });
 
           return {
             sessionsMessage: [
-              // ...state.sessionsMessage,
+              ...copySessions,
               {
                 [sessionId]: {
                   location: {
