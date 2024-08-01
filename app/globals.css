@@ -51,11 +51,15 @@ input {
   @apply text-[16px] font-medium leading-[22px];
 }
 .body-2 {
-  @apply text-[14px] font-normal leading-[20px];
+  @apply text-[14px] leading-[20px];
 }
 .body-3 {
-  @apply text-[13px] font-normal leading-[20px];
+  @apply text-[13px] leading-[20px];
 }
 .body-4 {
-  @apply text-[12px] font-normal leading-[16px];
+  @apply text-[12px] leading-[16px];
+}
+
+.radius-m {
+  @apply rounded-[10px];
 }

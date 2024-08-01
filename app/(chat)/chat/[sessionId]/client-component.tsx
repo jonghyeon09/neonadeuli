@@ -18,6 +18,7 @@ import { Messages, useSessions } from '@/store';
 import LodaingMessage from '@/components/chat/LodaingMessage';
 import useScroll from '@/hooks/useScroll';
 import { ErrorMessage, SendMessage } from '@/types/chat';
+import ChatTooltip from '@/components/chat/ChatTooltip';
 
 const questions = [
   '재밌는 이야기 해주세요',
