@@ -68,20 +68,20 @@ export default function ClientComponent() {
 
     const send = async () => {
       setIsLoading(true);
-      try {
-        const res = await api.messages(sessionId, {
-          content: question,
-          role: 'user',
-          timestamp: new Date().toISOString(),
-        });
-        if (!res) return;
 
-        setSessionMessages({
-          locationId: locationId,
-          message: res,
-          sessionId: sessionId,
-        });
-      } catch (error) {
+      const { data, status } = await api.messages(sessionId, {
+        content: question,
+        role: 'user',
+        timestamp: new Date().toISOString(),
+      });
+
+      setSessionMessages({
+        locationId: locationId,
+        message: data,
+        sessionId: sessionId,
+      });
+
+      if (status !== 200) {
         setSessionMessages({
           locationId: locationId,
           message: errorMessage,
@@ -112,16 +112,15 @@ export default function ClientComponent() {
     reset();
     setIsLoading(true);
 
-    try {
-      const res = await api.messages(sessionId, send);
-      if (res) {
-        setSessionMessages({
-          locationId: locationId,
-          message: res,
-          sessionId: sessionId,
-        });
-      }
-    } catch (error) {
+    const { data, status } = await api.messages(sessionId, send);
+
+    setSessionMessages({
+      locationId: locationId,
+      message: data,
+      sessionId: sessionId,
+    });
+
+    if (status !== 200) {
       setSessionMessages({
         locationId: locationId,
         message: errorMessage,
@@ -156,19 +155,16 @@ export default function ClientComponent() {
     setIsLoading(true);
 
     const send = async () => {
-      try {
-        const res = await api.messages(sessionId, sendMessage);
+      const { data, status } = await api.messages(sessionId, sendMessage);
 
-        if (res) {
-          setSessionMessages({
-            locationId: locationId,
-            message: res,
-            sessionId: sessionId,
-          });
-          setIsLoading(false);
-        }
-      } catch (error) {
-        // initSessionMessages(sessionId);
+      setSessionMessages({
+        locationId: locationId,
+        message: data,
+        sessionId: sessionId,
+      });
+      setIsLoading(false);
+
+      if (status !== 200) {
         setSessionMessages({
           locationId: locationId,
           message: errorMessage,
