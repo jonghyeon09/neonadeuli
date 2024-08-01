@@ -12,13 +12,14 @@ import SendInput from '@/components/chat/SendInput';
 import useInput from '@/hooks/useInput';
 import HandIcon from '@/components/icons/HandIcon';
 import api from '@/app/api';
-import type { BotMessage } from '@/types/api';
+import type { BotMessage, SendMessage } from '@/types/api';
 import { RedirectType, useParams } from 'next/navigation';
 import { Messages, useSessions } from '@/store';
 import LodaingMessage from '@/components/chat/LodaingMessage';
 import useScroll from '@/hooks/useScroll';
-import { ErrorMessage, SendMessage } from '@/types/chat';
+import { ErrorMessage } from '@/types/chat';
 import ChatTooltip from '@/components/chat/ChatTooltip';
+import { Location } from '@/types/course';
 
 const questions = [
   '재밌는 이야기 해주세요',
@@ -36,31 +37,30 @@ export default function ClientComponent() {
   const [isOpen, setOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [renderElement, setRenderElement] = useState<JSX.Element[]>([]);
-  const { course, locationName, locationId, lastId, prev, next, handleNext } =
+  const { course, locationName, locationId, lastId, visitLocation } =
     useCourse();
-  const {
-    isStorage,
-    sessionsMessage,
-    setSessionMessages,
-    initSessionMessages,
-    syncStorage,
-  } = useSessions();
+  const { isStorage, sessionMessages, setSessionMessages, syncStorage } =
+    useSessions();
   const { scrollToBottom } = useScroll();
   const { value, onChange, reset } = useInput('');
   const params = useParams<{ sessionId: string }>();
   const sessionId = useMemo(() => Number(params.sessionId), [params.sessionId]);
   const messages = useMemo(() => {
-    let memo: Messages | null = null;
+    let memo: Messages | undefined = undefined;
 
-    for (const sessions of sessionsMessage) {
-      if (sessions[sessionId]?.location.id == locationId) {
-        memo = sessions[sessionId].location.messages;
-        break;
-      }
+    for (const el of sessionMessages) {
+      memo = el[sessionId]?.messages;
     }
 
+    // for (const sessions of sessionMessages) {
+    //   if (sessions[sessionId]?.location.id == locationId) {
+    //     memo = sessions[sessionId].location.messages;
+    //     break;
+    //   }
+    // }
+
     return memo;
-  }, [locationId, sessionId, sessionsMessage]);
+  }, [sessionId, sessionMessages]);
 
   const handleOpenClick = () => setOpen(!isOpen);
   const handleQuestionClick = (question: string) => {
@@ -76,9 +76,17 @@ export default function ClientComponent() {
         });
         if (!res) return;
 
-        setSessionMessages(sessionId, locationId, res);
+        setSessionMessages({
+          locationId: locationId,
+          message: res,
+          sessionId: sessionId,
+        });
       } catch (error) {
-        setSessionMessages(sessionId, locationId, errorMessage);
+        setSessionMessages({
+          locationId: locationId,
+          message: errorMessage,
+          sessionId: sessionId,
+        });
       }
       setIsLoading(false);
     };
@@ -91,24 +99,87 @@ export default function ClientComponent() {
     if (isLoading) return;
 
     const send: SendMessage = {
+      building_id: locationId,
       content: value,
       role: 'user',
       timestamp: new Date().toISOString(),
     };
-    setSessionMessages(sessionId, locationId, send);
+    setSessionMessages({
+      locationId: locationId,
+      message: send,
+      sessionId: sessionId,
+    });
     reset();
     setIsLoading(true);
 
     try {
       const res = await api.messages(sessionId, send);
       if (res) {
-        setSessionMessages(sessionId, locationId, res);
+        setSessionMessages({
+          locationId: locationId,
+          message: res,
+          sessionId: sessionId,
+        });
       }
     } catch (error) {
-      setSessionMessages(sessionId, locationId, errorMessage);
+      setSessionMessages({
+        locationId: locationId,
+        message: errorMessage,
+        sessionId: sessionId,
+      });
     }
     setIsLoading(false);
   };
+
+  const handleLocationClick = (location: Location) => {
+    // console.log(`${rowIndex}/${colIndex}`);
+    visitLocation(location);
+  };
+
+  useEffect(() => {
+    if (!isStorage) return;
+    if (!!messages) return; // 값이 있을 때 true
+    console.log(messages);
+
+    const sendMessage: SendMessage = {
+      building_id: locationId,
+      content: `${locationName} 도착`,
+      role: 'user',
+      timestamp: new Date().toISOString(),
+    };
+
+    setSessionMessages({
+      locationId: locationId,
+      message: sendMessage,
+      sessionId: sessionId,
+    });
+    setIsLoading(true);
+
+    const send = async () => {
+      try {
+        const res = await api.messages(sessionId, sendMessage);
+
+        if (res) {
+          setSessionMessages({
+            locationId: locationId,
+            message: res,
+            sessionId: sessionId,
+          });
+          setIsLoading(false);
+        }
+      } catch (error) {
+        // initSessionMessages(sessionId);
+        setSessionMessages({
+          locationId: locationId,
+          message: errorMessage,
+          sessionId: sessionId,
+        });
+      }
+    };
+
+    send();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isStorage]);
 
   useEffect(() => {
     let render: JSX.Element[] = [];
@@ -139,36 +210,6 @@ export default function ClientComponent() {
   }, [messages]);
 
   useEffect(() => {
-    if (!isStorage) return;
-    if (!!messages) return; // 값이 있을 때 true
-
-    const sendMessage: SendMessage = {
-      content: `${locationName} 도착`,
-      role: 'user',
-      timestamp: new Date().toISOString(),
-    };
-
-    setSessionMessages(sessionId, locationId, sendMessage);
-    setIsLoading(true);
-
-    const send = async () => {
-      try {
-        const res = await api.messages(sessionId, sendMessage);
-
-        if (res) {
-          setSessionMessages(sessionId, locationId, res);
-          setIsLoading(false);
-        }
-      } catch (error) {
-        initSessionMessages(sessionId);
-      }
-    };
-
-    send();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isStorage]);
-
-  useEffect(() => {
     syncStorage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -190,12 +231,9 @@ export default function ClientComponent() {
         location={locationName}
         locationId={locationId}
         lastId={lastId}
-        prev={prev}
-        next={next}
-        onNext={handleNext}
-        onPrev={handleNext}
         onOpen={handleOpenClick}
         isOpen={isOpen}
+        onClick={handleLocationClick}
       />
       <ChatSection
         sendComponent={

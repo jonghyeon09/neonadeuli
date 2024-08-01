@@ -1,34 +1,33 @@
-import type { BotMessage, Session } from '@/types/api';
-import { ErrorMessage, SendMessage } from '@/types/chat';
+import type { BotMessage, SendMessage, Session } from '@/types/api';
+import { ErrorMessage } from '@/types/chat';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export type Messages = (BotMessage | SendMessage | ErrorMessage)[];
 
 interface LocationMessages {
+  // sessionId: number;
+  // messages: Messages;
   [sessionId: number]: {
-    location: {
-      id: number;
-      messages: Messages;
-    };
+    messages: Messages;
   } | null;
 }
 
 type State = {
   isStorage: boolean;
   sessions: Session[] | [];
-  sessionsMessage: LocationMessages[] | [];
+  sessionMessages: LocationMessages[];
 };
 
 interface Action {
   setSession: (session: Session) => void;
-  setSessionMessages: (
-    sessionId: number,
-    locationId: number,
-    messages: BotMessage | SendMessage | ErrorMessage
-  ) => void;
+  setSessionMessages: (params: {
+    sessionId: number;
+    locationId: number;
+    message: BotMessage | SendMessage | ErrorMessage;
+  }) => void;
   syncStorage: () => void;
-  initSessionMessages: (sessionId: number) => void;
+  // initSessionMessages: (sessionId: number) => void;
 }
 
 export const useSessions = create<State & Action>()(
@@ -36,49 +35,66 @@ export const useSessions = create<State & Action>()(
     (set) => ({
       isStorage: false,
       sessions: [],
-      sessionsMessage: [],
+      sessionMessages: [],
       setSession: (session) =>
         set((state) => ({ sessions: [...state.sessions, session] })),
-      setSessionMessages: (sessionId, locationId, message) =>
+      setSessionMessages: (params) =>
         set((state) => {
+          // let newMessages: LocationMessages[] = [];
+
+          // for (const el of state.sessionMessages) {
+          //   newMessages.push({
+          //     sessionId: params.sessionId,
+          //     messages: [params.message],
+          //   });
+          // }
+
+          // newMessages = state.sessionMessages.map((session) => {
+          //   if (params.sessionId == session.sessionId) {
+          //     session.messages = [...session.messages, params.message];
+          //   }
+
+          //   return session;
+          // });
+
+          // return {
+          //   sessionMessages: newMessages,
+          // };
           let copyMessages: Messages = [];
           let copySessions: LocationMessages[] = [];
 
-          state.sessionsMessage.forEach((messages, i) => {
-            const condition = messages[sessionId]?.location?.messages;
+          state.sessionMessages.forEach((messages, i) => {
+            const condition = messages[params.sessionId]?.messages;
 
             if (condition) {
               copyMessages = condition;
             }
 
-            if (!messages[sessionId]) {
-              copySessions.push(state.sessionsMessage[i]);
+            if (!messages[params.sessionId]) {
+              copySessions.push(state.sessionMessages[i]);
             }
           });
 
           return {
-            sessionsMessage: [
+            sessionMessages: [
               ...copySessions,
               {
-                [sessionId]: {
-                  location: {
-                    id: locationId,
-                    messages: [...copyMessages, message],
-                  },
+                [params.sessionId]: {
+                  messages: [...copyMessages, params.message],
                 },
               },
             ],
           };
         }),
-      initSessionMessages: (sessionId) =>
-        set((state) => {
-          state.sessionsMessage.forEach((messages) => {
-            delete messages[sessionId];
-          });
-          return {
-            sessionsMessage: [...state.sessionsMessage],
-          };
-        }),
+      // initSessionMessages: (sessionId) =>
+      //   set((state) => {
+      //     state.sessionsMessage.forEach((messages) => {
+      //       delete messages[sessionId];
+      //     });
+      //     return {
+      //       sessionsMessage: [...state.sessionsMessage],
+      //     };
+      //   }),
       syncStorage: () => set(() => ({ isStorage: true })),
     }),
     {

@@ -1,6 +1,6 @@
 export default function PrevLocationIcon() {
   return (
-    <div className="bg-orange-300 w-full h-full rounded-full flex justify-center items-center">
+    <div className="bg-primary-500 w-full h-full rounded-full flex justify-center items-center">
       <svg
         width="8"
         height="8"

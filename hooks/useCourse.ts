@@ -1,4 +1,4 @@
-import { Course, LocationIndex } from '@/types/course';
+import { Course, Location, LocationIndex } from '@/types/course';
 import { useEffect, useState } from 'react';
 
 export const useCourse = () => {
@@ -14,7 +14,7 @@ export const useCourse = () => {
     let counter = 0;
     const list: Course = [
       ['광화문', '흥례문', '근정문', '근정전', '사정전'],
-      ['수정전', '경회루', '강녕전', '교대전', '아미산 굴뚝'],
+      ['수정전', '경회루', '강녕전', '교태전', '아미산 굴뚝'],
       ['소주방', '자경전', '십장생 굴뚝', '향원정'],
     ].map((row, rowIndex) =>
       row.map((name, colIndex) => {
@@ -22,13 +22,13 @@ export const useCourse = () => {
         return {
           id: counter,
           name,
-          visit: false,
+          visited: false,
           coordinate: [0, 0],
         };
       })
     );
     list[1].reverse();
-    list[0][0].visit = true;
+    list[0][0].visited = true;
 
     setCourse(list);
 
@@ -39,15 +39,37 @@ export const useCourse = () => {
     setLastId(lastId);
   }, []);
 
-  const visitLocation = (rowIndex: number, colIndex: number) => {
-    const visit = course.map((row) => [...row]);
-    visit[rowIndex][colIndex].visit;
+  const visitLocation = (location: Location) => {
+    console.log(location);
+    // const copyCourse = course.map((row) => [...row]);
+    const visited = course.map((row) =>
+      row.map((col) => {
+        if (col.id === location.id) {
+          col.visited = true;
 
-    setCourse(visit);
-    setLocationName(visit[rowIndex][colIndex].name);
-    setLocationIndex([rowIndex, colIndex]);
+          setLocationId(col.id);
+          setLocationName(col.name);
+        }
+        return col;
+      })
+    );
+    console.log(visited);
+
+    setCourse(visited);
+
+    // for (const el of copyCourse) {
+    //   console.log(el);
+    // }
+    // visited[rowIndex][colIndex].visited;
+
+    // setCourse(visited);
+    // setLocationName(visited[rowIndex][colIndex].name);
+    // setLocationIndex([rowIndex, colIndex]);
   };
 
+  /**
+   * @deprecated
+   */
   const handleNext = () => {
     const nextId = locationId + 1;
 
@@ -57,7 +79,6 @@ export const useCourse = () => {
           setNext(false);
         }
         if (col.id == nextId) {
-          visitLocation(rowIndex, colIndex);
           setLocationId(nextId);
           return;
         }
@@ -72,6 +93,6 @@ export const useCourse = () => {
     lastId,
     prev,
     next,
-    handleNext,
+    visitLocation,
   };
 };

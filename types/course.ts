@@ -1,7 +1,7 @@
 export interface Location {
   id: number;
   name: string;
-  visit: boolean;
+  visited: boolean;
   coordinate: [number, number];
 }
 
