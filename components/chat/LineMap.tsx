@@ -1,23 +1,16 @@
-import { Course } from '@/types/course';
-import Button from '../common/Button';
-import NextArrowIcon from '../icons/NextArrowIcon';
+import { Course, Location } from '@/types/course';
 import CurrentLocationIcon from '../icons/CurrentLocationIcon';
 import SummaryButton from '../common/SummaryButton';
-import NextLocationIcon from '../icons/NextLocationIcon';
-import PrevLocationIcon from '../icons/PrevLocationIcon';
-import LastLocation from '../icons/LastLocation';
+import LocationIcon from '../icons/LocationIcon';
 
 type Props = {
   course: Course;
   location: string;
   locationId: number;
   lastId: number;
-  prev: boolean;
-  next: boolean;
   isOpen: boolean;
-  onNext: () => void;
-  onPrev: () => void;
   onOpen: () => void;
+  onClick: (location: Location) => void;
 };
 
 export default function LineMap({
@@ -25,14 +18,12 @@ export default function LineMap({
   location = '광화문',
   locationId = 1,
   lastId,
-  prev = false,
-  next = true,
   isOpen = true,
-  onNext,
-  onPrev,
   onOpen,
+  onClick,
 }: Props) {
   const locationIcon = (
+    visited: boolean,
     id: number,
     name: string,
     rowIndex: number,
@@ -42,27 +33,18 @@ export default function LineMap({
       return <CurrentLocationIcon />;
     }
 
-    if (rowIndex == 1 && id < locationId) {
-      return (
-        <div className="rotate-180 w-full h-full">
-          <PrevLocationIcon />
-        </div>
-      );
-    }
     if (rowIndex == 1) {
       return (
         <div className="rotate-180 w-full h-full">
-          <NextLocationIcon />
+          <LocationIcon visited={visited} isLast={false} />
         </div>
       );
     }
-    if (id < locationId) {
-      return <PrevLocationIcon />;
-    }
+
     if (id == lastId) {
-      return <LastLocation />;
+      return <LocationIcon visited={visited} isLast />;
     }
-    return <NextLocationIcon />;
+    return <LocationIcon visited={visited} isLast={false} />;
   };
 
   return (
@@ -81,18 +63,23 @@ export default function LineMap({
               <div className="w-[265px] h-1 bg-[#616161] rounded-sm absolute left-[25px] right-[14.67%] top-[7.83%]"></div>
 
               {row.map((col, colIndex) => (
-                <div
-                  className="relative w-[60px] h-[64px] flex flex-col items-center gap-2"
-                  key={colIndex}
-                >
-                  <div className="w-4 h-4 rounded-full bg-[#6f6f6f]/20 flex justify-center items-center"></div>
-                  <div className="z-10 w-4 h-4 absolute flex justify-center items-center rounded-full drop-shadow">
-                    {locationIcon(col.id, col.name, rowIndex, colIndex)}
+                <button key={colIndex} onClick={() => onClick(col)}>
+                  <div className="relative w-[60px] h-[64px] flex flex-col items-center gap-2">
+                    <div className="w-4 h-4 rounded-full bg-[#6f6f6f]/20 flex justify-center items-center"></div>
+                    <div className="z-10 w-4 h-4 absolute flex justify-center items-center rounded-full drop-shadow">
+                      {locationIcon(
+                        col.visited,
+                        col.id,
+                        col.name,
+                        rowIndex,
+                        colIndex
+                      )}
+                    </div>
+                    <p className="text-[13px] w-full font-semibold line-clamp-2 text-center">
+                      {col.name}
+                    </p>
                   </div>
-                  <p className="text-[13px] w-full font-semibold line-clamp-2 text-center">
-                    {col.name}
-                  </p>
-                </div>
+                </button>
               ))}
             </div>
           ))}
