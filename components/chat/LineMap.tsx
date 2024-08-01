@@ -10,7 +10,7 @@ type Props = {
   lastId: number;
   isOpen: boolean;
   onOpen: () => void;
-  onClick: (location: Location) => void;
+  onClick: (location: Location, rowIndex: number, colIndex: number) => void;
 };
 
 export default function LineMap({
@@ -63,7 +63,10 @@ export default function LineMap({
               <div className="w-[265px] h-1 bg-[#616161] rounded-sm absolute left-[25px] right-[14.67%] top-[7.83%]"></div>
 
               {row.map((col, colIndex) => (
-                <button key={colIndex} onClick={() => onClick(col)}>
+                <button
+                  key={colIndex}
+                  onClick={() => onClick(col, rowIndex, colIndex)}
+                >
                   <div className="relative w-[60px] h-[64px] flex flex-col items-center gap-2">
                     <div className="w-4 h-4 rounded-full bg-[#6f6f6f]/20 flex justify-center items-center"></div>
                     <div className="z-10 w-4 h-4 absolute flex justify-center items-center rounded-full drop-shadow">

@@ -1,5 +1,4 @@
-import type { BotMessage, Login, Session } from '@/types/api';
-import { SendMessage } from '@/types/chat';
+import type { BotMessage, Login, SendMessage, Session } from '@/types/api';
 import axios from 'axios';
 
 const API_URL = process.env.NEXT_PUBLIC_DOMAIN;

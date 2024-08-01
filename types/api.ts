@@ -24,7 +24,6 @@ export interface BotMessage {
 }
 
 export interface SendMessage {
-  building_id: number;
   content: string;
   role: 'user';
   timestamp: string;

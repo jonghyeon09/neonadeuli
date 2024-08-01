@@ -1,4 +1,4 @@
-import { Course, Location, LocationIndex } from '@/types/course';
+import { Course, Location, LocationIndex, Visit } from '@/types/course';
 import { useEffect, useState } from 'react';
 
 export const useCourse = () => {
@@ -39,32 +39,15 @@ export const useCourse = () => {
     setLastId(lastId);
   }, []);
 
-  const visitLocation = (location: Location) => {
+  const visitLocation: Visit = (location, rowIndex, colIndex) => {
     console.log(location);
-    // const copyCourse = course.map((row) => [...row]);
-    const visited = course.map((row) =>
-      row.map((col) => {
-        if (col.id === location.id) {
-          col.visited = true;
+    const copyCourse: Course = course.map((row) => [...row]);
 
-          setLocationId(col.id);
-          setLocationName(col.name);
-        }
-        return col;
-      })
-    );
-    console.log(visited);
+    copyCourse[rowIndex][colIndex].visited = true;
 
-    setCourse(visited);
-
-    // for (const el of copyCourse) {
-    //   console.log(el);
-    // }
-    // visited[rowIndex][colIndex].visited;
-
-    // setCourse(visited);
-    // setLocationName(visited[rowIndex][colIndex].name);
-    // setLocationIndex([rowIndex, colIndex]);
+    setLocationId(location.id);
+    setLocationName(location.name);
+    setCourse(copyCourse);
   };
 
   /**

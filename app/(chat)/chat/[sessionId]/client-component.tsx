@@ -12,14 +12,13 @@ import SendInput from '@/components/chat/SendInput';
 import useInput from '@/hooks/useInput';
 import HandIcon from '@/components/icons/HandIcon';
 import api from '@/app/api';
-import type { BotMessage, SendMessage } from '@/types/api';
-import { RedirectType, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { Messages, useSessions } from '@/store';
 import LodaingMessage from '@/components/chat/LodaingMessage';
 import useScroll from '@/hooks/useScroll';
-import { ErrorMessage } from '@/types/chat';
-import ChatTooltip from '@/components/chat/ChatTooltip';
-import { Location } from '@/types/course';
+import type { SendMessage } from '@/types/api';
+import type { ErrorMessage } from '@/types/chat';
+import type { Visit } from '@/types/course';
 
 const questions = [
   '재밌는 이야기 해주세요',
@@ -51,13 +50,6 @@ export default function ClientComponent() {
     for (const el of sessionMessages) {
       memo = el[sessionId]?.messages;
     }
-
-    // for (const sessions of sessionMessages) {
-    //   if (sessions[sessionId]?.location.id == locationId) {
-    //     memo = sessions[sessionId].location.messages;
-    //     break;
-    //   }
-    // }
 
     return memo;
   }, [sessionId, sessionMessages]);
@@ -99,7 +91,6 @@ export default function ClientComponent() {
     if (isLoading) return;
 
     const send: SendMessage = {
-      building_id: locationId,
       content: value,
       role: 'user',
       timestamp: new Date().toISOString(),
@@ -130,18 +121,51 @@ export default function ClientComponent() {
     setIsLoading(false);
   };
 
-  const handleLocationClick = (location: Location) => {
-    // console.log(`${rowIndex}/${colIndex}`);
-    visitLocation(location);
+  const handleLocationClick: Visit = (location, rowIndex, colIndex) => {
+    if (isLoading) return;
+    visitLocation(location, rowIndex, colIndex);
+
+    const firstMessage: SendMessage = {
+      content: `${location.name} 도착`,
+      role: 'user',
+      timestamp: new Date().toISOString(),
+    };
+
+    setSessionMessages({
+      locationId: location.id,
+      message: firstMessage,
+      sessionId: sessionId,
+    });
+    setIsLoading(true);
+
+    const send = async () => {
+      const { data, status } = await api.messages(sessionId, firstMessage);
+
+      setSessionMessages({
+        locationId: locationId,
+        message: data,
+        sessionId: sessionId,
+      });
+
+      if (status !== 200) {
+        setSessionMessages({
+          locationId: locationId,
+          message: errorMessage,
+          sessionId: sessionId,
+        });
+      }
+
+      setIsLoading(false);
+    };
+
+    send();
   };
 
   useEffect(() => {
     if (!isStorage) return;
     if (!!messages) return; // 값이 있을 때 true
-    console.log(messages);
 
-    const sendMessage: SendMessage = {
-      building_id: locationId,
+    const firstMessage: SendMessage = {
       content: `${locationName} 도착`,
       role: 'user',
       timestamp: new Date().toISOString(),
@@ -149,13 +173,13 @@ export default function ClientComponent() {
 
     setSessionMessages({
       locationId: locationId,
-      message: sendMessage,
+      message: firstMessage,
       sessionId: sessionId,
     });
     setIsLoading(true);
 
     const send = async () => {
-      const { data, status } = await api.messages(sessionId, sendMessage);
+      const { data, status } = await api.messages(sessionId, firstMessage);
 
       setSessionMessages({
         locationId: locationId,

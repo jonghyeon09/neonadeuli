@@ -6,8 +6,6 @@ import { persist } from 'zustand/middleware';
 export type Messages = (BotMessage | SendMessage | ErrorMessage)[];
 
 interface LocationMessages {
-  // sessionId: number;
-  // messages: Messages;
   [sessionId: number]: {
     messages: Messages;
   } | null;
@@ -40,26 +38,6 @@ export const useSessions = create<State & Action>()(
         set((state) => ({ sessions: [...state.sessions, session] })),
       setSessionMessages: (params) =>
         set((state) => {
-          // let newMessages: LocationMessages[] = [];
-
-          // for (const el of state.sessionMessages) {
-          //   newMessages.push({
-          //     sessionId: params.sessionId,
-          //     messages: [params.message],
-          //   });
-          // }
-
-          // newMessages = state.sessionMessages.map((session) => {
-          //   if (params.sessionId == session.sessionId) {
-          //     session.messages = [...session.messages, params.message];
-          //   }
-
-          //   return session;
-          // });
-
-          // return {
-          //   sessionMessages: newMessages,
-          // };
           let copyMessages: Messages = [];
           let copySessions: LocationMessages[] = [];
 
