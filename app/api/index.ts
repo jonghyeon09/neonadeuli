@@ -24,6 +24,21 @@ const instance = axios.create({
 //   }
 // );
 
+instance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (axios.isAxiosError(error)) {
+      return {
+        status: error.response?.status,
+      };
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 const login = async () => {
   const res = await instance.post<Login>('/api/v1/users/login');
   console.log(res.data);
@@ -43,8 +58,6 @@ const sesstions = async (data: { user_id: number; heritage_id: 1 }) => {
 };
 
 const messages = async (sessionId: number, data: SendMessage) => {
-  console.log(data);
-
   const res = await instance.post<BotMessage>(
     `/api/v1/chat/sessions/${sessionId}/messages`,
     data

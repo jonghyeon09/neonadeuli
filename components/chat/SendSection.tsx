@@ -3,8 +3,10 @@ import ChatTooltip from './ChatTooltip';
 
 export default function SendSection({
   children,
+  optionComponent,
 }: {
   children: React.ReactNode;
+  optionComponent?: JSX.Element;
 }) {
   const [isTooltip, setIstooltip] = useState(true);
 
@@ -15,9 +17,14 @@ export default function SendSection({
   }, []);
 
   return (
-    <div className="py-2 px-3 fixed bottom-0 bg-white w-full max-w-screen-sm flex items-center gap-2">
-      {isTooltip && <ChatTooltip />}
-      {children}
-    </div>
+    <>
+      <div className="fixed bottom-0 flex flex-col w-full max-w-screen-sm">
+        <div className="py-2 px-3 bg-white flex items-center gap-2 border-b-[1px] border-neutrals-100">
+          {isTooltip && <ChatTooltip />}
+          {children}
+        </div>
+        {optionComponent}
+      </div>
+    </>
   );
 }

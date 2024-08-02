@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { timeFormat } from '@/utils/timestampFormat';
 
 type Props = {
   text: string;
@@ -6,10 +6,6 @@ type Props = {
 };
 
 export default function ChatbotMessage({ text, time }: Props) {
-  const format = (text: string) => {
-    return text.split('. ').join(`.\n`);
-  };
-
   return (
     <div className="flex items-end">
       <svg
@@ -29,7 +25,7 @@ export default function ChatbotMessage({ text, time }: Props) {
         <p className="body-3 break-words whitespace-pre-wrap">{text}</p>
       </div>
       <p className="flex items-end justify-end ml-2 body-4 text-neutrals-700">
-        {time}
+        {timeFormat(time)}
       </p>
     </div>
   );

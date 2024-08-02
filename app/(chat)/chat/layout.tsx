@@ -9,7 +9,7 @@ export default function Layout({ children, splash }: Props) {
     <>
       {splash}
       <DetailHeader title="경복궁"></DetailHeader>
-      <section className="min-h-screen pt-[var(--h-header)] flex">
+      <section className="min-h-screen pt-[var(--h-header)] flex flex-col">
         {children}
       </section>
     </>

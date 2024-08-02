@@ -20,7 +20,7 @@ import type { SendMessage } from '@/types/api';
 import type { ErrorMessage } from '@/types/chat';
 import type { Visit } from '@/types/course';
 import SendIcon from '@/components/icons/SendIcon';
-import dayjs from 'dayjs';
+import OptionSection from '@/components/chat/OptionSection';
 
 const questions = [
   '재밌는 이야기 해주세요',
@@ -65,25 +65,26 @@ export default function ClientComponent() {
     const send = async () => {
       setIsLoading(true);
 
-      const { data, status } = await api.messages(sessionId, {
-        content: question,
-        role: 'user',
-        timestamp: new Date().toISOString(),
-      });
+      try {
+        const { data, status } = await api.messages(sessionId, {
+          content: question,
+          role: 'user',
+          timestamp: new Date().toISOString(),
+        });
 
-      setSessionMessages({
-        locationId: locationId,
-        message: data,
-        sessionId: sessionId,
-      });
-
-      if (status !== 200) {
+        setSessionMessages({
+          locationId: locationId,
+          message: data,
+          sessionId: sessionId,
+        });
+      } catch (error) {
         setSessionMessages({
           locationId: locationId,
           message: errorMessage,
           sessionId: sessionId,
         });
       }
+
       setIsLoading(false);
     };
 
@@ -111,21 +112,22 @@ export default function ClientComponent() {
     reset();
     setIsLoading(true);
 
-    const { data, status } = await api.messages(sessionId, send);
+    try {
+      const { data, status } = await api.messages(sessionId, send);
 
-    setSessionMessages({
-      locationId: locationId,
-      message: data,
-      sessionId: sessionId,
-    });
-
-    if (status !== 200) {
+      setSessionMessages({
+        locationId: locationId,
+        message: data,
+        sessionId: sessionId,
+      });
+    } catch (error) {
       setSessionMessages({
         locationId: locationId,
         message: errorMessage,
         sessionId: sessionId,
       });
     }
+
     setIsLoading(false);
   };
 
@@ -148,15 +150,17 @@ export default function ClientComponent() {
     setIsLoading(true);
 
     const send = async () => {
-      const { data, status } = await api.messages(sessionId, firstMessage);
+      try {
+        const { data, status } = await api.messages(sessionId, firstMessage);
+        console.log(data);
+        console.log(status);
 
-      setSessionMessages({
-        locationId: locationId,
-        message: data,
-        sessionId: sessionId,
-      });
-
-      if (status !== 200) {
+        setSessionMessages({
+          locationId: locationId,
+          message: data,
+          sessionId: sessionId,
+        });
+      } catch (error) {
         setSessionMessages({
           locationId: locationId,
           message: errorMessage,
@@ -219,23 +223,23 @@ export default function ClientComponent() {
   }, [isStorage]);
   /** */
   useEffect(() => {
+    if (!messages) return;
     let render: JSX.Element[] = [];
 
     messages?.forEach((message) => {
-      const time = dayjs(message.timestamp).format('hh:mm A');
-
+      if (!message) return;
       const el =
         message.role == 'user' ? (
           <UserMessage
             text={message.content}
             key={message.timestamp}
-            time={time}
+            time={message.timestamp}
           />
         ) : (
           <ChatbotMessage
             text={message.content}
             key={message.timestamp}
-            time={time}
+            time={message.timestamp}
           />
         );
       render.push(el);
