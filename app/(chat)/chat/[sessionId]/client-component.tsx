@@ -20,6 +20,7 @@ import type { SendMessage } from '@/types/api';
 import type { ErrorMessage } from '@/types/chat';
 import type { Visit } from '@/types/course';
 import SendIcon from '@/components/icons/SendIcon';
+import dayjs from 'dayjs';
 
 const questions = [
   '재밌는 이야기 해주세요',
@@ -130,6 +131,7 @@ export default function ClientComponent() {
 
   const handleLocationClick: Visit = (location, rowIndex, colIndex) => {
     if (isLoading) return;
+    if (location.visited) return;
     visitLocation(location, rowIndex, colIndex);
 
     const firstMessage: SendMessage = {
@@ -176,6 +178,7 @@ export default function ClientComponent() {
   };
 
   useEffect(() => {
+    // 최초 메시지
     if (!isStorage) return;
     if (!!messages) return; // 값이 있을 때 true
 
@@ -214,16 +217,26 @@ export default function ClientComponent() {
     send();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isStorage]);
-
+  /** */
   useEffect(() => {
     let render: JSX.Element[] = [];
 
     messages?.forEach((message) => {
+      const time = dayjs(message.timestamp).format('hh:mm A');
+
       const el =
         message.role == 'user' ? (
-          <UserMessage text={message.content} key={message.timestamp} />
+          <UserMessage
+            text={message.content}
+            key={message.timestamp}
+            time={time}
+          />
         ) : (
-          <ChatbotMessage text={message.content} key={message.timestamp} />
+          <ChatbotMessage
+            text={message.content}
+            key={message.timestamp}
+            time={time}
+          />
         );
       render.push(el);
 

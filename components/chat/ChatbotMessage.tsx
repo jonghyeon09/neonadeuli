@@ -2,9 +2,10 @@ import { useState } from 'react';
 
 type Props = {
   text: string;
+  time: string;
 };
 
-export default function ChatbotMessage({ text }: Props) {
+export default function ChatbotMessage({ text, time }: Props) {
   const format = (text: string) => {
     return text.split('. ').join(`.\n`);
   };
@@ -28,7 +29,7 @@ export default function ChatbotMessage({ text }: Props) {
         <p className="body-3 break-words whitespace-pre-wrap">{text}</p>
       </div>
       <p className="flex items-end justify-end ml-2 body-4 text-neutrals-700">
-        00:00 AM
+        {time}
       </p>
     </div>
   );
