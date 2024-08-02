@@ -1,7 +1,7 @@
 'use client';
 import ChatSection from '@/components/chat/ChatSection';
 import LineMap from '@/components/chat/LineMap';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useCourse } from '@/hooks/useCourse';
 import UserMessage from '@/components/chat/UserMessage';
 import ChatbotMessage from '@/components/chat/ChatbotMessage';
@@ -19,6 +19,7 @@ import useScroll from '@/hooks/useScroll';
 import type { SendMessage } from '@/types/api';
 import type { ErrorMessage } from '@/types/chat';
 import type { Visit } from '@/types/course';
+import SendIcon from '@/components/icons/SendIcon';
 
 const questions = [
   '재밌는 이야기 해주세요',
@@ -36,6 +37,8 @@ export default function ClientComponent() {
   const [isOpen, setOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [renderElement, setRenderElement] = useState<JSX.Element[]>([]);
+  const [isFocus, setIsFocus] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const { course, locationName, locationId, lastId, visitLocation } =
     useCourse();
   const { isStorage, sessionMessages, setSessionMessages, syncStorage } =
@@ -89,6 +92,10 @@ export default function ClientComponent() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isLoading) return;
+    if (value.length < 2) {
+      alert('2글자 이상 입력');
+      return;
+    }
 
     const send: SendMessage = {
       content: value,
@@ -159,6 +166,13 @@ export default function ClientComponent() {
     };
 
     send();
+  };
+
+  const handleFocus = (e: React.FocusEvent) => {
+    setIsFocus(true);
+  };
+  const handleBlur = (e: React.FocusEvent) => {
+    setIsFocus(false);
   };
 
   useEffect(() => {
@@ -244,6 +258,15 @@ export default function ClientComponent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [renderElement, isLoading]);
 
+  useEffect(() => {
+    if (value.length != 0) {
+      setIsFocus(true);
+    } else {
+      setIsFocus(false);
+    }
+    return () => {};
+  }, [value.length]);
+
   return (
     <>
       <LineMap
@@ -260,13 +283,21 @@ export default function ClientComponent() {
           <SendSection>
             <PlusIcon />
             <form
-              className="w-full h-[40px] bg-neutral-100 flex pl-8 py-1 pr-1 rounded-[20px] relative"
+              className="w-full h-[40px] bg-neutral-100 flex pl-3 py-[10px] pr-1 rounded-[20px] relative"
               onSubmit={handleSubmit}
             >
-              <SendInput value={value} onChange={onChange} />
-              <button className="">
-                <HandIcon />
-              </button>
+              <SendInput value={value} onChange={onChange} ref={inputRef} />
+              <div className="absolute right-0 top-1">
+                {isFocus ? (
+                  <button onClick={handleSubmit}>
+                    <SendIcon />
+                  </button>
+                ) : (
+                  <button className="">
+                    <HandIcon />
+                  </button>
+                )}
+              </div>
             </form>
           </SendSection>
         }
