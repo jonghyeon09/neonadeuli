@@ -46,16 +46,14 @@ const login = async () => {
 };
 
 const sesstions = async (data: { user_id: number; heritage_id: 1 }) => {
-  try {
-    const res = await instance.post<Session>('/api/v1/chat/sessions', data);
+  const res = await instance.post<Session>('/api/v1/chat/sessions', data);
 
-    return res.data;
-  } catch (error) {
-    console.error('세션 생성 실패');
-  }
+  return res;
 };
 
 const messages = async (sessionId: number, data: SendMessage) => {
+  console.log(data);
+
   const res = await instance.post<BotMessage>(
     `/api/v1/chat/sessions/${sessionId}/messages`,
     data

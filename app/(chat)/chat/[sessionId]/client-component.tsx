@@ -60,37 +60,40 @@ export default function ClientComponent() {
     return memo;
   }, [sessionId, sessionMessages]);
 
+  const send = async (sendMessage: SendMessage) => {
+    setIsLoading(true);
+
+    const { data, status } = await api.messages(sessionId, sendMessage);
+    console.log(data);
+    console.log(status);
+    if (status == 200) {
+      setSessionMessages({
+        locationId: locationId,
+        message: data,
+        sessionId: sessionId,
+      });
+    } else {
+      setSessionMessages({
+        locationId: locationId,
+        message: errorMessage,
+        sessionId: sessionId,
+      });
+    }
+
+    setIsLoading(false);
+  };
+
   const handleOpenClick = () => setOpen(!isOpen);
   const handleQuestionClick = (question: string) => {
     if (isLoading) return;
 
-    const send = async () => {
-      setIsLoading(true);
-
-      try {
-        const { data, status } = await api.messages(sessionId, {
-          content: question,
-          role: 'user',
-          timestamp: new Date().toISOString(),
-        });
-
-        setSessionMessages({
-          locationId: locationId,
-          message: data,
-          sessionId: sessionId,
-        });
-      } catch (error) {
-        setSessionMessages({
-          locationId: locationId,
-          message: errorMessage,
-          sessionId: sessionId,
-        });
-      }
-
-      setIsLoading(false);
+    const message: SendMessage = {
+      content: question,
+      role: 'user',
+      timestamp: new Date().toISOString(),
     };
 
-    send();
+    send(message);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -101,36 +104,19 @@ export default function ClientComponent() {
       return;
     }
 
-    const send: SendMessage = {
+    const message: SendMessage = {
       content: value,
       role: 'user',
       timestamp: new Date().toISOString(),
     };
     setSessionMessages({
       locationId: locationId,
-      message: send,
+      message: message,
       sessionId: sessionId,
     });
     reset();
-    setIsLoading(true);
 
-    try {
-      const { data, status } = await api.messages(sessionId, send);
-
-      setSessionMessages({
-        locationId: locationId,
-        message: data,
-        sessionId: sessionId,
-      });
-    } catch (error) {
-      setSessionMessages({
-        locationId: locationId,
-        message: errorMessage,
-        sessionId: sessionId,
-      });
-    }
-
-    setIsLoading(false);
+    send(message);
   };
 
   const handleLocationClick: Visit = (location, rowIndex, colIndex) => {
@@ -149,39 +135,16 @@ export default function ClientComponent() {
       message: firstMessage,
       sessionId: sessionId,
     });
-    setIsLoading(true);
 
-    const send = async () => {
-      try {
-        const { data, status } = await api.messages(sessionId, firstMessage);
-        console.log(data);
-        console.log(status);
-
-        setSessionMessages({
-          locationId: locationId,
-          message: data,
-          sessionId: sessionId,
-        });
-      } catch (error) {
-        setSessionMessages({
-          locationId: locationId,
-          message: errorMessage,
-          sessionId: sessionId,
-        });
-      }
-
-      setIsLoading(false);
-    };
-
-    send();
+    send(firstMessage);
   };
 
-  const handleFocus = (e: React.FocusEvent) => {
-    setIsFocus(true);
-  };
-  const handleBlur = (e: React.FocusEvent) => {
-    setIsFocus(false);
-  };
+  // const handleFocus = (e: React.FocusEvent) => {
+  //   setIsFocus(true);
+  // };
+  // const handleBlur = (e: React.FocusEvent) => {
+  //   setIsFocus(false);
+  // };
 
   useEffect(() => {
     // 최초 메시지
@@ -199,28 +162,8 @@ export default function ClientComponent() {
       message: firstMessage,
       sessionId: sessionId,
     });
-    setIsLoading(true);
 
-    const send = async () => {
-      const { data, status } = await api.messages(sessionId, firstMessage);
-
-      setSessionMessages({
-        locationId: locationId,
-        message: data,
-        sessionId: sessionId,
-      });
-      setIsLoading(false);
-
-      if (status !== 200) {
-        setSessionMessages({
-          locationId: locationId,
-          message: errorMessage,
-          sessionId: sessionId,
-        });
-      }
-    };
-
-    send();
+    send(firstMessage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isStorage]);
   /** */

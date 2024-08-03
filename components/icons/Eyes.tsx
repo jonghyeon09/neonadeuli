@@ -32,8 +32,8 @@ const eye1 = (
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(76 16) rotate(90) scale(15)"
         >
-          <stop offset="0.795" stop-color="white" />
-          <stop offset="1" stop-color="#E5E5E5" />
+          <stop offset="0.795" stopColor="white" />
+          <stop offset="1" stopColor="#E5E5E5" />
         </radialGradient>
         <radialGradient
           id="paint1_radial_1279_14090"
@@ -43,8 +43,8 @@ const eye1 = (
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(16 16) rotate(90) scale(15)"
         >
-          <stop offset="0.795" stop-color="white" />
-          <stop offset="1" stop-color="#E5E5E5" />
+          <stop offset="0.795" stopColor="white" />
+          <stop offset="1" stopColor="#E5E5E5" />
         </radialGradient>
       </defs>
     </svg>
@@ -84,8 +84,8 @@ const eye2 = (
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(76 16) rotate(90) scale(15)"
         >
-          <stop offset="0.795" stop-color="white" />
-          <stop offset="1" stop-color="#E5E5E5" />
+          <stop offset="0.795" stopColor="white" />
+          <stop offset="1" stopColor="#E5E5E5" />
         </radialGradient>
         <radialGradient
           id="paint1_radial_1279_14083"
@@ -95,8 +95,8 @@ const eye2 = (
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(16 16) rotate(90) scale(15)"
         >
-          <stop offset="0.795" stop-color="white" />
-          <stop offset="1" stop-color="#E5E5E5" />
+          <stop offset="0.795" stopColor="white" />
+          <stop offset="1" stopColor="#E5E5E5" />
         </radialGradient>
       </defs>
     </svg>
@@ -136,8 +136,8 @@ const eye3 = (
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(76 16) rotate(90) scale(15)"
         >
-          <stop offset="0.795" stop-color="white" />
-          <stop offset="1" stop-color="#E5E5E5" />
+          <stop offset="0.795" stopColor="white" />
+          <stop offset="1" stopColor="#E5E5E5" />
         </radialGradient>
         <radialGradient
           id="paint1_radial_1279_14132"
@@ -147,8 +147,8 @@ const eye3 = (
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(16 16) rotate(90) scale(15)"
         >
-          <stop offset="0.795" stop-color="white" />
-          <stop offset="1" stop-color="#E5E5E5" />
+          <stop offset="0.795" stopColor="white" />
+          <stop offset="1" stopColor="#E5E5E5" />
         </radialGradient>
       </defs>
     </svg>
@@ -188,8 +188,8 @@ const eye4 = (
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(76 16) rotate(90) scale(15)"
         >
-          <stop offset="0.795" stop-color="white" />
-          <stop offset="1" stop-color="#E5E5E5" />
+          <stop offset="0.795" stopColor="white" />
+          <stop offset="1" stopColor="#E5E5E5" />
         </radialGradient>
         <radialGradient
           id="paint1_radial_1279_14097"
@@ -199,8 +199,8 @@ const eye4 = (
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(16 16) rotate(90) scale(15)"
         >
-          <stop offset="0.795" stop-color="white" />
-          <stop offset="1" stop-color="#E5E5E5" />
+          <stop offset="0.795" stopColor="white" />
+          <stop offset="1" stopColor="#E5E5E5" />
         </radialGradient>
       </defs>
     </svg>
@@ -240,8 +240,8 @@ const eye5 = (
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(76 16) rotate(90) scale(15)"
         >
-          <stop offset="0.795" stop-color="white" />
-          <stop offset="1" stop-color="#E5E5E5" />
+          <stop offset="0.795" stopColor="white" />
+          <stop offset="1" stopColor="#E5E5E5" />
         </radialGradient>
         <radialGradient
           id="paint1_radial_1279_14118"
@@ -251,8 +251,8 @@ const eye5 = (
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(16 16) rotate(90) scale(15)"
         >
-          <stop offset="0.795" stop-color="white" />
-          <stop offset="1" stop-color="#E5E5E5" />
+          <stop offset="0.795" stopColor="white" />
+          <stop offset="1" stopColor="#E5E5E5" />
         </radialGradient>
       </defs>
     </svg>
@@ -292,8 +292,8 @@ const eye6 = (
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(76 16) rotate(90) scale(15)"
         >
-          <stop offset="0.795" stop-color="white" />
-          <stop offset="1" stop-color="#E5E5E5" />
+          <stop offset="0.795" stopColor="white" />
+          <stop offset="1" stopColor="#E5E5E5" />
         </radialGradient>
         <radialGradient
           id="paint1_radial_1279_14104"
@@ -303,8 +303,8 @@ const eye6 = (
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(16 16) rotate(90) scale(15)"
         >
-          <stop offset="0.795" stop-color="white" />
-          <stop offset="1" stop-color="#E5E5E5" />
+          <stop offset="0.795" stopColor="white" />
+          <stop offset="1" stopColor="#E5E5E5" />
         </radialGradient>
       </defs>
     </svg>
@@ -344,8 +344,8 @@ const eye7 = (
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(76 16) rotate(90) scale(15)"
         >
-          <stop offset="0.795" stop-color="white" />
-          <stop offset="1" stop-color="#E5E5E5" />
+          <stop offset="0.795" stopColor="white" />
+          <stop offset="1" stopColor="#E5E5E5" />
         </radialGradient>
         <radialGradient
           id="paint1_radial_1279_14111"
@@ -355,8 +355,8 @@ const eye7 = (
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(16 16) rotate(90) scale(15)"
         >
-          <stop offset="0.795" stop-color="white" />
-          <stop offset="1" stop-color="#E5E5E5" />
+          <stop offset="0.795" stopColor="white" />
+          <stop offset="1" stopColor="#E5E5E5" />
         </radialGradient>
       </defs>
     </svg>
@@ -396,8 +396,8 @@ const eye8 = (
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(76 16) rotate(90) scale(15)"
         >
-          <stop offset="0.795" stop-color="white" />
-          <stop offset="1" stop-color="#E5E5E5" />
+          <stop offset="0.795" stopColor="white" />
+          <stop offset="1" stopColor="#E5E5E5" />
         </radialGradient>
         <radialGradient
           id="paint1_radial_1279_14125"
@@ -407,8 +407,8 @@ const eye8 = (
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(16 16) rotate(90) scale(15)"
         >
-          <stop offset="0.795" stop-color="white" />
-          <stop offset="1" stop-color="#E5E5E5" />
+          <stop offset="0.795" stopColor="white" />
+          <stop offset="1" stopColor="#E5E5E5" />
         </radialGradient>
       </defs>
     </svg>
