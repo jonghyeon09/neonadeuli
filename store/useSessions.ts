@@ -19,6 +19,7 @@ type State = {
 
 interface Action {
   setSession: (session: Session) => void;
+  initSessions: () => void;
   setSessionMessages: (params: {
     sessionId: number;
     locationId: number;
@@ -36,6 +37,7 @@ export const useSessions = create<State & Action>()(
       sessionMessages: [],
       setSession: (session) =>
         set((state) => ({ sessions: [...state.sessions, session] })),
+      initSessions: () => set(() => ({ sessions: [] })),
       setSessionMessages: (params) =>
         set((state) => {
           let copyMessages: Messages = [];

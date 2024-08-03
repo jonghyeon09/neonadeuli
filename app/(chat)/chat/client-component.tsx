@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 export default function ClientComponent() {
   const router = useRouter();
   const { setOpen, setClose } = useModalStore();
-  const { setSession } = useSessions();
+  const { setSession, initSessions } = useSessions();
 
   const getSesstion = async () => {
     const userId = localStorage.getItem('user_id');
@@ -22,6 +22,7 @@ export default function ClientComponent() {
 
       if (status != 200) {
         localStorage.removeItem('user_id');
+        initSessions();
         alert('세션 생성 실패');
         router.push('/');
       } else {
