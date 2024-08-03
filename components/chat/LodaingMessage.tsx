@@ -1,26 +1,43 @@
 import { useEffect, useState } from 'react';
+import Eyes from '../icons/Eyes';
 
 type Props = {
   isLoading: boolean;
 };
 
 export default function LodaingMessage({ isLoading = false }: Props) {
-  const [loadingText, setLoadingText] = useState('');
+  // const [loadingText, setLoadingText] = useState('');
+  const [eye, setEye] = useState<JSX.Element>();
 
   useEffect(() => {
-    let text = '.';
-    const id = setInterval(() => {
-      text += '.';
-      setLoadingText(text);
-    }, 500);
+    let index = 0;
 
-    if (!isLoading) {
-      text = '.';
-      clearInterval(id);
-    }
+    const id = setInterval(() => {
+      index += 1;
+
+      if (index > Eyes.length - 1) {
+        index = 0;
+      }
+      setEye(Eyes[index]);
+    }, 300);
 
     return () => clearInterval(id);
-  }, [isLoading]);
+  }, []);
+
+  // useEffect(() => {
+  //   let text = '.';
+  //   const id = setInterval(() => {
+  //     text += '.';
+  //     setLoadingText(text);
+  //   }, 500);
+
+  //   if (!isLoading) {
+  //     text = '.';
+  //     clearInterval(id);
+  //   }
+
+  //   return () => clearInterval(id);
+  // }, [isLoading]);
 
   return (
     <>
@@ -39,8 +56,13 @@ export default function LodaingMessage({ isLoading = false }: Props) {
             />
           </svg>
 
-          <div className="p-4 rounded-[10px] rounded-bl-none bg-white max-w-[208px]">
-            <p className="body-3 break-words">{loadingText}</p>
+          <div className="p-4 rounded-[10px] rounded-bl-none bg-white min-w-[208px] flex flex-col gap-4 items-center">
+            <p className="body-3 break-words">{eye}</p>
+            <p className="body-3 break-words">
+              내 답변을 신중히 생각 중이오.
+              <br />
+              잠시만 기다려 주시오.
+            </p>
           </div>
         </div>
       )}

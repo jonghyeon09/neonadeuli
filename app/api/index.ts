@@ -41,15 +41,13 @@ instance.interceptors.response.use(
 
 const login = async () => {
   const res = await instance.post<Login>('/api/v1/users/login');
-  console.log(res.data);
 
-  return res.data;
+  return res;
 };
 
 const sesstions = async (data: { user_id: number; heritage_id: 1 }) => {
   try {
     const res = await instance.post<Session>('/api/v1/chat/sessions', data);
-    console.log(res);
 
     return res.data;
   } catch (error) {

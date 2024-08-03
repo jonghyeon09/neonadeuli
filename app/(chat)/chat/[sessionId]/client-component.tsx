@@ -320,7 +320,7 @@ export default function ClientComponent() {
         }
       >
         {renderElement}
-        {<LodaingMessage isLoading={isLoading} />}
+        {<LodaingMessage isLoading={true} />}
       </ChatSection>
     </>
   );

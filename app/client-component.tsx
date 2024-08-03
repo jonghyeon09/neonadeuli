@@ -37,10 +37,10 @@ export default function Home({ palace }: Props) {
 
   useEffect(() => {
     const getUser = async () => {
-      const user = await api.login();
+      const { data, status } = await api.login();
 
-      cookies.set('user_id', String(user.id), { secure: true, expires: 30 });
-      setUser(user);
+      cookies.set('user_id', String(data.id), { secure: true, expires: 30 });
+      setUser(data);
     };
     const userId = cookies.get('user_id');
 
