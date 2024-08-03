@@ -21,6 +21,7 @@ import type { ErrorMessage } from '@/types/chat';
 import type { Visit } from '@/types/course';
 import SendIcon from '@/components/icons/SendIcon';
 import OptionSection from '@/components/chat/OptionSection';
+import CloseIcon from '@/components/icons/CloseIcon';
 
 const questions = [
   '재밌는 이야기 해주세요',
@@ -36,6 +37,7 @@ const errorMessage: ErrorMessage = {
 
 export default function ClientComponent() {
   const [isOpen, setOpen] = useState(true);
+  const [isOption, setIsOption] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [renderElement, setRenderElement] = useState<JSX.Element[]>([]);
   const [isFocus, setIsFocus] = useState(false);
@@ -297,8 +299,13 @@ export default function ClientComponent() {
       />
       <ChatSection
         sendComponent={
-          <SendSection>
-            <PlusIcon />
+          <SendSection
+            optionComponent={<OptionSection isOpen={isOption} count={10} />}
+          >
+            <button onClick={() => setIsOption(!isOption)}>
+              {isOption ? <CloseIcon /> : <PlusIcon />}
+            </button>
+
             <form
               className="w-full h-[40px] bg-neutral-100 flex pl-3 py-[10px] pr-1 rounded-[20px] relative"
               onSubmit={handleSubmit}
@@ -320,7 +327,7 @@ export default function ClientComponent() {
         }
       >
         {renderElement}
-        {<LodaingMessage isLoading={true} />}
+        {<LodaingMessage isLoading={isLoading} />}
       </ChatSection>
     </>
   );
