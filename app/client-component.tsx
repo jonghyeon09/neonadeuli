@@ -39,14 +39,20 @@ export default function Home({ palace }: Props) {
     const getUser = async () => {
       const { data, status } = await api.login();
 
-      cookies.set('user_id', String(data.id), { secure: true, expires: 30 });
+      if (status != 200) {
+        localStorage.removeItem('user_id');
+      }
+
+      // cookies.set('user_id', String(data.id), { secure: true, expires: 30 });
+      localStorage.setItem('user_id', String(data.id));
       setUser(data);
     };
-    const userId = cookies.get('user_id');
+    // const userId = cookies.get('user_id');
+    const userId = localStorage.getItem('user_id');
 
     if (!userId) {
-      setLogin();
       getUser();
+      setLogin();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
