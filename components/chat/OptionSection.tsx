@@ -7,7 +7,7 @@ export default function OptionSection({
   count: number;
   isOpen: boolean;
   onInfo?: () => void;
-  onQuiz?: () => VoidFunction;
+  onQuiz?: () => void;
 }) {
   return (
     <>

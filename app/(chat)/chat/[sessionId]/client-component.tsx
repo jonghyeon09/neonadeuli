@@ -17,11 +17,17 @@ import { useSessions } from '@/store';
 import LodaingMessage from '@/components/chat/LodaingMessage';
 import useScroll from '@/hooks/useScroll';
 import type { SendMessage } from '@/types/api';
-import type { ErrorMessage, InfoMessage, Messages } from '@/types/chat';
+import type {
+  ErrorMessage,
+  InfoMessage,
+  Message,
+  QuizMessage,
+} from '@/types/chat';
 import type { Visit } from '@/types/course';
 import SendIcon from '@/components/icons/SendIcon';
 import OptionSection from '@/components/chat/OptionSection';
 import CloseIcon from '@/components/icons/CloseIcon';
+import QuizChoice from '@/components/chat/QuizChoice';
 
 const questions = [
   '재밌는 이야기 해주세요',
@@ -41,17 +47,28 @@ export default function ClientComponent() {
   const [isLoading, setIsLoading] = useState(false);
   const [renderElement, setRenderElement] = useState<JSX.Element[]>([]);
   const [isFocus, setIsFocus] = useState(false);
+  const [isQuiz, setIsQuiz] = useState(false);
+  const [answerNumber, setAnswerNumber] = useState(0);
+  const [explanation, setExplanation] = useState('');
+  const [choiceLength, setChoiceLength] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const { course, locationName, locationId, lastId, visitLocation } =
     useCourse();
-  const { isStorage, sessionMessages, setSessionMessages, syncStorage } =
-    useSessions();
+  const {
+    isStorage,
+    sessionMessages,
+    quizCount,
+    setSessionMessages,
+    initCount,
+    setCount,
+    syncStorage,
+  } = useSessions();
   const { scrollToBottom } = useScroll();
   const { value, onChange, reset } = useInput('');
   const params = useParams<{ sessionId: string }>();
   const sessionId = useMemo(() => Number(params.sessionId), [params.sessionId]);
   const messages = useMemo(() => {
-    let memo: Messages | undefined = undefined;
+    let memo: Message[] | undefined = undefined;
 
     for (const el of sessionMessages) {
       memo = el[sessionId]?.messages;
@@ -59,6 +76,7 @@ export default function ClientComponent() {
 
     return memo;
   }, [sessionId, sessionMessages]);
+  const count = useMemo(() => quizCount[sessionId], [quizCount, sessionId]);
 
   const send = async (sendMessage: SendMessage) => {
     setIsLoading(true);
@@ -68,13 +86,11 @@ export default function ClientComponent() {
     console.log(status);
     if (status == 200) {
       setSessionMessages({
-        locationId: locationId,
         message: data,
         sessionId: sessionId,
       });
     } else {
       setSessionMessages({
-        locationId: locationId,
         message: errorMessage,
         sessionId: sessionId,
       });
@@ -83,7 +99,7 @@ export default function ClientComponent() {
     setIsLoading(false);
   };
 
-  const getLocationInfo = async () => {
+  const handleLocationInfo = async () => {
     setIsOption(false);
     setIsLoading(true);
 
@@ -100,19 +116,73 @@ export default function ClientComponent() {
       };
 
       setSessionMessages({
-        locationId: locationId,
         message: messasge,
         sessionId: sessionId,
       });
     } else {
       setSessionMessages({
-        locationId: locationId,
         message: errorMessage,
         sessionId: sessionId,
       });
     }
 
     setIsLoading(false);
+  };
+
+  const handleQuiz = async () => {
+    if (count == 0) return;
+
+    const send: SendMessage = {
+      content: `${locationName}에 대한 퀴즈를 알려줘`,
+      role: 'user',
+      timestamp: new Date().toISOString(),
+    };
+
+    setSessionMessages({
+      sessionId: sessionId,
+      message: send,
+    });
+    setIsOption(false);
+    setIsLoading(true);
+
+    const { data, status } = await api.quiz(sessionId, {
+      building_id: locationId,
+    });
+    console.log(data);
+
+    if (status !== 200) {
+      setSessionMessages({
+        message: errorMessage,
+        sessionId: sessionId,
+      });
+    } else {
+      const options = data.options
+        .map((option, i) => `${i + 1}번. ${option}`)
+        .join('\n');
+      const content = `${data.question}\n\n${options}`;
+      const question: QuizMessage = {
+        content,
+        role: 'quiz',
+        timestamp: new Date().toISOString(),
+      };
+
+      setSessionMessages({
+        sessionId: sessionId,
+        message: question,
+      });
+      setIsQuiz(true);
+      setChoiceLength(options.length);
+      setCount({ sessionId: sessionId, count: data.quiz_count });
+      setAnswerNumber(data.answer);
+      setExplanation(data.explanation);
+      console.log(content);
+    }
+
+    setIsLoading(false);
+  };
+
+  const handleChoiceClick = (n: number) => {
+    console.log(n);
   };
 
   const handleOpenClick = () => setOpen(!isOpen);
@@ -142,7 +212,6 @@ export default function ClientComponent() {
       timestamp: new Date().toISOString(),
     };
     setSessionMessages({
-      locationId: locationId,
       message: message,
       sessionId: sessionId,
     });
@@ -163,7 +232,6 @@ export default function ClientComponent() {
     };
 
     setSessionMessages({
-      locationId: location.id,
       message: firstMessage,
       sessionId: sessionId,
     });
@@ -183,7 +251,6 @@ export default function ClientComponent() {
     };
 
     setSessionMessages({
-      locationId: locationId,
       message: firstMessage,
       sessionId: sessionId,
     });
@@ -268,6 +335,16 @@ export default function ClientComponent() {
     return () => {};
   }, [value.length]);
 
+  useEffect(() => {
+    if (!isStorage) return;
+    if (!count) {
+      initCount(sessionId);
+    }
+
+    console.log(count);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isStorage]);
+
   return (
     <>
       <LineMap
@@ -281,37 +358,43 @@ export default function ClientComponent() {
       />
       <ChatSection
         sendComponent={
-          <SendSection
-            optionComponent={
-              <OptionSection
-                isOpen={isOption}
-                count={10}
-                onInfo={getLocationInfo}
-              />
-            }
-          >
-            <button onClick={() => setIsOption(!isOption)}>
-              {isOption ? <CloseIcon /> : <PlusIcon />}
-            </button>
-
-            <form
-              className="w-full h-[40px] bg-neutral-100 flex pl-3 py-[10px] pr-1 rounded-[20px] relative"
-              onSubmit={handleSubmit}
+          <>
+            <SendSection
+              choiceComponent={
+                <QuizChoice length={choiceLength} onClick={handleChoiceClick} />
+              }
+              optionComponent={
+                <OptionSection
+                  isOpen={isOption}
+                  count={count ? count : 10}
+                  onInfo={handleLocationInfo}
+                  onQuiz={handleQuiz}
+                />
+              }
             >
-              <SendInput value={value} onChange={onChange} ref={inputRef} />
-              <div className="absolute right-0 top-1">
-                {isFocus ? (
-                  <button onClick={handleSubmit}>
-                    <SendIcon />
-                  </button>
-                ) : (
-                  <button className="">
-                    <HandIcon />
-                  </button>
-                )}
-              </div>
-            </form>
-          </SendSection>
+              <button onClick={() => setIsOption(!isOption)}>
+                {isOption ? <CloseIcon /> : <PlusIcon />}
+              </button>
+
+              <form
+                className="w-full h-[40px] bg-neutral-100 flex pl-3 py-[10px] pr-1 rounded-[20px] relative"
+                onSubmit={handleSubmit}
+              >
+                <SendInput value={value} onChange={onChange} ref={inputRef} />
+                <div className="absolute right-0 top-1">
+                  {isFocus ? (
+                    <button onClick={handleSubmit}>
+                      <SendIcon />
+                    </button>
+                  ) : (
+                    <button className="">
+                      <HandIcon />
+                    </button>
+                  )}
+                </div>
+              </form>
+            </SendSection>
+          </>
         }
       >
         {renderElement}

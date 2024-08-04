@@ -1,10 +1,5 @@
-import type { BotMessage, SendMessage, Session } from '@/types/api';
-import {
-  ErrorMessage,
-  InfoMessage,
-  LocationMessages,
-  Messages,
-} from '@/types/chat';
+import type { Session } from '@/types/api';
+import { LocationMessages, Message, QuizCount } from '@/types/chat';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -12,17 +7,16 @@ type State = {
   isStorage: boolean;
   sessions: Session[] | [];
   sessionMessages: LocationMessages[];
+  quizCount: QuizCount;
 };
 
 interface Action {
   setSession: (session: Session) => void;
   initSessions: () => void;
-  setSessionMessages: (params: {
-    sessionId: number;
-    locationId: number;
-    message: BotMessage | SendMessage | ErrorMessage | InfoMessage;
-  }) => void;
+  setSessionMessages: (params: { sessionId: number; message: Message }) => void;
   syncStorage: () => void;
+  initCount: (sessionId: number) => void;
+  setCount: (params: { sessionId: number; count: number }) => void;
   // initSessionMessages: (sessionId: number) => void;
 }
 
@@ -32,6 +26,7 @@ export const useSessions = create<State & Action>()(
       isStorage: false,
       sessions: [],
       sessionMessages: [],
+      quizCount: {},
       setSession: (session) =>
         set((state) => {
           const filter = state.sessions.filter(
@@ -45,7 +40,7 @@ export const useSessions = create<State & Action>()(
       initSessions: () => set(() => ({ sessions: [] })),
       setSessionMessages: (params) =>
         set((state) => {
-          let copyMessages: Messages = [];
+          let copyMessages: Message[] = [];
           let copySessions: LocationMessages[] = [];
 
           state.sessionMessages.forEach((messages, i) => {
@@ -71,15 +66,14 @@ export const useSessions = create<State & Action>()(
             ],
           };
         }),
-      // initSessionMessages: (sessionId) =>
-      //   set((state) => {
-      //     state.sessionsMessage.forEach((messages) => {
-      //       delete messages[sessionId];
-      //     });
-      //     return {
-      //       sessionsMessage: [...state.sessionsMessage],
-      //     };
-      //   }),
+      initCount: (sessionId) =>
+        set((state) => ({
+          quizCount: { ...state.quizCount, [sessionId]: 10 },
+        })),
+      setCount: (params) =>
+        set((state) => ({
+          quizCount: { ...state.quizCount, [params.sessionId]: params.count },
+        })),
       syncStorage: () => set(() => ({ isStorage: true })),
     }),
     {

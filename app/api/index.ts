@@ -2,6 +2,7 @@ import type {
   BotMessage,
   BuildingsInfo,
   Login,
+  Quiz,
   SendMessage,
   Session,
 } from '@/types/api';
@@ -79,11 +80,21 @@ const buildingsInfo = async (
   return res;
 };
 
+const quiz = async (session_id: number, data: { building_id: number }) => {
+  const res = await instance.post<Quiz>(
+    `/api/v1/chat/${session_id}/heritage/buildings/quiz`,
+    data
+  );
+
+  return res;
+};
+
 const api = {
   login,
   sesstions,
   messages,
   buildingsInfo,
+  quiz,
 };
 
 export default api;

@@ -33,3 +33,11 @@ export interface BuildingsInfo {
   image_url: string;
   bot_response: string;
 }
+
+export interface Quiz {
+  question: string;
+  options: string[];
+  answer: number;
+  explanation: string;
+  quiz_count: number;
+}

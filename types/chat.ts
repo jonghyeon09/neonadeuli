@@ -1,5 +1,18 @@
 import type { BotMessage, SendMessage } from './api';
 
+export interface LocationMessages {
+  [sessionId: number]: {
+    messages: Message[];
+  } | null;
+}
+
+export type Message =
+  | BotMessage
+  | SendMessage
+  | ErrorMessage
+  | InfoMessage
+  | QuizMessage;
+
 export interface ErrorMessage {
   content: '문제가 발생하였습니다.';
   role: 'error';
@@ -13,15 +26,12 @@ export interface InfoMessage {
   timestamp: string;
 }
 
-export interface LocationMessages {
-  [sessionId: number]: {
-    messages: Messages;
-  } | null;
+export interface QuizCount {
+  [sessionId: number]: number | null;
 }
 
-export type Messages = (
-  | BotMessage
-  | SendMessage
-  | ErrorMessage
-  | InfoMessage
-)[];
+export interface QuizMessage {
+  content: string;
+  role: 'quiz';
+  timestamp: string;
+}
