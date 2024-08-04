@@ -1,15 +1,12 @@
 import type { BotMessage, SendMessage, Session } from '@/types/api';
-import { ErrorMessage } from '@/types/chat';
+import {
+  ErrorMessage,
+  InfoMessage,
+  LocationMessages,
+  Messages,
+} from '@/types/chat';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-
-export type Messages = (BotMessage | SendMessage | ErrorMessage)[];
-
-interface LocationMessages {
-  [sessionId: number]: {
-    messages: Messages;
-  } | null;
-}
 
 type State = {
   isStorage: boolean;
@@ -23,7 +20,7 @@ interface Action {
   setSessionMessages: (params: {
     sessionId: number;
     locationId: number;
-    message: BotMessage | SendMessage | ErrorMessage;
+    message: BotMessage | SendMessage | ErrorMessage | InfoMessage;
   }) => void;
   syncStorage: () => void;
   // initSessionMessages: (sessionId: number) => void;
@@ -36,7 +33,15 @@ export const useSessions = create<State & Action>()(
       sessions: [],
       sessionMessages: [],
       setSession: (session) =>
-        set((state) => ({ sessions: [...state.sessions, session] })),
+        set((state) => {
+          const filter = state.sessions.filter(
+            (session) => session.session_id !== session.session_id
+          );
+
+          return {
+            sessions: [...filter, session],
+          };
+        }),
       initSessions: () => set(() => ({ sessions: [] })),
       setSessionMessages: (params) =>
         set((state) => {

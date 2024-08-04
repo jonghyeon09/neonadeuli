@@ -1,11 +1,13 @@
 import { timeFormat } from '@/utils/timestampFormat';
+import Image from 'next/image';
 
 type Props = {
   text: string;
   time: string;
+  image?: string;
 };
 
-export default function ChatbotMessage({ text, time }: Props) {
+export default function ChatbotMessage({ text, time, image }: Props) {
   return (
     <div className="flex items-end">
       <svg
@@ -21,8 +23,16 @@ export default function ChatbotMessage({ text, time }: Props) {
         />
       </svg>
 
-      <div className="p-4 rounded-[10px] rounded-bl-none bg-white min-w-[208px] max-w-[55%]">
-        <p className="body-3 break-words whitespace-pre-wrap">{text}</p>
+      <div className="p-4 rounded-[10px] rounded-bl-none bg-white min-w-[208px] max-w-[55%] felx flex-col">
+        {image && (
+          <div className="relative w-full h-[132px] bg-neutrals-300 mb-[10px]">
+            <Image alt="사진" src={image} fill />
+          </div>
+        )}
+
+        <p className="body-3 break-words whitespace-pre-wrap text-neutrals-1300">
+          {text}
+        </p>
       </div>
       <p className="flex items-end justify-end ml-2 body-4 text-neutrals-700">
         {timeFormat(time)}

@@ -13,11 +13,11 @@ import useInput from '@/hooks/useInput';
 import HandIcon from '@/components/icons/HandIcon';
 import api from '@/app/api';
 import { useParams } from 'next/navigation';
-import { Messages, useSessions } from '@/store';
+import { useSessions } from '@/store';
 import LodaingMessage from '@/components/chat/LodaingMessage';
 import useScroll from '@/hooks/useScroll';
 import type { SendMessage } from '@/types/api';
-import type { ErrorMessage } from '@/types/chat';
+import type { ErrorMessage, InfoMessage, Messages } from '@/types/chat';
 import type { Visit } from '@/types/course';
 import SendIcon from '@/components/icons/SendIcon';
 import OptionSection from '@/components/chat/OptionSection';
@@ -31,7 +31,7 @@ const questions = [
 
 const errorMessage: ErrorMessage = {
   content: '문제가 발생하였습니다.',
-  role: 'assistant',
+  role: 'error',
   timestamp: new Date().toISOString(),
 };
 
@@ -70,6 +70,38 @@ export default function ClientComponent() {
       setSessionMessages({
         locationId: locationId,
         message: data,
+        sessionId: sessionId,
+      });
+    } else {
+      setSessionMessages({
+        locationId: locationId,
+        message: errorMessage,
+        sessionId: sessionId,
+      });
+    }
+
+    setIsLoading(false);
+  };
+
+  const getLocationInfo = async () => {
+    setIsOption(false);
+    setIsLoading(true);
+
+    const { data, status } = await api.buildingsInfo(sessionId, locationName, {
+      building_id: locationId,
+    });
+
+    if (status == 200) {
+      const messasge: InfoMessage = {
+        role: 'info',
+        content: data.bot_response,
+        image_url: data.image_url,
+        timestamp: new Date().toISOString(),
+      };
+
+      setSessionMessages({
+        locationId: locationId,
+        message: messasge,
         sessionId: sessionId,
       });
     } else {
@@ -139,13 +171,6 @@ export default function ClientComponent() {
     send(firstMessage);
   };
 
-  // const handleFocus = (e: React.FocusEvent) => {
-  //   setIsFocus(true);
-  // };
-  // const handleBlur = (e: React.FocusEvent) => {
-  //   setIsFocus(false);
-  // };
-
   useEffect(() => {
     // 최초 메시지
     if (!isStorage) return;
@@ -173,20 +198,34 @@ export default function ClientComponent() {
 
     messages?.forEach((message) => {
       if (!message) return;
-      const el =
-        message.role == 'user' ? (
+      let el;
+      if (message.role == 'user') {
+        el = (
           <UserMessage
             text={message.content}
             key={message.timestamp}
             time={message.timestamp}
           />
-        ) : (
+        );
+      } else if (message.role == 'info') {
+        el = (
+          <ChatbotMessage
+            text={message.content}
+            key={message.timestamp}
+            time={message.timestamp}
+            image={message.image_url}
+          />
+        );
+      } else {
+        el = (
           <ChatbotMessage
             text={message.content}
             key={message.timestamp}
             time={message.timestamp}
           />
         );
+      }
+
       render.push(el);
 
       if (render.length == 2) {
@@ -243,7 +282,13 @@ export default function ClientComponent() {
       <ChatSection
         sendComponent={
           <SendSection
-            optionComponent={<OptionSection isOpen={isOption} count={10} />}
+            optionComponent={
+              <OptionSection
+                isOpen={isOption}
+                count={10}
+                onInfo={getLocationInfo}
+              />
+            }
           >
             <button onClick={() => setIsOption(!isOption)}>
               {isOption ? <CloseIcon /> : <PlusIcon />}

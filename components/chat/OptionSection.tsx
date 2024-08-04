@@ -1,9 +1,13 @@
 export default function OptionSection({
   count = 10,
   isOpen,
+  onInfo,
+  onQuiz,
 }: {
   count: number;
   isOpen: boolean;
+  onInfo?: () => void;
+  onQuiz?: () => VoidFunction;
 }) {
   return (
     <>
@@ -31,11 +35,13 @@ export default function OptionSection({
                     fill="white"
                   />
                 </svg>
-                <p className="body-2 font-semibold">장소 기본 정보</p>
+                <p className="body-2 font-semibold" onClick={onInfo}>
+                  장소 기본 정보
+                </p>
               </button>
             </div>
             <div className="py-3 px-5">
-              <button className="flex gap-4 items-center">
+              <button className="flex gap-4 items-center" onClick={onQuiz}>
                 <svg
                   width="40"
                   height="40"

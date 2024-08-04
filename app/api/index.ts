@@ -1,4 +1,10 @@
-import type { BotMessage, Login, SendMessage, Session } from '@/types/api';
+import type {
+  BotMessage,
+  BuildingsInfo,
+  Login,
+  SendMessage,
+  Session,
+} from '@/types/api';
 import axios from 'axios';
 
 const API_URL = process.env.NEXT_PUBLIC_DOMAIN;
@@ -52,10 +58,21 @@ const sesstions = async (data: { user_id: number; heritage_id: 1 }) => {
 };
 
 const messages = async (sessionId: number, data: SendMessage) => {
-  console.log(data);
-
   const res = await instance.post<BotMessage>(
     `/api/v1/chat/sessions/${sessionId}/messages`,
+    data
+  );
+
+  return res;
+};
+
+const buildingsInfo = async (
+  sessionId: number,
+  locationName: string,
+  data: { building_id: number }
+) => {
+  const res = await instance.post<BuildingsInfo>(
+    `/api/v1/chat/${sessionId}/heritage/buildings/info?content=${locationName}에 대해 알려줘`,
     data
   );
 
@@ -66,6 +83,7 @@ const api = {
   login,
   sesstions,
   messages,
+  buildingsInfo,
 };
 
 export default api;

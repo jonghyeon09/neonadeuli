@@ -10,6 +10,12 @@ const nextConfig = {
         port: '',
         pathname: '/unisearch/images/history_site/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'example.com',
+        port: '',
+        pathname: '/images/**',
+      },
     ],
   },
   async rewrites() {

@@ -28,3 +28,8 @@ export interface SendMessage {
   role: 'user';
   timestamp: string;
 }
+
+export interface BuildingsInfo {
+  image_url: string;
+  bot_response: string;
+}
