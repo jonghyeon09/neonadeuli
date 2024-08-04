@@ -182,7 +182,41 @@ export default function ClientComponent() {
   };
 
   const handleChoiceClick = (n: number) => {
-    console.log(n);
+    const choice: QuizMessage = {
+      content: n + '번',
+      role: 'quiz',
+      timestamp: new Date().toISOString(),
+    };
+
+    setSessionMessages({
+      message: choice,
+      sessionId: sessionId,
+    });
+
+    if (answerNumber == n) {
+      const correct: QuizMessage = {
+        content: `아, 맞췄소!\n${explanation}`,
+        role: 'quiz',
+        timestamp: new Date().toISOString(),
+      };
+      setSessionMessages({
+        message: correct,
+        sessionId: sessionId,
+      });
+
+      setIsQuiz(false);
+    } else {
+      const wrong: QuizMessage = {
+        content: `어허, 아쉽구례!\n다시 한 번 생각해 보도록 하시오.`,
+        role: 'quiz',
+        timestamp: new Date().toISOString(),
+      };
+
+      setSessionMessages({
+        message: wrong,
+        sessionId: sessionId,
+      });
+    }
   };
 
   const handleOpenClick = () => setOpen(!isOpen);
@@ -263,22 +297,22 @@ export default function ClientComponent() {
     if (!messages) return;
     let render: JSX.Element[] = [];
 
-    messages?.forEach((message) => {
+    messages?.forEach((message, i) => {
       if (!message) return;
       let el;
       if (message.role == 'user') {
         el = (
           <UserMessage
+            key={i}
             text={message.content}
-            key={message.timestamp}
             time={message.timestamp}
           />
         );
       } else if (message.role == 'info') {
         el = (
           <ChatbotMessage
+            key={i}
             text={message.content}
-            key={message.timestamp}
             time={message.timestamp}
             image={message.image_url}
           />
@@ -286,8 +320,8 @@ export default function ClientComponent() {
       } else {
         el = (
           <ChatbotMessage
+            key={i}
             text={message.content}
-            key={message.timestamp}
             time={message.timestamp}
           />
         );
@@ -357,11 +391,19 @@ export default function ClientComponent() {
         onClick={handleLocationClick}
       />
       <ChatSection
+        isQuiz={isQuiz}
         sendComponent={
           <>
             <SendSection
               choiceComponent={
-                <QuizChoice length={choiceLength} onClick={handleChoiceClick} />
+                <>
+                  {isQuiz && (
+                    <QuizChoice
+                      length={choiceLength}
+                      onClick={handleChoiceClick}
+                    />
+                  )}
+                </>
               }
               optionComponent={
                 <OptionSection
