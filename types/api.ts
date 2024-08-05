@@ -53,3 +53,10 @@ export interface Quiz {
   explanation: string;
   quiz_count: number;
 }
+
+export interface Summary {
+  chat_date: string;
+  heritage_name: string;
+  building_course: string[];
+  keywords: string[];
+}

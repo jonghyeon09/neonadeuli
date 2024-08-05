@@ -5,6 +5,7 @@ import type {
   Quiz,
   SendMessage,
   Session,
+  Summary,
 } from '@/types/api';
 import axios from 'axios';
 
@@ -91,12 +92,21 @@ const quiz = async (session_id: number, data: { building_id: number }) => {
   return res;
 };
 
+const summary = async (session_id: number) => {
+  const res = await instance.post<Summary>(
+    `/api/v1/chat/sessions/${session_id}/summary`
+  );
+
+  return res;
+};
+
 const api = {
   login,
   sesstions,
   messages,
   buildingsInfo,
   quiz,
+  summary,
 };
 
 export default api;

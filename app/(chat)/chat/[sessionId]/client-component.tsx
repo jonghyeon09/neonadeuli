@@ -22,6 +22,7 @@ import type {
   InfoMessage,
   Message,
   QuizMessage,
+  SummaryMessage,
 } from '@/types/chat';
 import type { Visit } from '@/types/course';
 import SendIcon from '@/components/icons/SendIcon';
@@ -32,6 +33,7 @@ import Modal from '@/components/modal/Modal';
 import ModalView from '@/components/modal/ModalView';
 import Button from '@/components/common/Button';
 import ChatSummary from '@/components/chat/ChatSummary';
+import dayjs from 'dayjs';
 
 const questions = [
   '재밌는 이야기 해주세요',
@@ -285,8 +287,31 @@ export default function ClientComponent() {
     }
   };
 
-  const handleEndChat = () => {
+  const handleEndChat = async () => {
     setClose('isEndChat');
+    setIsLoading(true);
+
+    const { data, status } = await api.summary(sessionId);
+
+    if (status !== 200) {
+      setSessionMessages({
+        message: errorMessage,
+        sessionId: sessionId,
+      });
+    } else {
+      const message: SummaryMessage = {
+        ...data,
+        chat_date: dayjs(data.chat_date).format('YYYY.MM.DD'),
+        role: 'summary',
+      };
+
+      setSessionMessages({
+        message,
+        sessionId,
+      });
+    }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -316,6 +341,17 @@ export default function ClientComponent() {
     messages?.forEach((message, i) => {
       if (!message) return;
       let el;
+      if (message.role == 'summary') {
+        el = (
+          <ChatSummary
+            key={i}
+            course={message.building_course}
+            date={message.chat_date}
+            keywords={message.keywords}
+            name={message.heritage_name}
+          ></ChatSummary>
+        );
+      }
       if (message.role == 'user') {
         el = (
           <UserMessage
@@ -334,6 +370,7 @@ export default function ClientComponent() {
           />
         );
       } else {
+        if (message.role == 'summary') return;
         el = (
           <ChatbotMessage
             key={i}

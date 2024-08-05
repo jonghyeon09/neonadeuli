@@ -1,4 +1,4 @@
-import type { BotMessage, SendMessage } from './api';
+import type { BotMessage, SendMessage, Summary } from './api';
 
 export interface LocationMessages {
   [sessionId: number]: {
@@ -11,7 +11,8 @@ export type Message =
   | SendMessage
   | ErrorMessage
   | InfoMessage
-  | QuizMessage;
+  | QuizMessage
+  | SummaryMessage;
 
 export interface ErrorMessage {
   content: '문제가 발생하였습니다.';
@@ -34,4 +35,8 @@ export interface QuizMessage {
   content: string;
   role: 'quiz';
   timestamp: string;
+}
+
+export interface SummaryMessage extends Summary {
+  role: 'summary';
 }
