@@ -42,7 +42,7 @@ const errorMessage: ErrorMessage = {
 };
 
 export default function ClientComponent() {
-  const [isOpen, setOpen] = useState(true);
+  const [isOpen, setOpen] = useState(false);
   const [isOption, setIsOption] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [renderElement, setRenderElement] = useState<JSX.Element[]>([]);
@@ -257,7 +257,6 @@ export default function ClientComponent() {
 
   const handleLocationClick: Visit = (location, rowIndex, colIndex) => {
     if (isLoading) return;
-    console.log(location.visited);
 
     visitLocation(location, rowIndex, colIndex);
 

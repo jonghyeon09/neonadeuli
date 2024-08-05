@@ -1,10 +1,10 @@
-import { Course, Location } from '@/types/course';
+import { Location } from '@/types/course';
 import CurrentLocationIcon from '../icons/CurrentLocationIcon';
 import SummaryButton from '../common/SummaryButton';
 import LocationIcon from '../icons/LocationIcon';
 
 type Props = {
-  course: Course;
+  course: Location[][];
   location: string;
   locationId: number;
   lastId: number;
@@ -128,7 +128,7 @@ export default function LineMap({
         <div className="w-full min-h-[1px] bg-neutrals-100"></div>
         <SummaryButton
           isOpen={isOpen}
-          text="지도 접기"
+          text={isOpen ? '지도 접기' : '지도 펼치기'}
           onClick={onOpen}
         ></SummaryButton>
       </div>
