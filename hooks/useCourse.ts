@@ -90,13 +90,8 @@ export const useCourse = () => {
   }, [sessionId, sessions]);
 
   const visitLocation: Visit = (location, rowIndex, colIndex) => {
-    const copyCourse = course[sessionId]?.map((row) => [...row]) || [];
-
-    copyCourse[rowIndex][colIndex].visited = true;
-
     setLocationId(location.id);
     setLocationName(location.name);
-    setCourse({ sessionId: sessionId, course: copyCourse });
   };
 
   /**

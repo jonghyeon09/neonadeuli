@@ -62,6 +62,7 @@ export default function ClientComponent() {
     initCount,
     setCount,
     syncStorage,
+    setCourse,
   } = useSessions();
   const { scrollToBottom } = useScroll();
   const { value, onChange, reset } = useInput('');
@@ -256,23 +257,27 @@ export default function ClientComponent() {
 
   const handleLocationClick: Visit = (location, rowIndex, colIndex) => {
     if (isLoading) return;
+    console.log(location.visited);
 
     visitLocation(location, rowIndex, colIndex);
 
-    if (location.visited) return;
+    if (!location.visited) {
+      const firstMessage: SendMessage = {
+        content: `${location.name} 도착`,
+        role: 'user',
+        timestamp: new Date().toISOString(),
+      };
+      const copyCourse = course.map((row) => [...row]) || [];
 
-    const firstMessage: SendMessage = {
-      content: `${location.name} 도착`,
-      role: 'user',
-      timestamp: new Date().toISOString(),
-    };
+      copyCourse[rowIndex][colIndex].visited = true;
+      setCourse({ sessionId: sessionId, course: copyCourse });
+      setSessionMessages({
+        message: firstMessage,
+        sessionId: sessionId,
+      });
 
-    setSessionMessages({
-      message: firstMessage,
-      sessionId: sessionId,
-    });
-
-    send(firstMessage);
+      send(firstMessage);
+    }
   };
 
   useEffect(() => {
