@@ -171,7 +171,7 @@ export default function ClientComponent() {
         message: question,
       });
       setIsQuiz(true);
-      setChoiceLength(options.length);
+      setChoiceLength(data.options.length);
       setCount({ sessionId: sessionId, count: data.quiz_count });
       setAnswerNumber(data.answer);
       setExplanation(data.explanation);
@@ -182,9 +182,9 @@ export default function ClientComponent() {
   };
 
   const handleChoiceClick = (n: number) => {
-    const choice: QuizMessage = {
+    const choice: SendMessage = {
       content: n + '번',
-      role: 'quiz',
+      role: 'user',
       timestamp: new Date().toISOString(),
     };
 
@@ -199,6 +199,7 @@ export default function ClientComponent() {
         role: 'quiz',
         timestamp: new Date().toISOString(),
       };
+
       setSessionMessages({
         message: correct,
         sessionId: sessionId,

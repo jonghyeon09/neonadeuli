@@ -13,7 +13,7 @@ export default function ChatSection({
     <div className="bg-neutrals-200 relative flex flex-1 pt-[--h-tour]">
       <div
         className={`w-full flex flex-col justify-end gap-5 px-5 relative bottom-0 pb-[--h-send] ${
-          isQuiz ? 'mb-[120-px]' : 'mb-5'
+          isQuiz ? 'mb-[120px]' : 'mb-5'
         }`}
       >
         <p className="text-center body-3 text-neutrals-1000">
