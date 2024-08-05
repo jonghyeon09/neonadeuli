@@ -5,7 +5,7 @@ export interface Location {
   coordinate: [number, number];
 }
 
-export type Course = Location[][];
+// export type Course = Location[][];
 export type LocationIndex = [number, number];
 export type Visit = (
   location: Location,

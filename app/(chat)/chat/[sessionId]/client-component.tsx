@@ -82,8 +82,7 @@ export default function ClientComponent() {
     setIsLoading(true);
 
     const { data, status } = await api.messages(sessionId, sendMessage);
-    console.log(data);
-    console.log(status);
+
     if (status == 200) {
       setSessionMessages({
         message: data,
@@ -100,6 +99,7 @@ export default function ClientComponent() {
   };
 
   const handleLocationInfo = async () => {
+    if (isLoading) return;
     setIsOption(false);
     setIsLoading(true);
 
@@ -130,6 +130,7 @@ export default function ClientComponent() {
   };
 
   const handleQuiz = async () => {
+    if (isLoading) return;
     if (count == 0) return;
 
     const send: SendMessage = {
@@ -148,7 +149,6 @@ export default function ClientComponent() {
     const { data, status } = await api.quiz(sessionId, {
       building_id: locationId,
     });
-    console.log(data);
 
     if (status !== 200) {
       setSessionMessages({
@@ -175,7 +175,6 @@ export default function ClientComponent() {
       setCount({ sessionId: sessionId, count: data.quiz_count });
       setAnswerNumber(data.answer);
       setExplanation(data.explanation);
-      console.log(content);
     }
 
     setIsLoading(false);
@@ -257,8 +256,10 @@ export default function ClientComponent() {
 
   const handleLocationClick: Visit = (location, rowIndex, colIndex) => {
     if (isLoading) return;
-    if (location.visited) return;
+
     visitLocation(location, rowIndex, colIndex);
+
+    if (location.visited) return;
 
     const firstMessage: SendMessage = {
       content: `${location.name} 도착`,
@@ -375,8 +376,6 @@ export default function ClientComponent() {
     if (!count) {
       initCount(sessionId);
     }
-
-    console.log(count);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isStorage]);
 

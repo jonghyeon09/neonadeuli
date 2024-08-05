@@ -5,12 +5,24 @@ export interface Login {
   token_type: string;
 }
 
+export interface Building {
+  building_id: number;
+  coordinate: [number, number];
+  name: string;
+}
+
+interface Route {
+  buildings: Building[];
+  name: string;
+  route_id: number;
+}
+
 export interface Session {
   session_id: number;
   user_id: number;
   heritage_id: number;
   heritage_name: string;
-  routes: object[];
+  routes: Route[];
   start_time: string;
   created_at: string;
 }

@@ -1,5 +1,6 @@
 import type { Session } from '@/types/api';
 import { LocationMessages, Message, QuizCount } from '@/types/chat';
+import { Location } from '@/types/course';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -8,6 +9,9 @@ type State = {
   sessions: Session[] | [];
   sessionMessages: LocationMessages[];
   quizCount: QuizCount;
+  course: {
+    [sessionId: number]: Location[][] | null;
+  };
 };
 
 interface Action {
@@ -17,7 +21,7 @@ interface Action {
   syncStorage: () => void;
   initCount: (sessionId: number) => void;
   setCount: (params: { sessionId: number; count: number }) => void;
-  // initSessionMessages: (sessionId: number) => void;
+  setCourse: (params: { sessionId: number; course: Location[][] }) => void;
 }
 
 export const useSessions = create<State & Action>()(
@@ -27,6 +31,7 @@ export const useSessions = create<State & Action>()(
       sessions: [],
       sessionMessages: [],
       quizCount: {},
+      course: {},
       setSession: (session) =>
         set((state) => {
           const filter = state.sessions.filter(
@@ -73,6 +78,10 @@ export const useSessions = create<State & Action>()(
       setCount: (params) =>
         set((state) => ({
           quizCount: { ...state.quizCount, [params.sessionId]: params.count },
+        })),
+      setCourse: (params) =>
+        set((state) => ({
+          course: { ...state.course, [params.sessionId]: params.course },
         })),
       syncStorage: () => set(() => ({ isStorage: true })),
     }),
