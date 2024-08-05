@@ -5,6 +5,7 @@ interface State {
   isArrive: boolean;
   isSidebar: boolean;
   isSplash: boolean;
+  isEndChat: boolean;
 }
 
 interface Action {
@@ -18,6 +19,7 @@ export const useModalStore = create<State & Action>()(
     isArrive: false,
     isSidebar: false,
     isSplash: true,
+    isEndChat: false,
     toggleModal: (key) => set((state) => ({ [key]: !state[key] })),
     setOpen: (key) => set((state) => ({ [key]: true })),
     setClose: (key) => set((state) => ({ [key]: false })),

@@ -13,7 +13,7 @@ import useInput from '@/hooks/useInput';
 import HandIcon from '@/components/icons/HandIcon';
 import api from '@/app/api';
 import { useParams } from 'next/navigation';
-import { useSessions } from '@/store';
+import { useModalStore, useSessions } from '@/store';
 import LodaingMessage from '@/components/chat/LodaingMessage';
 import useScroll from '@/hooks/useScroll';
 import type { SendMessage } from '@/types/api';
@@ -28,6 +28,10 @@ import SendIcon from '@/components/icons/SendIcon';
 import OptionSection from '@/components/chat/OptionSection';
 import CloseIcon from '@/components/icons/CloseIcon';
 import QuizChoice from '@/components/chat/QuizChoice';
+import Modal from '@/components/modal/Modal';
+import ModalView from '@/components/modal/ModalView';
+import Button from '@/components/common/Button';
+import ChatSummary from '@/components/chat/ChatSummary';
 
 const questions = [
   '재밌는 이야기 해주세요',
@@ -42,7 +46,7 @@ const errorMessage: ErrorMessage = {
 };
 
 export default function ClientComponent() {
-  const [isOpen, setOpen] = useState(false);
+  const [isOpenMap, setIsOpenMap] = useState(false);
   const [isOption, setIsOption] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [renderElement, setRenderElement] = useState<JSX.Element[]>([]);
@@ -64,6 +68,7 @@ export default function ClientComponent() {
     syncStorage,
     setCourse,
   } = useSessions();
+  const { isEndChat, setOpen, setClose } = useModalStore();
   const { scrollToBottom } = useScroll();
   const { value, onChange, reset } = useInput('');
   const params = useParams<{ sessionId: string }>();
@@ -220,7 +225,7 @@ export default function ClientComponent() {
     }
   };
 
-  const handleOpenClick = () => setOpen(!isOpen);
+  const handleOpenClick = () => setIsOpenMap(!isOpenMap);
   const handleQuestionClick = (question: string) => {
     if (isLoading) return;
 
@@ -236,6 +241,7 @@ export default function ClientComponent() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isLoading) return;
+    if (!isFocus) return;
     if (value.length < 2) {
       alert('2글자 이상 입력');
       return;
@@ -277,6 +283,10 @@ export default function ClientComponent() {
 
       send(firstMessage);
     }
+  };
+
+  const handleEndChat = () => {
+    setClose('isEndChat');
   };
 
   useEffect(() => {
@@ -385,13 +395,41 @@ export default function ClientComponent() {
 
   return (
     <>
+      {isEndChat && (
+        <Modal>
+          <ModalView>
+            <div className="mb-5 flex flex-col gap-5 items-center">
+              <p className="heading">채팅 종료 안내</p>
+              <p className="text-center text-neutrals-1200">
+                채팅을 종료하고 이야기를 요약해드릴까요?
+                <br />
+                채팅을 종료하면 더 이상 대화를 나눌 수 없습니다.
+              </p>
+            </div>
+            <div className="w-full flex gap-5">
+              <Button
+                className="bg-neutrals-200"
+                onClick={() => setClose('isEndChat')}
+              >
+                아니요
+              </Button>
+              <Button
+                className="bg-neutrals-1300 text-neutrals-100"
+                onClick={handleEndChat}
+              >
+                네
+              </Button>
+            </div>
+          </ModalView>
+        </Modal>
+      )}
       <LineMap
         course={course}
         location={locationName}
         locationId={locationId}
         lastId={lastId}
         onOpen={handleOpenClick}
-        isOpen={isOpen}
+        isOpen={isOpenMap}
         onClick={handleLocationClick}
       />
       <ChatSection
@@ -433,7 +471,7 @@ export default function ClientComponent() {
                       <SendIcon />
                     </button>
                   ) : (
-                    <button className="">
+                    <button onClick={() => setOpen('isEndChat')}>
                       <HandIcon />
                     </button>
                   )}
