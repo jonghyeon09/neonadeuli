@@ -12,9 +12,9 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'example.com',
+        hostname: 'zyyosrdkcdcm25870576.cdn.ntruss.com',
         port: '',
-        pathname: '/images/**',
+        pathname: '/neonadeuli-bucket/**',
       },
     ],
   },

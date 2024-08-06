@@ -60,3 +60,8 @@ export interface Summary {
   building_course: string[];
   keywords: string[];
 }
+
+export interface End {
+  session_id: number;
+  end_time: string;
+}

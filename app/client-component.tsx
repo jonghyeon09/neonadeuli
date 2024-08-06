@@ -41,11 +41,10 @@ export default function Home({ palace }: Props) {
 
       if (status != 200) {
         localStorage.removeItem('user_id');
+      } else {
+        localStorage.setItem('user_id', String(data.id));
+        setUser(data);
       }
-
-      // cookies.set('user_id', String(data.id), { secure: true, expires: 30 });
-      localStorage.setItem('user_id', String(data.id));
-      setUser(data);
     };
     // const userId = cookies.get('user_id');
     const userId = localStorage.getItem('user_id');

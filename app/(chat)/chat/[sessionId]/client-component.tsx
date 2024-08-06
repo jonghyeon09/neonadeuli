@@ -291,6 +291,14 @@ export default function ClientComponent() {
     setClose('isEndChat');
     setIsLoading(true);
 
+    const buildings = course.reduce((acc, val) => [...acc, ...val], []);
+    const end = await api.end(sessionId, { buildings });
+
+    if (end.status !== 200) {
+      alert('세션 종료 실패');
+      return;
+    }
+
     const { data, status } = await api.summary(sessionId);
 
     if (status !== 200) {
@@ -340,7 +348,7 @@ export default function ClientComponent() {
 
     messages?.forEach((message, i) => {
       if (!message) return;
-      let el;
+      let el = <></>;
       if (message.role == 'summary') {
         el = (
           <ChatSummary
@@ -370,14 +378,15 @@ export default function ClientComponent() {
           />
         );
       } else {
-        if (message.role == 'summary') return;
-        el = (
-          <ChatbotMessage
-            key={i}
-            text={message.content}
-            time={message.timestamp}
-          />
-        );
+        if (message.role !== 'summary') {
+          el = (
+            <ChatbotMessage
+              key={i}
+              text={message.content}
+              time={message.timestamp}
+            />
+          );
+        }
       }
 
       render.push(el);

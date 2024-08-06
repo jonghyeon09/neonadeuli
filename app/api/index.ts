@@ -1,12 +1,14 @@
 import type {
   BotMessage,
   BuildingsInfo,
+  End,
   Login,
   Quiz,
   SendMessage,
   Session,
   Summary,
 } from '@/types/api';
+import { Location } from '@/types/course';
 import axios from 'axios';
 
 const API_URL = process.env.NEXT_PUBLIC_DOMAIN;
@@ -53,7 +55,7 @@ const login = async () => {
   return res;
 };
 
-const sesstions = async (data: { user_id: number; heritage_id: 1 }) => {
+const sesstions = async (data: { user_id: number; heritage_id: 49 }) => {
   const res = await instance.post<Session>('/api/v1/chat/sessions', data);
 
   return res;
@@ -93,8 +95,17 @@ const quiz = async (session_id: number, data: { building_id: number }) => {
 };
 
 const summary = async (session_id: number) => {
-  const res = await instance.post<Summary>(
+  const res = await instance.get<Summary>(
     `/api/v1/chat/sessions/${session_id}/summary`
+  );
+
+  return res;
+};
+
+const end = async (session_id: number, data: { buildings: Location[] }) => {
+  const res = await instance.post<End>(
+    `/api/v1/chat/sessions/${session_id}/end`,
+    data
   );
 
   return res;
@@ -107,6 +118,7 @@ const api = {
   buildingsInfo,
   quiz,
   summary,
+  end,
 };
 
 export default api;
