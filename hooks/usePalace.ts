@@ -1,10 +1,14 @@
 import { getPalace } from '@/app/api/openApi';
 
-const 경복궁 = 'http://www.cha.go.kr/unisearch/images/history_site/1624483.jpg';
-const 창덕궁 = 'http://www.cha.go.kr/unisearch/images/history_site/1624550.jpg';
-const 덕수궁 = 'http://www.cha.go.kr/unisearch/images/history_site/1624564.jpg';
-const 창경궁 = 'http://www.cha.go.kr/unisearch/images/history_site/1624562.jpg';
-const 경희궁지 =
+export const 경복궁 =
+  'http://www.cha.go.kr/unisearch/images/history_site/1624483.jpg';
+export const 창덕궁 =
+  'http://www.cha.go.kr/unisearch/images/history_site/1624550.jpg';
+export const 덕수궁 =
+  'http://www.cha.go.kr/unisearch/images/history_site/1624564.jpg';
+export const 창경궁 =
+  'http://www.cha.go.kr/unisearch/images/history_site/1624562.jpg';
+export const 경희궁지 =
   'http://www.cha.go.kr/unisearch/images/history_site/1624842.jpg';
 
 export const usePalace = async () => {
