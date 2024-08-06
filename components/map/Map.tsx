@@ -22,15 +22,20 @@ export default function Map({
   const [marker, setMarker] = useState(null);
 
   const initializeMap = () => {
-    const mapOptions = {
+    const mapOptions: naver.maps.MapOptions = {
       center: new window.naver.maps.LatLng(...initialCenter),
       zoom: initialZoom,
-      // minZoom: 15,
+      minZoom: 16,
       scaleControl: false,
       mapDataControl: false,
+      zoomControl: true,
+      zoomControlOptions: {
+        style: naver.maps.ZoomControlStyle.SMALL,
+        position: naver.maps.Position.BOTTOM_RIGHT,
+      },
       // draggable: false,
       logoControlOptions: {
-        position: naver.maps.Position.BOTTOM_LEFT,
+        position: naver.maps.Position.TOP_LEFT,
       },
     };
 

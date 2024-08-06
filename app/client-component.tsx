@@ -3,7 +3,7 @@ import Map from '@/components/map/Map';
 import Marker from '@/components/map/Marker';
 import { INITIAL_CENTER, useMapStore, useModalStore } from '@/store';
 import { useEffect, useState } from 'react';
-import { Coordinates } from '@/types/map';
+import { Coordinates, ImageIcon } from '@/types/map';
 import Header from '@/components/common/Header';
 import Sidebar from '@/components/sidebar';
 import Recommendation from '@/components/recommendation';
@@ -15,8 +15,8 @@ import ChatButton from '@/components/chat/ChatButton';
 import Link from 'next/link';
 import { useUserStore } from '@/store/useUserStore';
 import api from './api';
-import cookies from 'js-cookie';
 import Splash from '@/components/common/Splash';
+import useGeolocation from '@/hooks/useGeolocation';
 
 type Props = {
   palace: HeritageItem[];
@@ -24,10 +24,12 @@ type Props = {
 
 export default function Home({ palace }: Props) {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
+  const [markerIcon, setMarkerIcon] = useState<ImageIcon>();
   const { map, initializeMap } = useMapStore();
   const { toggleModal } = useModalStore();
   const router = useRouter();
   const { user, login, setLogin, reset, setUser } = useUserStore();
+  const { location, tracking, startTracking, stopTracking } = useGeolocation();
 
   const handlePalaceClick = (palace: HeritageItem) => {
     router.push(
@@ -60,13 +62,28 @@ export default function Home({ palace }: Props) {
     setCoordinates(INITIAL_CENTER);
   }, []);
 
+  useEffect(() => {
+    if (!map) return;
+    const markerIcon: ImageIcon = {
+      url: '/marker.svg',
+    };
+
+    setMarkerIcon(markerIcon);
+  }, [map]);
+
+  // useEffect(() => {
+  //   console.log(location);
+
+  //   startTracking();
+  // }, [location, startTracking]);
+
   return (
     <>
       {login ? (
         <>
           <Header onMenu={() => toggleModal('isSidebar')} />
           <Map onLoad={initializeMap} />
-          <Marker map={map} coordinates={coordinates} />
+          <Marker map={map} coordinates={coordinates} icon={markerIcon} />
           <Sidebar onClose={() => toggleModal('isSidebar')}></Sidebar>
           <Recommendation
             title="서울의 아름다운 궁궐 5선"

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { Marker, NaverMap } from '@/types/map';
 
-export default function Marker({ coordinates, map }: Marker) {
+export default function Marker({ coordinates, map, icon }: Marker) {
   // const [marker, setMarker] = useState<naver.maps.Marker | null>(null);
 
   useEffect(() => {
@@ -10,13 +10,14 @@ export default function Marker({ coordinates, map }: Marker) {
       marker = new naver.maps.Marker({
         map: map,
         position: new naver.maps.LatLng(...coordinates),
+        icon,
       });
     }
 
     return () => {
       marker?.setMap(null);
     };
-  }, [coordinates, map]);
+  }, [coordinates, icon, map]);
 
   return null;
 }
