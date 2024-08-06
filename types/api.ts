@@ -65,3 +65,8 @@ export interface End {
   session_id: number;
   end_time: string;
 }
+
+export interface Recommend {
+  building_id: number;
+  questions: string[];
+}

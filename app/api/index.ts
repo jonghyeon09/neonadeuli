@@ -4,6 +4,7 @@ import type {
   End,
   Login,
   Quiz,
+  Recommend,
   SendMessage,
   Session,
   Summary,
@@ -111,6 +112,18 @@ const end = async (session_id: number, data: { buildings: Location[] }) => {
   return res;
 };
 
+const recommendQuestions = async (
+  session_id: number,
+  data: { building_id: number }
+) => {
+  const res = await instance.post<Recommend>(
+    `/api/v1/chat/${session_id}/building/recommend-questions`,
+    data
+  );
+
+  return res;
+};
+
 const api = {
   login,
   sesstions,
@@ -119,6 +132,7 @@ const api = {
   quiz,
   summary,
   end,
+  recommendQuestions,
 };
 
 export default api;

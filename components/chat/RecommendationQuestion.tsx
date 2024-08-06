@@ -3,7 +3,10 @@ type Props = {
   onClick: (question: string) => void;
 };
 
-export default function RecommendationQuestion({ questions, onClick }: Props) {
+export default function RecommendationQuestion({
+  questions = [],
+  onClick,
+}: Props) {
   return (
     <div className="flex flex-col gap-3">
       <p className="body-3 text-neutrals-1200">추천 질문</p>

@@ -48,7 +48,7 @@ export default function LineMap({
   };
 
   return (
-    <div className="bg-white max-w-screen-sm w-full drop-shadow-md rounded-lg fixed top-[58px] p-5 flex justify-center z-50 min-h-[--h-tour]">
+    <div className="bg-white max-w-screen-sm w-full drop-shadow-md rounded-lg fixed top-[--h-header] p-5 flex justify-center z-50 min-h-[--h-tour]">
       <div className="w-[335px] flex flex-col gap-2 items-center">
         <div
           className={`relative px-[10px] flex flex-col gap-4 items-center select-none ${

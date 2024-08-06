@@ -57,6 +57,8 @@ export default function ClientComponent() {
   const [answerNumber, setAnswerNumber] = useState(0);
   const [explanation, setExplanation] = useState('');
   const [choiceLength, setChoiceLength] = useState(0);
+  const [isRecommendation, setIsRecommendation] = useState(false);
+  const [questions, setQuestions] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const { course, locationName, locationId, lastId, visitLocation } =
     useCourse();
@@ -104,6 +106,17 @@ export default function ClientComponent() {
     }
 
     setIsLoading(false);
+  };
+
+  const recommendation = async (id: number = 1) => {
+    const { data, status } = await api.recommendQuestions(sessionId, {
+      building_id: id,
+    });
+
+    if (status == 200) {
+      setQuestions(data.questions);
+      setIsRecommendation(true);
+    }
   };
 
   const handleLocationInfo = async () => {
@@ -229,7 +242,10 @@ export default function ClientComponent() {
 
   const handleOpenClick = () => setIsOpenMap(!isOpenMap);
   const handleQuestionClick = (question: string) => {
-    if (isLoading) return;
+    if (isLoading) {
+      alert('잠시만 기다려 주시오.');
+      return;
+    }
 
     const message: SendMessage = {
       content: question,
@@ -237,7 +253,13 @@ export default function ClientComponent() {
       timestamp: new Date().toISOString(),
     };
 
+    setSessionMessages({
+      sessionId: sessionId,
+      message,
+    });
     send(message);
+    setIsRecommendation(false);
+    setQuestions([]);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -277,6 +299,7 @@ export default function ClientComponent() {
       const copyCourse = course.map((row) => [...row]) || [];
 
       copyCourse[rowIndex][colIndex].visited = true;
+      setIsRecommendation(false);
       setCourse({ sessionId: sessionId, course: copyCourse });
       setSessionMessages({
         message: firstMessage,
@@ -284,6 +307,7 @@ export default function ClientComponent() {
       });
 
       send(firstMessage);
+      recommendation(location.id);
     }
   };
 
@@ -338,7 +362,8 @@ export default function ClientComponent() {
       sessionId: sessionId,
     });
 
-    send(firstMessage);
+    send(firstMessage).then(() => recommendation());
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isStorage]);
   /** */
@@ -357,7 +382,7 @@ export default function ClientComponent() {
             date={message.chat_date}
             keywords={message.keywords}
             name={message.heritage_name}
-          ></ChatSummary>
+          />
         );
       }
       if (message.role == 'user') {
@@ -390,17 +415,6 @@ export default function ClientComponent() {
       }
 
       render.push(el);
-
-      if (render.length == 2) {
-        const el = (
-          <RecommendationQuestion
-            key={'questions'}
-            questions={questions}
-            onClick={handleQuestionClick}
-          />
-        );
-        render.push(el);
-      }
     });
 
     setRenderElement(render);
@@ -419,8 +433,11 @@ export default function ClientComponent() {
     if (isLoading) {
       scrollToBottom();
     }
+    if (isRecommendation) {
+      scrollToBottom();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [renderElement, isLoading]);
+  }, [renderElement, isLoading, isRecommendation]);
 
   useEffect(() => {
     if (value.length != 0) {
@@ -528,6 +545,13 @@ export default function ClientComponent() {
         }
       >
         {renderElement}
+        {isRecommendation && (
+          <RecommendationQuestion
+            key={'questions'}
+            questions={questions}
+            onClick={handleQuestionClick}
+          />
+        )}
         {<LodaingMessage isLoading={isLoading} />}
       </ChatSection>
     </>
