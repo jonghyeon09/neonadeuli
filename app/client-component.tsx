@@ -41,12 +41,6 @@ export default function Home({ palace }: Props) {
 
   const handleActivateLocation = () => {
     setIsActivate(!isActivate);
-
-    if (isActivate) {
-      startTracking();
-    } else {
-      stopTracking();
-    }
   };
 
   useEffect(() => {
