@@ -17,6 +17,7 @@ import { useUserStore } from '@/store/useUserStore';
 import api from './api';
 import Splash from '@/components/common/Splash';
 import useGeolocation from '@/hooks/useGeolocation';
+import CustomControl from '@/components/map/CustomControl';
 
 type Props = {
   palace: HeritageItem[];
@@ -25,6 +26,7 @@ type Props = {
 export default function Home({ palace }: Props) {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
   const [markerIcon, setMarkerIcon] = useState<ImageIcon>();
+  const [isActivate, setIsActivate] = useState(false);
   const { map, initializeMap } = useMapStore();
   const { toggleModal } = useModalStore();
   const router = useRouter();
@@ -35,6 +37,16 @@ export default function Home({ palace }: Props) {
     router.push(
       `/heritage/description?ccbaKdcd=${palace.ccbaKdcd[0]}&ccbaAsno=${palace.ccbaAsno[0]}&ccbaCtcd=${palace.ccbaCtcd[0]}`
     );
+  };
+
+  const handleActivateLocation = () => {
+    setIsActivate(!isActivate);
+
+    if (isActivate) {
+      startTracking();
+    } else {
+      stopTracking();
+    }
   };
 
   useEffect(() => {
@@ -71,11 +83,14 @@ export default function Home({ palace }: Props) {
     setMarkerIcon(markerIcon);
   }, [map]);
 
-  // useEffect(() => {
-  //   console.log(location);
-
-  //   startTracking();
-  // }, [location, startTracking]);
+  useEffect(() => {
+    if (isActivate) {
+      startTracking();
+    } else {
+      stopTracking();
+    }
+    console.log(location);
+  }, [isActivate, startTracking, stopTracking]);
 
   return (
     <>
@@ -84,6 +99,11 @@ export default function Home({ palace }: Props) {
           <Header onMenu={() => toggleModal('isSidebar')} />
           <Map onLoad={initializeMap} />
           <Marker map={map} coordinates={coordinates} icon={markerIcon} />
+          <CustomControl
+            map={map}
+            isActivate={isActivate}
+            onClick={handleActivateLocation}
+          />
           <Sidebar onClose={() => toggleModal('isSidebar')}></Sidebar>
           <Recommendation
             title="서울의 아름다운 궁궐 5선"

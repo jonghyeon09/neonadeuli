@@ -31,7 +31,7 @@ export default function Map({
       zoomControl: true,
       zoomControlOptions: {
         style: naver.maps.ZoomControlStyle.SMALL,
-        position: naver.maps.Position.BOTTOM_RIGHT,
+        position: naver.maps.Position.TOP_RIGHT,
       },
       // draggable: false,
       logoControlOptions: {

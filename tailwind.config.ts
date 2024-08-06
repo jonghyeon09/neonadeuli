@@ -57,6 +57,9 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: colors,
+      boxShadow: {
+        md: '0px 2px 8px rgba(0, 0, 0, 0.12), 0px 1px 4px rgba(0, 0, 0, 0.08), 0px 0px 1px rgba(0, 0, 0, 0.08)',
+      },
     },
     fontFamily: {
       sans: ['Pretendard-Regular', ...defaultTheme.fontFamily.sans],
