@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
 interface Location {
-  lat: number | null;
-  lon: number | null;
+  lat: number;
+  lon: number;
 }
 
 const useGeolocation = () => {
-  const [location, setLocation] = useState<Location>({ lat: null, lon: null });
+  const [location, setLocation] = useState<Location | null>(null);
   const [tracking, setTracking] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const watchId = useRef<number | null>(null);

@@ -1,7 +1,12 @@
 'use client';
 import Map from '@/components/map/Map';
 import Marker from '@/components/map/Marker';
-import { INITIAL_CENTER, useMapStore, useModalStore } from '@/store';
+import {
+  INITIAL_CENTER,
+  INITIAL_ZOOM,
+  useMapStore,
+  useModalStore,
+} from '@/store';
 import { useEffect, useState } from 'react';
 import { Coordinates, ImageIcon } from '@/types/map';
 import Header from '@/components/common/Header';
@@ -27,11 +32,11 @@ export default function Home({ palace }: Props) {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
   const [markerIcon, setMarkerIcon] = useState<ImageIcon>();
   const [isActivate, setIsActivate] = useState(false);
-  const { map, initializeMap } = useMapStore();
+  const { map, initializeMap, resetMapOptions } = useMapStore();
   const { toggleModal } = useModalStore();
   const router = useRouter();
   const { user, login, setLogin, reset, setUser } = useUserStore();
-  const { location, tracking, startTracking, stopTracking } = useGeolocation();
+  const { location, startTracking, stopTracking } = useGeolocation();
 
   const handlePalaceClick = (palace: HeritageItem) => {
     router.push(
@@ -82,9 +87,16 @@ export default function Home({ palace }: Props) {
       startTracking();
     } else {
       stopTracking();
+      map?.morph(new naver.maps.LatLng(...INITIAL_CENTER), INITIAL_ZOOM);
     }
-    console.log(location);
-  }, [isActivate, startTracking, stopTracking]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isActivate]);
+
+  useEffect(() => {
+    if (!map || !location) return;
+
+    map.morph(new naver.maps.LatLng(location.lat, location.lon), INITIAL_ZOOM);
+  }, [location, map]);
 
   return (
     <>
