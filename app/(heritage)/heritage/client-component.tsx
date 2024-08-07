@@ -13,6 +13,7 @@ import { INITIAL_CENTER } from '@/store';
 import { AreaCode, Heritage, HeritageList } from '@/types/api';
 import Filter from '@/components/heritage/Filter';
 import MoreButton from '@/components/heritage/MoreButton';
+import Link from 'next/link';
 
 export default function ClientComponent({
   initList,
@@ -133,14 +134,15 @@ export default function ClientComponent({
       </CountSection>
       <ListSection>
         {list?.map((el) => (
-          <HeritageItem
-            key={el.id}
-            name={el.name}
-            address={el.location}
-            distance={el.distance}
-            type={el.heritage_type}
-            src={el.image_url}
-          />
+          <Link key={el.id} href={`/heritage/${el.id}`}>
+            <HeritageItem
+              name={el.name}
+              address={el.location}
+              distance={el.distance}
+              type={el.heritage_type}
+              src={el.image_url}
+            />
+          </Link>
         ))}
         {isLodaing && <p>Loading...</p>}
       </ListSection>

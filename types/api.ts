@@ -1,3 +1,23 @@
+export enum AreaCode {
+  서울 = 11,
+  부산 = 21,
+  대구 = 22,
+  인천 = 23,
+  광주 = 24,
+  대전 = 25,
+  울산 = 26,
+  경기 = 31,
+  강원 = 32,
+  충북 = 33,
+  충남 = 34,
+  전북 = 35,
+  전남 = 36,
+  경북 = 37,
+  경남 = 38,
+  세종 = 45,
+  제주 = 50,
+}
+
 export interface Login {
   id: number;
   username: string;
@@ -86,22 +106,16 @@ export interface HeritageList {
   limit: number;
 }
 
-export enum AreaCode {
-  서울 = 11,
-  부산 = 21,
-  대구 = 22,
-  인천 = 23,
-  광주 = 24,
-  대전 = 25,
-  울산 = 26,
-  경기 = 31,
-  강원 = 32,
-  충북 = 33,
-  충남 = 34,
-  전북 = 35,
-  전남 = 36,
-  경북 = 37,
-  경남 = 38,
-  세종 = 45,
-  제주 = 50,
+export interface HeritageDetail {
+  id: number;
+  image_url: string;
+  name: string;
+  name_hanja: string;
+  description: string;
+  heritage_type: string;
+  category: string;
+  sub_category1: string;
+  sub_category2: string;
+  era: string;
+  location: string;
 }

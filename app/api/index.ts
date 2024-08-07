@@ -2,6 +2,7 @@ import type {
   BotMessage,
   BuildingsInfo,
   End,
+  HeritageDetail,
   HeritageList,
   Login,
   Quiz,
@@ -142,6 +143,14 @@ const heritageList = async (params: {
   return res;
 };
 
+const heritageDetail = async (heritage_id: string) => {
+  const res = await instance.get<HeritageDetail>(
+    `/api/v1/heritages/${heritage_id}/details`
+  );
+
+  return res;
+};
+
 const api = {
   login,
   sesstions,
@@ -152,6 +161,7 @@ const api = {
   end,
   recommendQuestions,
   heritageList,
+  heritageDetail,
 };
 
 export default api;
