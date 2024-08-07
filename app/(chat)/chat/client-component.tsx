@@ -27,10 +27,10 @@ export default function ClientComponent() {
         router.push('/');
       } else {
         setSession(data);
-        setClose('isSplash');
         router.push(`/chat/${data.session_id}`);
       }
     }
+    setClose('isSplash');
   };
 
   useEffect(() => {
