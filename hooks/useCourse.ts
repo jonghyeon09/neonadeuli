@@ -51,6 +51,7 @@ export const useCourse = () => {
 
     tour[1].reverse();
     tour[0][0].visited = true;
+    console.log(tour);
 
     setLocationId(tour[0][0].id);
     setCourse({ sessionId: sessionId, course: tour });
@@ -88,7 +89,7 @@ export const useCourse = () => {
 
     // setLastId(lastId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessionId, sessions]);
+  }, [sessionId, sessions, isStorage]);
 
   const visitLocation: Visit = (location, rowIndex, colIndex) => {
     setLocationId(location.id);

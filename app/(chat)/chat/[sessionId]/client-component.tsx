@@ -319,6 +319,7 @@ export default function ClientComponent() {
   const handleEndChat = async () => {
     setClose('isEndChat');
     setIsLoading(true);
+    setIsRecommendation(false);
 
     const buildings = course.reduce((acc, val) => [...acc, ...val], []);
     const end = await api.end(sessionId, { buildings });
