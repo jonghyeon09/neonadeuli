@@ -123,6 +123,7 @@ export default function ClientComponent() {
     if (isLoading) return;
     setIsOption(false);
     setIsLoading(true);
+    setIsRecommendation(false);
 
     const { data, status } = await api.buildingsInfo(sessionId, locationName, {
       building_id: locationId,
@@ -278,6 +279,8 @@ export default function ClientComponent() {
       role: 'user',
       timestamp: new Date().toISOString(),
     };
+
+    setIsRecommendation(false);
     setSessionMessages({
       message: message,
       sessionId: sessionId,
