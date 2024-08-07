@@ -12,6 +12,7 @@ import api from '@/app/api';
 import { INITIAL_CENTER } from '@/store';
 import { AreaCode, Heritage } from '@/types/api';
 import Filter from '@/components/heritage/Filter';
+import MoreButton from '@/components/heritage/MoreButton';
 
 export default function ClientComponent({
   initList,
@@ -24,10 +25,14 @@ export default function ClientComponent({
   const [areaCode, setAreaCode] = useState(AreaCode.서울);
   const [isFilter, setIsFilter] = useState(false);
   const [isLodaing, setIsLoading] = useState(false);
+  const [isMore, setIsMore] = useState(false);
+
   const { value, onChange, reset } = useInput('');
 
-  const getList = async () => {
+  const getList = async (page: number) => {
     setIsLoading(true);
+    setPage(page);
+
     const { data, status } = await api.heritageList({
       user_latitude: INITIAL_CENTER[0],
       user_longitude: INITIAL_CENTER[1],
@@ -36,11 +41,17 @@ export default function ClientComponent({
       area_code: areaCode,
       name: value,
     });
+    setIsLoading(false);
 
     if (status == 200) {
-      setList(data);
+      if (data.length == limit) {
+        setIsMore(true);
+      } else {
+        setIsMore(false);
+      }
+
+      return data;
     }
-    setIsLoading(false);
   };
 
   const handleResionCode = (code: number) => {
@@ -51,18 +62,36 @@ export default function ClientComponent({
     setAreaCode(AreaCode.서울);
   };
 
-  const handleSearch = () => {
-    getList();
+  const handleSearch = async () => {
     setIsFilter(false);
+
+    const list = await getList(1);
+    setList(list);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    getList();
+
+    const list = await getList(1);
+    setList(list);
+  };
+  const nextPage = async () => {
+    setPage(limit + page);
+  };
+
+  const handleMore = async () => {
+    if (!list) return;
+
+    const next = (await getList(limit + page)) || [];
+    setList([...list, ...next]);
   };
 
   useEffect(() => {
     setList(initList);
+    if (initList.length == 10) {
+      setIsMore(true);
+      setPage(11);
+    }
   }, [initList]);
 
   return (
@@ -103,7 +132,6 @@ export default function ClientComponent({
         </p>
       </CountSection>
       <ListSection>
-        {isLodaing && 'Loading...'}
         {list?.map((el) => (
           <HeritageItem
             key={el.id}
@@ -114,7 +142,9 @@ export default function ClientComponent({
             src={el.image_url}
           />
         ))}
+        {isLodaing && <p>Loading...</p>}
       </ListSection>
+      {isMore && <MoreButton onClick={handleMore} />}
     </>
   );
 }
