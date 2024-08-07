@@ -33,7 +33,7 @@ export default function Home({ palace }: Props) {
   const [markerIcon, setMarkerIcon] = useState<ImageIcon>();
   const [isActivate, setIsActivate] = useState(false);
   const { map, initializeMap } = useMapStore();
-  const { toggleModal } = useModalStore();
+  const { toggleModal, setOpen } = useModalStore();
   const router = useRouter();
   const { user, login, setLogin, reset, setUser } = useUserStore();
   const { location, startTracking, stopTracking } = useGeolocation();
@@ -46,6 +46,10 @@ export default function Home({ palace }: Props) {
 
   const handleActivateLocation = () => {
     setIsActivate(!isActivate);
+  };
+
+  const handleMarkerClick = () => {
+    setOpen('isArrive');
   };
 
   useEffect(() => {
@@ -105,7 +109,12 @@ export default function Home({ palace }: Props) {
         <>
           <Header onMenu={() => toggleModal('isSidebar')} />
           <Map onLoad={initializeMap} />
-          <Marker map={map} coordinates={coordinates} icon={markerIcon} />
+          <Marker
+            map={map}
+            coordinates={coordinates}
+            icon={markerIcon}
+            onClick={handleMarkerClick}
+          />
           <CustomControl
             map={map}
             isActivate={isActivate}

@@ -2,14 +2,13 @@
 import Button from '@/components/common/Button';
 import Modal from '@/components/modal';
 import ModalView from '@/components/modal/ModalView';
-import { useModalStore, useSessions } from '@/store';
+import { useModalStore } from '@/store';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function HomeModal() {
   const [step, setStep] = useState(1);
-  const { isArrive, setOpen, toggleModal } = useModalStore();
-  const { isStorage, sessions, syncStorage } = useSessions();
+  const { isArrive, toggleModal } = useModalStore();
   const router = useRouter();
 
   const handleStep = () => {
@@ -21,13 +20,10 @@ export default function HomeModal() {
   };
 
   useEffect(() => {
-    syncStorage();
-    if (!isStorage) return;
-
-    if (sessions.length == 0) {
-      setOpen('isArrive');
+    if (isArrive) {
+      setStep(1);
     }
-  }, [isStorage, sessions.length, setOpen, syncStorage]);
+  }, [isArrive]);
 
   return (
     <>
