@@ -8,7 +8,7 @@ export default function Layout({ children, splash }: Props) {
   return (
     <>
       {splash}
-      <DetailHeader title="국가 유산 리스트"></DetailHeader>
+      <DetailHeader title="국가유산 리스트"></DetailHeader>
       <section className="min-h-screen pt-[var(--h-header)] flex flex-col">
         {children}
       </section>
