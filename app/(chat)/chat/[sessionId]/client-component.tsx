@@ -230,7 +230,7 @@ export default function ClientComponent() {
       setIsQuiz(false);
     } else {
       const wrong: QuizMessage = {
-        content: `어허, 아쉽구례!\n다시 한 번 생각해 보도록 하시오.`,
+        content: `어허, 아쉽구려!\n다시 한 번 생각해 보도록 하시오.`,
         role: 'quiz',
         timestamp: new Date().toISOString(),
       };

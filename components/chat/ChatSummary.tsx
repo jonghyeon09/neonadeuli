@@ -60,7 +60,7 @@ export default function ChatSummary({
               {keywords.map((str) => (
                 <>
                   <div className="h-[30px] flex items-center bg-primary-100 px-2">
-                    <p className="body-3 text-primary-1000">#{str}</p>
+                    <p className="body-3 text-primary-1000">{str}</p>
                   </div>
                 </>
               ))}

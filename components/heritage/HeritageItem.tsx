@@ -12,12 +12,12 @@ export default function HeritageItem({
   distance: number;
 }) {
   return (
-    <div className="flex gap-3 p-5">
+    <div className="flex gap-3 p-5 border-b-2 border-b-neutrals-100">
       <div className="relative bg-neutrals-300 w-[96px] h-[96px] rounded-[16px] overflow-hidden">
         <Image alt="" src={src} fill sizes="96px" />
       </div>
       <div className="flex flex-col gap-2">
-        <p className="body-2 font-semibold">문화재 이름</p>
+        <p className="body-2 font-semibold">국가유산 이름</p>
         <div className="flex flex-col">
           <div className="h-5 flex gap-2 items-center body-3 text-neutrals-1000">
             <svg

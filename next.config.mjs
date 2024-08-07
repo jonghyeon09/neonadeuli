@@ -11,6 +11,12 @@ const nextConfig = {
         pathname: '/unisearch/images/history_site/**',
       },
       {
+        protocol: 'http',
+        hostname: 'www.cha.go.kr',
+        port: '',
+        pathname: '/unisearch/images/national_treasure/**',
+      },
+      {
         protocol: 'https',
         hostname: 'zyyosrdkcdcm25870576.cdn.ntruss.com',
         port: '',
