@@ -10,19 +10,20 @@ import useInput from '@/hooks/useInput';
 import { useEffect, useState } from 'react';
 import api from '@/app/api';
 import { INITIAL_CENTER } from '@/store';
-import { AreaCode, Heritage } from '@/types/api';
+import { AreaCode, Heritage, HeritageList } from '@/types/api';
 import Filter from '@/components/heritage/Filter';
 import MoreButton from '@/components/heritage/MoreButton';
 
 export default function ClientComponent({
   initList,
 }: {
-  initList: Heritage[];
+  initList: HeritageList | undefined;
 }) {
   const [list, setList] = useState<Heritage[]>();
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [areaCode, setAreaCode] = useState(AreaCode.서울);
+  const [total, setTotal] = useState(0);
   const [isFilter, setIsFilter] = useState(false);
   const [isLodaing, setIsLoading] = useState(false);
   const [isMore, setIsMore] = useState(false);
@@ -44,13 +45,14 @@ export default function ClientComponent({
     setIsLoading(false);
 
     if (status == 200) {
-      if (data.length == limit) {
+      if (data.items.length == limit) {
         setIsMore(true);
       } else {
         setIsMore(false);
       }
+      setTotal(data.total_count);
 
-      return data;
+      return data.items;
     }
   };
 
@@ -75,9 +77,6 @@ export default function ClientComponent({
     const list = await getList(1);
     setList(list);
   };
-  const nextPage = async () => {
-    setPage(limit + page);
-  };
 
   const handleMore = async () => {
     if (!list) return;
@@ -87,10 +86,11 @@ export default function ClientComponent({
   };
 
   useEffect(() => {
-    setList(initList);
-    if (initList.length == 10) {
+    setList(initList?.items);
+    if (initList?.items.length == 10) {
       setIsMore(true);
       setPage(11);
+      setTotal(initList.total_count);
     }
   }, [initList]);
 
@@ -128,7 +128,7 @@ export default function ClientComponent({
       <CountSection>
         <FilterButton filterCount={1} onClick={() => setIsFilter(true)} />
         <p className="boyd-3">
-          총 <span className="font-semibold">0</span> 개
+          총 <span className="font-semibold">{total}</span> 개
         </p>
       </CountSection>
       <ListSection>

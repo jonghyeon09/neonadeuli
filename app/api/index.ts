@@ -2,7 +2,7 @@ import type {
   BotMessage,
   BuildingsInfo,
   End,
-  Heritage,
+  HeritageList,
   Login,
   Quiz,
   Recommend,
@@ -135,7 +135,7 @@ const heritageList = async (params: {
   sort_by?: 'id' | 'distance';
   sort_order?: '오름차순' | '내림차순';
 }) => {
-  const res = await instance.get<Heritage[]>(`/api/v1/heritages/lists`, {
+  const res = await instance.get<HeritageList>(`/api/v1/heritages/lists`, {
     params,
   });
 

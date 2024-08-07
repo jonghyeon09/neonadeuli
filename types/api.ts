@@ -79,6 +79,12 @@ export interface Heritage {
   image_url: string;
   distance: number;
 }
+export interface HeritageList {
+  items: Heritage[];
+  total_count: number;
+  page: number;
+  limit: number;
+}
 
 export enum AreaCode {
   서울 = 11,

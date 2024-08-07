@@ -18,7 +18,7 @@ const getList = async () => {
 };
 
 export default async function Page() {
-  const list = (await getList()) || [];
+  const list = await getList();
 
   return <ClientComponent initList={list} />;
 }
