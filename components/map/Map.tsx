@@ -60,7 +60,7 @@ export default function Map({
         src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NCP_CLIENT_ID}`}
         onReady={initializeMap}
       />
-      <div id={mapId} style={{ width: '100%', height: '40vh' }} />
+      <div id={mapId} style={{ width: '100%', height: '250px' }} />
     </>
   );
 }

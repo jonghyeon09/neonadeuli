@@ -1,6 +1,6 @@
 import IconLayout from './IconLayout';
 
-export default function BackArrowIcon() {
+export default function MessageIcon() {
   return (
     <IconLayout>
       <svg

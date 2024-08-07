@@ -3,6 +3,7 @@ import CloseIcon from '../icons/CloseIcon';
 import ItemArrowIcon from '../icons/ItemArrowIcon';
 import User from './User';
 import { useModalStore } from '@/store';
+import Link from 'next/link';
 
 type Props = {
   onClose?: () => void;
@@ -28,12 +29,14 @@ export default function Sidebar({ onClose }: Props) {
               <User />
               <div className="w-full h-[1px] bg-[#d9d9d9] my-5"></div>
               <ul className="flex flex-col gap-[10px]">
-                {items.map((el) => (
+                {items.map((el, i) => (
                   <li key={el}>
-                    <button className="w-full flex items-center justify-between h-11">
-                      <p className="text-sm">{el}</p>
-                      <ItemArrowIcon />
-                    </button>
+                    <Link href={i == 0 ? '/chat-history' : '/heritage'}>
+                      <button className="w-full flex items-center justify-between h-11">
+                        <p className="text-sm">{el}</p>
+                        <ItemArrowIcon />
+                      </button>
+                    </Link>
                   </li>
                 ))}
               </ul>

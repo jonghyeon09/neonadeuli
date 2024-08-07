@@ -51,10 +51,7 @@ export default function CustomControl({
           </button>,
           btnHtml
         )} */}
-      <button
-        onClick={onClick}
-        className="absolute right-0 top-[calc(40vh+6px)] m-1"
-      >
+      <button onClick={onClick} className="absolute right-0 top-[260px] m-1">
         <div className="w-10 h-10 radius-m bg-white flex justify-center items-center shadow-md">
           {isActivate ? <OnLocationIcon /> : <OffLocationIcon />}
         </div>
