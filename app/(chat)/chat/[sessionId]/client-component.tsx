@@ -160,6 +160,7 @@ export default function ClientComponent() {
       timestamp: new Date().toISOString(),
     };
 
+    setIsRecommendation(false);
     setSessionMessages({
       sessionId: sessionId,
       message: send,
@@ -265,6 +266,7 @@ export default function ClientComponent() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isLoading) return;
+    if (isQuiz) return;
     if (!isFocus) return;
     if (value.length < 2) {
       alert('2글자 이상 입력');
