@@ -15,7 +15,6 @@ export default function Curation() {
       '/image/curation-2.png',
       '/image/curation-3.png',
     ];
-    console.log(images[id]);
 
     setSrc(images[id]);
   }, [params.id]);
@@ -25,14 +24,7 @@ export default function Curation() {
       <DetailHeader title="" />
       <div className="flex justify-center">
         {src.length !== 0 && (
-          <Image
-            alt=""
-            src={src}
-            quality={100}
-            width={375}
-            height={3000}
-            priority
-          />
+          <Image alt="" src={src} width={375} height={3000} priority />
         )}
       </div>
     </>
