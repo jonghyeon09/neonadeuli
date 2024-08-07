@@ -23,6 +23,8 @@ import api from './api';
 import Splash from '@/components/common/Splash';
 import useGeolocation from '@/hooks/useGeolocation';
 import CustomControl from '@/components/map/CustomControl';
+import CurationSection from '@/components/curation/CurationSection';
+import CurationItem from '@/components/curation/CurationItem';
 
 type Props = {
   palace: HeritageItem[];
@@ -129,10 +131,41 @@ export default function Home({ palace }: Props) {
               <ChatButton />
             </Link>
           </div>
-          <Recommendation
-            title="서울의 아름다운 궁궐 5선"
-            onClick={() => router.push('/palace')}
-          >
+          <CurationSection>
+            <Swiper slidesPerView={'auto'} spaceBetween={12}>
+              <SwiperSlide>
+                <Link href={'/curation/1'}>
+                  <CurationItem
+                    src="/image/썸네일-1.png"
+                    date="2024.08"
+                    count={5}
+                    title="오늘 , 궁을 거닐다"
+                  />
+                </Link>
+              </SwiperSlide>
+              <SwiperSlide>
+                <Link href={'/curation/2'}>
+                  <CurationItem
+                    src="/image/썸네일-2.png"
+                    date="2024.08"
+                    count={5}
+                    title="자연에 안긴 고요한 사찰"
+                  />
+                </Link>
+              </SwiperSlide>
+              <SwiperSlide>
+                <Link href={'/curation/3'}>
+                  <CurationItem
+                    src="/image/썸네일-1.png"
+                    date="2024.08"
+                    count={5}
+                    title="국가 유산의 길을 따라 새롭게 만나다"
+                  />
+                </Link>
+              </SwiperSlide>
+            </Swiper>
+          </CurationSection>
+          {/* <Recommendation>
             <Swiper
               slidesPerView={2}
               spaceBetween={0}
@@ -155,7 +188,7 @@ export default function Home({ palace }: Props) {
                 </SwiperSlide>
               ))}
             </Swiper>
-          </Recommendation>
+          </Recommendation> */}
         </>
       ) : (
         <Splash />

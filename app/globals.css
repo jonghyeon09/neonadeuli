@@ -67,3 +67,7 @@ input {
 .radius-m {
   @apply rounded-[10px];
 }
+
+.swiper-slide {
+  width: auto !important;
+}
