@@ -16,7 +16,7 @@ export default function ClientComponent() {
 
     if (userId) {
       const { data, status } = await api.sesstions({
-        heritage_id: 2858,
+        heritage_id: 2944,
         user_id: Number(userId),
       });
 

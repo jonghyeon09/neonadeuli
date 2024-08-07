@@ -2,6 +2,7 @@ import type {
   BotMessage,
   BuildingsInfo,
   End,
+  Heritage,
   Login,
   Quiz,
   Recommend,
@@ -56,7 +57,7 @@ const login = async () => {
   return res;
 };
 
-const sesstions = async (data: { user_id: number; heritage_id: 2858 }) => {
+const sesstions = async (data: { user_id: number; heritage_id: 2944 }) => {
   const res = await instance.post<Session>('/api/v1/chat/sessions', data);
 
   return res;
@@ -124,6 +125,25 @@ const recommendQuestions = async (
   return res;
 };
 
+const heritageList = async (params: {
+  user_latitude: number;
+  user_longitude: number;
+  page?: number;
+  limit?: number;
+  name?: string;
+  area_code?: number;
+  heritage_type?: number[];
+  distance_range?: string;
+  sort_by?: 'id' | 'distance';
+  sort_order?: '오름차순' | '내림차순';
+}) => {
+  const res = await instance.get<Heritage[]>(`/api/v1/heritages/lists`, {
+    params,
+  });
+
+  return res;
+};
+
 const api = {
   login,
   sesstions,
@@ -133,6 +153,7 @@ const api = {
   summary,
   end,
   recommendQuestions,
+  heritageList,
 };
 
 export default api;
