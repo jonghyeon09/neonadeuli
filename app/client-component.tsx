@@ -124,6 +124,11 @@ export default function Home({ palace }: Props) {
             onClick={handleActivateLocation}
           />
           <Sidebar onClose={() => toggleModal('isSidebar')}></Sidebar>
+          <div className="flex items-center justify-center h-16 p-2 bg-neutrals-100">
+            <Link href={'/chat-history'} scroll={false} className="h-full">
+              <ChatButton />
+            </Link>
+          </div>
           <Recommendation
             title="서울의 아름다운 궁궐 5선"
             onClick={() => router.push('/palace')}
@@ -151,11 +156,6 @@ export default function Home({ palace }: Props) {
               ))}
             </Swiper>
           </Recommendation>
-          <div className="absolute right-5 bottom-[164px] z-50">
-            <Link href={'/chat-history'} scroll={false}>
-              <ChatButton />
-            </Link>
-          </div>
         </>
       ) : (
         <Splash />

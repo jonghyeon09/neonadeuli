@@ -1,3 +1,5 @@
+import MessageIcon from '../icons/MessageIcon';
+
 type Props = {
   onClick?: () => void;
 };
@@ -5,13 +7,11 @@ type Props = {
 export default function ChatButton({ onClick }: Props) {
   return (
     <div
-      className="relative w-[90px] h-[64px] drop-shadow-md"
+      className="w-[197px] h-full px-4 py-3 shadow-md rounded-[32px] bg-primary-0 flex items-center gap-2"
       onClick={onClick}
     >
-      <button className="w-full h-full rounded-full bg-primary-0">
-        <p className="title-2 text-primary-1000">챗봇</p>
-      </button>
-      {/* <div className="w-4 h-4 rounded-full bg-[#ff0101] absolute top-0 right-0"></div> */}
+      <MessageIcon />
+      <p className="headline text-primary-1000">국가 유산과 챗봇하기</p>
     </div>
   );
 }
