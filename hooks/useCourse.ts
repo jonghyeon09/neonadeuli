@@ -52,6 +52,7 @@ export const useCourse = () => {
     tour[1].reverse();
     tour[0][0].visited = true;
 
+    setLocationId(tour[0][0].id);
     setCourse({ sessionId: sessionId, course: tour });
 
     const lastRow = tour.length - 1; //2

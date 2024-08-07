@@ -56,7 +56,7 @@ const login = async () => {
   return res;
 };
 
-const sesstions = async (data: { user_id: number; heritage_id: 49 }) => {
+const sesstions = async (data: { user_id: number; heritage_id: 2858 }) => {
   const res = await instance.post<Session>('/api/v1/chat/sessions', data);
 
   return res;

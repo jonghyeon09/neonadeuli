@@ -362,7 +362,8 @@ export default function ClientComponent() {
       sessionId: sessionId,
     });
 
-    send(firstMessage).then(() => recommendation());
+    send(firstMessage);
+    recommendation(locationId);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isStorage]);
@@ -545,7 +546,7 @@ export default function ClientComponent() {
         }
       >
         {renderElement}
-        {isRecommendation && (
+        {isRecommendation && !isLoading && (
           <RecommendationQuestion
             key={'questions'}
             questions={questions}

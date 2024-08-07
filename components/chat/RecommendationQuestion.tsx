@@ -14,7 +14,7 @@ export default function RecommendationQuestion({
         {questions.map((question) => (
           <div key={question}>
             <button onClick={() => onClick(question)}>
-              <p className="bg-primary-100 p-3 inline-block rounded-tl-[10px] rounded-br-[10px]">
+              <p className="bg-primary-100 p-3 inline-block rounded-tl-[10px] rounded-br-[10px] body-3">
                 + {question}
               </p>
             </button>

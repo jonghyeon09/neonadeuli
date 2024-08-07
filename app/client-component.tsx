@@ -32,7 +32,7 @@ export default function Home({ palace }: Props) {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
   const [markerIcon, setMarkerIcon] = useState<ImageIcon>();
   const [isActivate, setIsActivate] = useState(false);
-  const { map, initializeMap, resetMapOptions } = useMapStore();
+  const { map, initializeMap } = useMapStore();
   const { toggleModal } = useModalStore();
   const router = useRouter();
   const { user, login, setLogin, reset, setUser } = useUserStore();
@@ -54,6 +54,7 @@ export default function Home({ palace }: Props) {
 
       if (status != 200) {
         localStorage.removeItem('user_id');
+        reset();
       } else {
         localStorage.setItem('user_id', String(data.id));
         setUser(data);
