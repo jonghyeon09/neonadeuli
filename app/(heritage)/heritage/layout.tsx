@@ -3,7 +3,7 @@ import DetailHeader from '@/components/common/DetailHeader';
 type Props = {
   children: React.ReactNode;
 };
-export default function Layout({ children }: Props) {
+export default function HeritageLayout({ children }: Props) {
   return (
     <>
       <DetailHeader title="국가유산 리스트"></DetailHeader>

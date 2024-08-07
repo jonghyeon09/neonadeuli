@@ -1,4 +1,4 @@
-export default function FilterSection({
+export default function CountSection({
   children,
 }: {
   children?: React.ReactNode;

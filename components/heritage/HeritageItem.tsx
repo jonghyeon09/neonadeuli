@@ -2,11 +2,13 @@ import Image from 'next/image';
 
 export default function HeritageItem({
   src = '',
+  name,
   address = '',
   type = '',
   distance = 0,
 }: {
   src?: string;
+  name: string;
   type: string;
   address: string;
   distance: number;
@@ -17,7 +19,7 @@ export default function HeritageItem({
         <Image alt="" src={src} fill sizes="96px" />
       </div>
       <div className="flex flex-col gap-2">
-        <p className="body-2 font-semibold">국가유산 이름</p>
+        <p className="body-2 font-semibold">{name}</p>
         <div className="flex flex-col">
           <div className="h-5 flex gap-2 items-center body-3 text-neutrals-1000">
             <svg

@@ -29,6 +29,10 @@
   }
 }
 
+body {
+  @apply text-neutrals-1300;
+}
+
 input {
   -webkit-appearance: none;
   -moz-appearance: none;

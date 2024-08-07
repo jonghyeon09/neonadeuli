@@ -14,7 +14,7 @@ const nextConfig = {
         protocol: 'http',
         hostname: 'www.cha.go.kr',
         port: '',
-        pathname: '/unisearch/images/national_treasure/**',
+        pathname: '/**',
       },
       {
         protocol: 'https',

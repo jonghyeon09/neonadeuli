@@ -1,6 +1,6 @@
 'use client';
 import FilterButton from '@/components/heritage/FilterButton';
-import FilterSection from '@/components/heritage/FilterSection';
+import CountSection from '@/components/heritage/CountSection';
 import HeritageItem from '@/components/heritage/HeritageItem';
 import ListSection from '@/components/heritage/ListSection';
 import SearchSection from '@/components/heritage/SearchSection';
@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import api from '@/app/api';
 import { INITIAL_CENTER } from '@/store';
 import { AreaCode, Heritage } from '@/types/api';
+import Filter from '@/components/heritage/Filter';
 
 export default function ClientComponent({
   initList,
@@ -18,11 +19,46 @@ export default function ClientComponent({
   initList: Heritage[];
 }) {
   const [list, setList] = useState<Heritage[]>();
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [areaCode, setAreaCode] = useState(AreaCode.서울);
+  const [isFilter, setIsFilter] = useState(false);
+  const [isLodaing, setIsLoading] = useState(false);
   const { value, onChange, reset } = useInput('');
+
+  const getList = async () => {
+    setIsLoading(true);
+    const { data, status } = await api.heritageList({
+      user_latitude: INITIAL_CENTER[0],
+      user_longitude: INITIAL_CENTER[1],
+      page: page,
+      limit: limit,
+      area_code: areaCode,
+      name: value,
+    });
+
+    if (status == 200) {
+      setList(data);
+    }
+    setIsLoading(false);
+  };
+
+  const handleResionCode = (code: number) => {
+    setAreaCode(code);
+  };
+
+  const handleResetResion = () => {
+    setAreaCode(AreaCode.서울);
+  };
+
+  const handleSearch = () => {
+    getList();
+    setIsFilter(false);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert(value);
+    getList();
   };
 
   useEffect(() => {
@@ -30,7 +66,16 @@ export default function ClientComponent({
   }, [initList]);
 
   return (
-    <div>
+    <>
+      {isFilter && (
+        <Filter
+          code={areaCode}
+          onClick={handleResionCode}
+          onReset={handleResetResion}
+          onSearch={handleSearch}
+          onClose={() => setIsFilter(false)}
+        />
+      )}
       <SearchSection>
         <form
           className="flex items-center justify-between p-3 bg-neutrals-100 rounded-lg h-11 relative"
@@ -51,16 +96,18 @@ export default function ClientComponent({
           </div>
         </form>
       </SearchSection>
-      <FilterSection>
-        <FilterButton filterCount={0} />
+      <CountSection>
+        <FilterButton filterCount={1} onClick={() => setIsFilter(true)} />
         <p className="boyd-3">
           총 <span className="font-semibold">0</span> 개
         </p>
-      </FilterSection>
+      </CountSection>
       <ListSection>
+        {isLodaing && 'Loading...'}
         {list?.map((el) => (
           <HeritageItem
             key={el.id}
+            name={el.name}
             address={el.location}
             distance={el.distance}
             type={el.heritage_type}
@@ -68,6 +115,6 @@ export default function ClientComponent({
           />
         ))}
       </ListSection>
-    </div>
+    </>
   );
 }
