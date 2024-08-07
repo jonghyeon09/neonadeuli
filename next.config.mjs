@@ -14,7 +14,7 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'zyyosrdkcdcm25870576.cdn.ntruss.com',
         port: '',
-        pathname: '/neonadeuli-bucket/**',
+        pathname: '/**',
       },
     ],
   },
