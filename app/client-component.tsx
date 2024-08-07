@@ -34,9 +34,9 @@ export default function Home({ palace }: Props) {
   const [isActivate, setIsActivate] = useState(false);
   const { map, initializeMap } = useMapStore();
   const { toggleModal, setOpen } = useModalStore();
-  const router = useRouter();
   const { user, login, setLogin, reset, setUser } = useUserStore();
   const { location, startTracking, stopTracking } = useGeolocation();
+  const router = useRouter();
 
   const handlePalaceClick = (palace: HeritageItem) => {
     router.push(
@@ -107,7 +107,10 @@ export default function Home({ palace }: Props) {
     <>
       {login ? (
         <>
-          <Header onMenu={() => toggleModal('isSidebar')} />
+          <Header
+            onMenu={() => toggleModal('isSidebar')}
+            onHeritage={() => router.push('/heritage')}
+          />
           <Map onLoad={initializeMap} />
           <Marker
             map={map}
