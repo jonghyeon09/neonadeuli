@@ -23,6 +23,7 @@ export const useCourse = () => {
       (session) => session.session_id == sessionId
     );
     if (filter.length == 0) return;
+    if (!filter[0].routes[0].buildings) return;
 
     const buildings = filter[0].routes[0].buildings;
     let rows: Building[][] = [];
