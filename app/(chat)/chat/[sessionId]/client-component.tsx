@@ -476,7 +476,7 @@ export default function ClientComponent() {
   useEffect(() => {
     if (!isStorage) return;
     if (!count) {
-      initCount(sessionId);
+      // initCount(sessionId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isStorage]);
