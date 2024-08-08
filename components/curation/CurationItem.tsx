@@ -12,9 +12,9 @@ export default function CurationItem({
   title: string;
 }) {
   return (
-    <div className="w-[270px] h-[360px] shadow-sm relative">
+    <div className="w-[270px] h-[360px] shadow-sm relative radius-m overflow-hidden">
       <Image alt="" src={src} fill sizes="360px" priority />
-      <div className="absolute bottom-0 w-full h-[135px] p-5">
+      <div className="absolute bottom-0 w-full h-[135px] p-5 bg-gradient">
         <div className="flex flex-col gap-2">
           <div className="flex gap-2 body-3">
             <div className="bg-black/50 px-[6px] py-1 rounded text-white">

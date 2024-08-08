@@ -156,7 +156,7 @@ export default function Home({ palace }: Props) {
               <SwiperSlide>
                 <Link href={'/curation/3'}>
                   <CurationItem
-                    src="/image/썸네일-1.png"
+                    src="/image/썸네일-3.png"
                     date="2024.08"
                     count={5}
                     title="국가유산의 길을 따라 새롭게 만나다"
