@@ -18,7 +18,7 @@ export default function HeritageItem({
       <div className="relative bg-neutrals-300 w-[96px] h-[96px] rounded-[16px] overflow-hidden">
         <Image alt="" src={src} fill sizes="96px" />
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 truncate">
         <p className="body-2 font-semibold">{name}</p>
         <div className="flex flex-col">
           <div className="h-5 flex gap-2 items-center body-3 text-neutrals-1000">

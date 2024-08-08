@@ -6,7 +6,7 @@ export default function QuizChoice({
   onClick: (n: number) => void;
 }) {
   return (
-    <div className="mt-[100px] bg-white/30 flex gap-2 p-5 w-full z-50">
+    <div className="mt-[100px] flex gap-[10px] p-4 w-full z-50 bg-quiz">
       {[...Array(Number(length))].map((n, i) => (
         <button
           className="w-[60px] h-[60px] bg-white radius-m shadow-md flex justify-center items-center"

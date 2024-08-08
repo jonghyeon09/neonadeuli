@@ -31,7 +31,7 @@ export default function ChatSummary({
       <div className="flex flex-col gap-4">
         <p className="text-neutrals-1400 body-1 text-center">대화 내용 요약</p>
         <div className="bg-[#dadada] w-full h-[1px]"></div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-4">
           <div className="body-3 font-semibold flex gap-2">
             <p>대화 날짜</p>
             <p className="font-normal">{date}</p>
