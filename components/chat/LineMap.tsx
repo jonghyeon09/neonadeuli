@@ -2,6 +2,7 @@ import { Location } from '@/types/course';
 import CurrentLocationIcon from '../icons/CurrentLocationIcon';
 import SummaryButton from '../common/SummaryButton';
 import LocationIcon from '../icons/LocationIcon';
+import DownArrowIcon from '../icons/DownArrowIcon';
 
 type Props = {
   course: Location[][];
@@ -49,6 +50,12 @@ export default function LineMap({
 
   return (
     <div className="bg-white max-w-screen-sm w-full drop-shadow-md rounded-lg fixed top-[--h-header] p-5 flex justify-center z-50 min-h-[--h-tour]">
+      <button className="absolute right-5" onClick={onOpen}>
+        <div className={`${isOpen ? 'rotate-180' : 'rotate-0'}`}>
+          <DownArrowIcon></DownArrowIcon>
+        </div>
+      </button>
+
       <div className="w-[335px] flex flex-col gap-2 items-center">
         <div
           className={`relative px-[10px] flex flex-col gap-4 items-center select-none ${
@@ -125,12 +132,12 @@ export default function LineMap({
           </div>
         )} */}
 
-        <div className="w-full min-h-[1px] bg-neutrals-100"></div>
+        {/* <div className="w-full min-h-[1px] bg-neutrals-100"></div>
         <SummaryButton
           isOpen={isOpen}
           text={isOpen ? '지도 접기' : '지도 펼치기'}
           onClick={onOpen}
-        ></SummaryButton>
+        /> */}
       </div>
     </div>
   );
