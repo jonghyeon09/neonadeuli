@@ -73,13 +73,13 @@ const regions = [
 ];
 
 export default function Filter({
-  code = 11,
+  code,
   onClick,
   onReset,
   onSearch,
   onClose,
 }: {
-  code: number;
+  code: number | null;
   onClick: (code: number) => void;
   onSearch: () => void;
   onReset: () => void;
