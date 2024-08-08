@@ -357,6 +357,12 @@ export default function ClientComponent() {
       });
     }
 
+    const check = await api.status(sessionId);
+
+    if (check.status == 200) {
+      setEndStatus(check.data.ended_status);
+    }
+
     setIsLoading(false);
   };
 
