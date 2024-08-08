@@ -10,7 +10,12 @@ import useInput from '@/hooks/useInput';
 import { useEffect, useState } from 'react';
 import api from '@/app/api';
 import { INITIAL_CENTER } from '@/store';
-import { AreaCode, Heritage, HeritageList } from '@/types/api';
+import {
+  AreaCode,
+  Heritage,
+  HeritageList,
+  heritageListParams,
+} from '@/types/api';
 import Filter from '@/components/heritage/Filter';
 import MoreButton from '@/components/heritage/MoreButton';
 import Link from 'next/link';
@@ -23,26 +28,30 @@ export default function ClientComponent({
   const [list, setList] = useState<Heritage[]>();
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [areaCode, setAreaCode] = useState(AreaCode.서울);
+  const [areaCode, setAreaCode] = useState<AreaCode | null>(null);
   const [total, setTotal] = useState(0);
   const [isFilter, setIsFilter] = useState(false);
   const [isLodaing, setIsLoading] = useState(false);
   const [isMore, setIsMore] = useState(false);
-
   const { value, onChange, reset } = useInput('');
 
   const getList = async (page: number) => {
     setIsLoading(true);
     setPage(page);
 
-    const { data, status } = await api.heritageList({
+    const params: heritageListParams = {
       user_latitude: INITIAL_CENTER[0],
       user_longitude: INITIAL_CENTER[1],
       page: page,
       limit: limit,
-      area_code: areaCode,
       name: value,
-    });
+    };
+
+    if (areaCode) {
+      params.area_code = areaCode;
+    }
+
+    const { data, status } = await api.heritageList(params);
     setIsLoading(false);
 
     if (status == 200) {
@@ -62,7 +71,7 @@ export default function ClientComponent({
   };
 
   const handleResetResion = () => {
-    setAreaCode(AreaCode.서울);
+    setAreaCode(null);
   };
 
   const handleSearch = async () => {
@@ -127,7 +136,10 @@ export default function ClientComponent({
         </form>
       </SearchSection>
       <CountSection>
-        <FilterButton filterCount={1} onClick={() => setIsFilter(true)} />
+        <FilterButton
+          filterCount={areaCode ? 1 : 0}
+          onClick={() => setIsFilter(true)}
+        />
         <p className="boyd-3">
           총 <span className="font-semibold">{total}</span> 개
         </p>

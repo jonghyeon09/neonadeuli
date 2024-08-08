@@ -56,7 +56,7 @@ export default function LineMap({
         </div>
       </button> */}
 
-      <div className="w-[335px] flex flex-col gap-2 items-center">
+      <div className="flex flex-col gap-2 items-center">
         <div
           className={`relative px-[10px] flex flex-col gap-4 items-center select-none ${
             isOpen ? '' : 'h-[64px] overflow-hidden'

@@ -9,7 +9,6 @@ const getList = async () => {
     user_longitude: INITIAL_CENTER[1],
     page: 1,
     limit: 10,
-    area_code: AreaCode.서울,
   });
 
   if (status == 200) {
