@@ -9,6 +9,7 @@ import type {
   Recommend,
   SendMessage,
   Session,
+  SessionStatus,
   Summary,
 } from '@/types/api';
 import { Location } from '@/types/course';
@@ -151,6 +152,14 @@ const heritageDetail = async (heritage_id: string) => {
   return res;
 };
 
+const status = async (session_id: number) => {
+  const res = await instance.get<SessionStatus>(
+    `/api/v1/chat/sessions/${session_id}/status`
+  );
+
+  return res;
+};
+
 const api = {
   login,
   sesstions,
@@ -162,6 +171,7 @@ const api = {
   recommendQuestions,
   heritageList,
   heritageDetail,
+  status,
 };
 
 export default api;

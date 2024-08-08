@@ -119,3 +119,8 @@ export interface HeritageDetail {
   era: string;
   location: string;
 }
+
+export interface SessionStatus {
+  session_id: number;
+  ended_status: boolean;
+}

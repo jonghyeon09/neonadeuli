@@ -59,6 +59,7 @@ export default function ClientComponent() {
   const [choiceLength, setChoiceLength] = useState(0);
   const [isRecommendation, setIsRecommendation] = useState(false);
   const [questions, setQuestions] = useState<string[]>([]);
+  const [endStatus, setEndStatus] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { course, locationName, locationId, lastId, visitLocation } =
     useCourse();
@@ -89,6 +90,7 @@ export default function ClientComponent() {
   const count = useMemo(() => quizCount[sessionId], [quizCount, sessionId]);
 
   const send = async (sendMessage: SendMessage) => {
+    if (endStatus) return;
     setIsLoading(true);
 
     const { data, status } = await api.messages(sessionId, sendMessage);
@@ -109,6 +111,7 @@ export default function ClientComponent() {
   };
 
   const recommendation = async (id: number = 1) => {
+    if (endStatus) return;
     const { data, status } = await api.recommendQuestions(sessionId, {
       building_id: id,
     });
@@ -120,6 +123,7 @@ export default function ClientComponent() {
   };
 
   const handleLocationInfo = async () => {
+    if (endStatus) return;
     if (isLoading) return;
     setIsOption(false);
     setIsLoading(true);
@@ -152,6 +156,7 @@ export default function ClientComponent() {
   };
 
   const handleQuiz = async () => {
+    if (endStatus) return;
     if (isLoading) return;
     if (count == 0) return;
 
@@ -266,6 +271,7 @@ export default function ClientComponent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (endStatus) return;
     if (isLoading) return;
     if (isQuiz) return;
     if (!isFocus) return;
@@ -291,6 +297,7 @@ export default function ClientComponent() {
   };
 
   const handleLocationClick: Visit = (location, rowIndex, colIndex) => {
+    if (endStatus) return;
     if (isLoading) return;
 
     visitLocation(location, rowIndex, colIndex);
@@ -317,6 +324,7 @@ export default function ClientComponent() {
   };
 
   const handleEndChat = async () => {
+    if (endStatus) return;
     setClose('isEndChat');
     setIsLoading(true);
     setIsRecommendation(false);
@@ -350,6 +358,16 @@ export default function ClientComponent() {
     }
 
     setIsLoading(false);
+  };
+
+  const handleOptionOpen = () => {
+    if (endStatus) return;
+    setIsOption(!isOption);
+  };
+
+  const handleEndClick = () => {
+    if (endStatus) return;
+    setOpen('isEndChat');
   };
 
   useEffect(() => {
@@ -463,6 +481,18 @@ export default function ClientComponent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isStorage]);
 
+  useEffect(() => {
+    const check = async () => {
+      const { data, status } = await api.status(sessionId);
+
+      if (status == 200) {
+        setEndStatus(data.ended_status);
+      }
+    };
+
+    check();
+  }, [sessionId]);
+
   return (
     <>
       {isEndChat && (
@@ -526,7 +556,7 @@ export default function ClientComponent() {
                 />
               }
             >
-              <button onClick={() => setIsOption(!isOption)}>
+              <button onClick={handleOptionOpen}>
                 {isOption ? <CloseIcon /> : <PlusIcon />}
               </button>
 
@@ -537,11 +567,11 @@ export default function ClientComponent() {
                 <SendInput value={value} onChange={onChange} ref={inputRef} />
                 <div className="absolute right-0 top-1">
                   {isFocus ? (
-                    <button onClick={handleSubmit}>
+                    <button type="button" onClick={handleSubmit}>
                       <SendIcon />
                     </button>
                   ) : (
-                    <button onClick={() => setOpen('isEndChat')}>
+                    <button type="button" onClick={handleEndClick}>
                       <HandIcon />
                     </button>
                   )}
