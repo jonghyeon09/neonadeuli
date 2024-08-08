@@ -11,7 +11,7 @@ export default function HeritageLayout({ children }: Props) {
   return (
     <>
       <DetailHeader
-        title={'id' in params ? '' : '국가유산 리스트'}
+        title={'id' in params ? '' : '국가유산 검색'}
       ></DetailHeader>
       <section className="min-h-screen pt-[var(--h-header)] flex flex-col">
         {children}

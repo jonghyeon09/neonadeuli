@@ -7,11 +7,11 @@ type Props = {
 export default function ChatButton({ onClick }: Props) {
   return (
     <div
-      className="w-[197px] h-full px-4 py-3 shadow-md rounded-[32px] bg-primary-0 flex items-center gap-2"
+      className="h-full px-4 py-3 shadow-md rounded-[32px] bg-primary-0 flex items-center gap-2"
       onClick={onClick}
     >
       <MessageIcon />
-      <p className="headline text-primary-1000">국가 유산과 챗봇하기</p>
+      <p className="headline text-primary-1000">지기톡</p>
     </div>
   );
 }

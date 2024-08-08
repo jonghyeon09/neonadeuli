@@ -36,7 +36,7 @@ export default function OptionSection({
                   />
                 </svg>
                 <p className="body-2 font-semibold" onClick={onInfo}>
-                  장소 기본 정보
+                  국가유산 소개
                 </p>
               </button>
             </div>

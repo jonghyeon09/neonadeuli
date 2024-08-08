@@ -159,7 +159,7 @@ export default function Home({ palace }: Props) {
                     src="/image/썸네일-1.png"
                     date="2024.08"
                     count={5}
-                    title="국가 유산의 길을 따라 새롭게 만나다"
+                    title="국가유산의 길을 따라 새롭게 만나다"
                   />
                 </Link>
               </SwiperSlide>

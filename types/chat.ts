@@ -15,7 +15,7 @@ export type Message =
   | SummaryMessage;
 
 export interface ErrorMessage {
-  content: '문제가 발생하였습니다.';
+  content: '작은 문제가 생겼소. 잠시 후에 다시 시도해 보시는 건 어떠시오?';
   role: 'error';
   timestamp: string;
 }

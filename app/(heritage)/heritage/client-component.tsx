@@ -116,7 +116,7 @@ export default function ClientComponent({
             <input
               className="focus:outline-none flex-1 bg-transparent h-5 placeholder:text-[13px] body-3"
               type="text"
-              placeholder="국가 유산 키워드를 입력하세요."
+              placeholder="검색어를 입력하세요."
               value={value}
               onChange={onChange}
             />

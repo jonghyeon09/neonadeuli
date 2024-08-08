@@ -88,7 +88,7 @@ export default function HeritageItem({
               />
             </svg>
 
-            <p>문화재와의 거리 : {distance} km</p>
+            <p>국가유산과의 거리 : {distance} km</p>
           </div>
         </div>
       </div>

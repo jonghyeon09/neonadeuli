@@ -42,7 +42,7 @@ const questions = [
 ];
 
 const errorMessage: ErrorMessage = {
-  content: '문제가 발생하였습니다.',
+  content: '작은 문제가 생겼소. 잠시 후에 다시 시도해 보시는 건 어떠시오?',
   role: 'error',
   timestamp: new Date().toISOString(),
 };
@@ -469,11 +469,11 @@ export default function ClientComponent() {
         <Modal>
           <ModalView>
             <div className="mb-5 flex flex-col gap-5 items-center">
-              <p className="heading">채팅 종료 안내</p>
+              <p className="heading">지기톡 종료 안내</p>
               <p className="text-center text-neutrals-1200">
-                채팅을 종료하고 이야기를 요약해드릴까요?
+                지기톡을 종료하고 대화를 요약해 드릴까요?
                 <br />
-                채팅을 종료하면 더 이상 대화를 나눌 수 없습니다.
+                지기톡을 종료하면 더 이상 대화를 나눌 수 없습니다.
               </p>
             </div>
             <div className="w-full flex gap-5">

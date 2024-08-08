@@ -55,7 +55,7 @@ export default function Page() {
 
         <div className="absolute left-1/2 -translate-x-1/2 bottom-0 my-[80px]">
           <Link href={'/chat'} scroll={false}>
-            <NewButton text="새 문의하기"></NewButton>
+            <NewButton text="새 대화하기"></NewButton>
           </Link>
         </div>
       </div>

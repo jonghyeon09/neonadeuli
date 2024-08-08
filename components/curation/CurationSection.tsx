@@ -5,9 +5,7 @@ export default function CurationSection({
 }) {
   return (
     <div className="mt-3 p-5">
-      <p className="heading text-neutrals-1400 mb-3">
-        국가유산 나들이 큐레이션
-      </p>
+      <p className="heading text-neutrals-1400 mb-3">국가유산 나들이 추천</p>
       {children}
     </div>
   );

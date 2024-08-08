@@ -29,7 +29,7 @@ export default function ChatSummary({
   return (
     <div className="radius-m bg-white p-5">
       <div className="flex flex-col gap-4">
-        <p className="text-neutrals-1400 body-1 text-center">채팅 내용 요약</p>
+        <p className="text-neutrals-1400 body-1 text-center">대화 내용 요약</p>
         <div className="bg-[#dadada] w-full h-[1px]"></div>
         <div className="flex flex-col gap-3">
           <div className="body-3 font-semibold flex gap-2">
@@ -37,13 +37,11 @@ export default function ChatSummary({
             <p className="font-normal">{date}</p>
           </div>
           <div className="body-3 font-semibold flex gap-2">
-            <p>국가 유산 이름</p>
+            <p>국가유산 이름</p>
             <p className="font-normal">{name}</p>
           </div>
           <div className="flex flex-col gap-2">
-            <p className="body-3 font-semibold">
-              챗봇 활성화 된 국가 유산 코스
-            </p>
+            <p className="body-3 font-semibold">다녀온 국가유산</p>
             <div className="flex gap-[6px] flex-wrap bg-neutrals-100 text-neutrals-1300 body-3 p-[10px] rounded">
               {course.map((str, i) => (
                 <>
@@ -55,7 +53,7 @@ export default function ChatSummary({
           </div>
 
           <div className="flex flex-col gap-2">
-            <p className="body-3 font-semibold">키워드 요약</p>
+            <p className="body-3 font-semibold">요약 한마디</p>
             <div className="flex flex-wrap gap-[6px] bg-neutrals-100 p-[10px] rounded">
               {keywords.map((str) => (
                 <>

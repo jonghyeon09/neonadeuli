@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default function Sidebar({ onClose }: Props) {
-  const [items, setItems] = useState(['대화 내역', '문화재 리스트']);
+  const [items, setItems] = useState(['대화 목록', '국가유산 검색']);
   const { isSidebar } = useModalStore();
 
   return (
