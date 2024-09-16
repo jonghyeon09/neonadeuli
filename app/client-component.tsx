@@ -30,7 +30,7 @@ type Props = {
   palace: HeritageItem[];
 };
 
-export default function Home({ palace }: Props) {
+export default function Home() {
   const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
   const [markerIcon, setMarkerIcon] = useState<ImageIcon>();
   const [isActivate, setIsActivate] = useState(false);

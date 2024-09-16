@@ -106,6 +106,19 @@ export interface HeritageList {
   limit: number;
 }
 
+export interface heritageListParams {
+  user_latitude: number;
+  user_longitude: number;
+  page?: number;
+  limit?: number;
+  name?: string;
+  area_code?: number;
+  heritage_type?: number[];
+  distance_range?: string;
+  sort_by?: 'id' | 'distance';
+  sort_order?: '오름차순' | '내림차순';
+}
+
 export interface HeritageDetail {
   id: number;
   image_url: string;
